@@ -1,0 +1,41 @@
+video:
+  path: data/raw/videos/pesta_babi.mp4
+  fps: 2
+
+face_detection:
+  confidence: 0.7
+
+quality:
+  min_face_size: 120
+  blur_threshold: 80
+
+expression:
+  confidence_threshold: 0.90
+
+visualization:
+  enabled: true
+
+landmark_analysis:
+  enabled: true
+  save_format: npy
+
+
+output:
+  frames: data/intermediate/frames
+  faces: data/intermediate/faces
+
+  intermediate_annotations: data/intermediate/annotations.csv
+
+  dataset: data/processed
+  processed_annotations: data/processed/annotations.csv
+
+  visualizations: data/intermediate/landmarks
+  landmarks_468: data/intermediate/landmarks_468
+  landmark_features: data/intermediate/landmark_features.csv
+
+  save_landmarks: true
+  save_csv: true
+
+debug:
+  enabled: true
+  max_frames: 100

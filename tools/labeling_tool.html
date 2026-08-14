@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FER Manual Labeling Tool</title>
+  <style>
+    :root {
+      --bg: #111111;
+      --panel: #1a1a1a;
+      --panel-2: #232323;
+      --text: #f5f5f5;
+      --muted: #b9b9b9;
+      --accent: #00d08a;
+      --warn: #ff8c42;
+      --danger: #ff5c5c;
+      --border: #3a3a3a;
+      --focus: #ffd400;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(160deg, #101010 0%, #171717 50%, #0f0f0f 100%);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: end;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    button {
+      width: 100%;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 10px 12px;
+    }
+
+    input[type="text"]:focus,
+    button:focus,
+    input[type="file"]:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+    }
+
+    .status-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+    }
+
+    .status-row strong {
+      color: var(--accent);
+    }
+
+    .viewer {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1.4fr 1fr;
+    }
+
+    .image-wrap {
+      background: #0e0e0e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .image-wrap img {
+      width: 100%;
+      max-height: 70vh;
+      min-height: 400px;
+      object-fit: contain;
+      display: none;
+      background: #000;
+    }
+
+    .placeholder {
+      color: var(--muted);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .meta-key {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .meta-value {
+      font-size: 18px;
+      word-break: break-all;
+    }
+
+    .labels {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .label-btn {
+      border: 2px solid transparent;
+      background: #2a2a2a;
+      color: #fff;
+      font-weight: 700;
+      padding: 14px 8px;
+      min-height: 56px;
+      cursor: pointer;
+      transition: transform 0.05s ease, border-color 0.12s ease, background 0.12s ease;
+    }
+
+    .label-btn:hover { background: #333333; }
+    .label-btn:active { transform: translateY(1px); }
+    .label-btn.selected {
+      border-color: var(--accent);
+      background: #174f3d;
+    }
+
+    .nav-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-secondary { background: #2b2b2b; cursor: pointer; }
+    .btn-skip {
+      background: #4d331f;
+      border-color: #7c4b2b;
+      color: #ffd7bf;
+      cursor: pointer;
+    }
+
+    .btn-export {
+      background: #1d4234;
+      border-color: #2f6c57;
+      color: #c5ffe6;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .footer-actions {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .viewer {
+        grid-template-columns: 1fr;
+      }
+
+      .labels {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .image-wrap img {
+        min-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="card controls">
+      <div class="field">
+        <label for="folderInput">1) Select faces folder (data/intermediate/faces/)</label>
+        <input id="folderInput" type="file" webkitdirectory directory multiple />
+      </div>
+
+      <div class="field">
+        <label for="csvInput">2) Select annotations CSV (data/processed/annotations.csv)</label>
+        <input id="csvInput" type="file" accept=".csv,text/csv" />
+      </div>
+
+      <div class="field">
+        <label>&nbsp;</label>
+        <button id="clearStorageBtn" class="btn-secondary" type="button">Clear Saved Progress</button>
+      </div>
+    </div>
+
+    <div class="card status-row">
+      <div id="progressText">Image 0 of 0</div>
+      <div id="labeledText">Labeled: <strong>0</strong></div>
+      <div id="statusText">Load folder and CSV to start.</div>
+    </div>
+
+    <div class="card viewer">
+      <div class="image-wrap">
+        <img id="faceImg" alt="Face crop" />
+        <div id="placeholder" class="placeholder">No image loaded yet.</div>
+      </div>
+
+      <div>
+        <div class="meta">
+          <div class="meta-item">
+            <div class="meta-key">Filename</div>
+            <div id="filenameText" class="meta-value">-</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-key">Model Predicted Label</div>
+            <div id="modelLabelText" class="meta-value">-</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-key">Model Confidence</div>
+            <div id="confidenceText" class="meta-value">-</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <div class="meta-key" style="margin-bottom: 8px;">Manual Ground Truth Label</div>
+          <div id="labelsWrap" class="labels"></div>
+          <div class="hint">Shortcuts: 1-7 for emotions, 0 for Ambiguous</div>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <div class="meta-key">Notes (optional)</div>
+          <input id="notesInput" type="text" placeholder="e.g. occluded, blur, side pose" />
+        </div>
+
+        <div class="nav-row">
+          <button id="prevBtn" class="btn-secondary" type="button">Previous</button>
+          <button id="skipBtn" class="btn-skip" type="button">Skip</button>
+          <button id="nextBtn" class="btn-secondary" type="button">Next</button>
+        </div>
+
+        <div class="footer-actions" style="margin-top: 10px;">
+          <button id="exportBtn" class="btn-export" type="button">Export Labels CSV</button>
+          <button id="jumpUnlabeledBtn" class="btn-secondary" type="button">Jump to First Unlabeled</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "fer_labeling_tool_v1";
+
+      const LABELS = [
+        { key: "1", value: "Angry" },
+        { key: "2", value: "Disgust" },
+        { key: "3", value: "Fear" },
+        { key: "4", value: "Happy" },
+        { key: "5", value: "Sad" },
+        { key: "6", value: "Surprise" },
+        { key: "7", value: "Neutral" },
+        { key: "0", value: "Ambiguous" },
+      ];
+
+      const state = {
+        images: [],
+        annotationByFilename: {},
+        labelsByFilename: {},
+        index: 0,
+      };
+
+      const el = {
+        folderInput: document.getElementById("folderInput"),
+        csvInput: document.getElementById("csvInput"),
+        clearStorageBtn: document.getElementById("clearStorageBtn"),
+        progressText: document.getElementById("progressText"),
+        labeledText: document.getElementById("labeledText"),
+        statusText: document.getElementById("statusText"),
+        faceImg: document.getElementById("faceImg"),
+        placeholder: document.getElementById("placeholder"),
+        filenameText: document.getElementById("filenameText"),
+        modelLabelText: document.getElementById("modelLabelText"),
+        confidenceText: document.getElementById("confidenceText"),
+        labelsWrap: document.getElementById("labelsWrap"),
+        notesInput: document.getElementById("notesInput"),
+        prevBtn: document.getElementById("prevBtn"),
+        nextBtn: document.getElementById("nextBtn"),
+        skipBtn: document.getElementById("skipBtn"),
+        exportBtn: document.getElementById("exportBtn"),
+        jumpUnlabeledBtn: document.getElementById("jumpUnlabeledBtn"),
+      };
+
+      function safeText(v) {
+        return v === undefined || v === null || v === "" ? "-" : String(v);
+      }
+
+      function parseCsv(text) {
+        const rows = [];
+        let row = [];
+        let cell = "";
+        let inQuotes = false;
+
+        for (let i = 0; i < text.length; i += 1) {
+          const ch = text[i];
+          const next = text[i + 1];
+
+          if (ch === '"') {
+            if (inQuotes && next === '"') {
+              cell += '"';
+              i += 1;
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (ch === "," && !inQuotes) {
+            row.push(cell);
+            cell = "";
+          } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+            if (ch === "\r" && next === "\n") i += 1;
+            row.push(cell);
+            if (row.length > 1 || (row.length === 1 && row[0] !== "")) {
+              rows.push(row);
+            }
+            row = [];
+            cell = "";
+          } else {
+            cell += ch;
+          }
+        }
+
+        if (cell.length > 0 || row.length > 0) {
+          row.push(cell);
+          rows.push(row);
+        }
+
+        if (rows.length === 0) return [];
+
+        const header = rows[0].map((h) => h.trim());
+        const out = [];
+        for (let i = 1; i < rows.length; i += 1) {
+          const r = rows[i];
+          const obj = {};
+          header.forEach((h, idx) => {
+            obj[h] = (r[idx] || "").trim();
+          });
+          out.push(obj);
+        }
+        return out;
+      }
+
+      function toCsvCell(v) {
+        const s = v === undefined || v === null ? "" : String(v);
+        if (s.includes(",") || s.includes("\n") || s.includes('"')) {
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+      }
+
+      function saveState() {
+        const payload = {
+          labelsByFilename: state.labelsByFilename,
+          index: state.index,
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          state.labelsByFilename = parsed.labelsByFilename || {};
+          state.index = Number.isInteger(parsed.index) ? parsed.index : 0;
+        } catch (err) {
+          console.warn("Failed to load saved state", err);
+        }
+      }
+
+      function clearState() {
+        localStorage.removeItem(STORAGE_KEY);
+        state.labelsByFilename = {};
+        state.index = 0;
+        render();
+      }
+
+      function getCurrentImage() {
+        if (!state.images.length) return null;
+        return state.images[state.index] || null;
+      }
+
+      function getCurrentRecord() {
+        const current = getCurrentImage();
+        if (!current) return null;
+        return state.labelsByFilename[current.name] || null;
+      }
+
+      function countLabeled() {
+        return Object.values(state.labelsByFilename).filter((r) => r && (r.gt_label || r.skipped)).length;
+      }
+
+      function setStatus(text) {
+        el.statusText.textContent = text;
+      }
+
+      function setLabel(label) {
+        const current = getCurrentImage();
+        if (!current) return;
+
+        const existing = state.labelsByFilename[current.name] || {};
+        state.labelsByFilename[current.name] = {
+          ...existing,
+          filename: current.name,
+          gt_label: label,
+          skipped: false,
+          notes: existing.notes || "",
+          labeled_at: new Date().toISOString(),
+        };
+
+        saveState();
+        render();
+        nextImage();
+      }
+
+      function setSkip() {
+        const current = getCurrentImage();
+        if (!current) return;
+
+        const existing = state.labelsByFilename[current.name] || {};
+        state.labelsByFilename[current.name] = {
+          ...existing,
+          filename: current.name,
+          gt_label: "SKIP",
+          skipped: true,
+          notes: existing.notes || "",
+          labeled_at: new Date().toISOString(),
+        };
+
+        saveState();
+        render();
+        nextImage();
+      }
+
+      function updateNotes(text) {
+        const current = getCurrentImage();
+        if (!current) return;
+
+        const existing = state.labelsByFilename[current.name] || {
+          filename: current.name,
+          gt_label: "",
+          skipped: false,
+          labeled_at: "",
+        };
+
+        state.labelsByFilename[current.name] = {
+          ...existing,
+          notes: text,
+        };
+
+        saveState();
+      }
+
+      function nextImage() {
+        if (!state.images.length) return;
+        state.index = Math.min(state.images.length - 1, state.index + 1);
+        saveState();
+        render();
+      }
+
+      function prevImage() {
+        if (!state.images.length) return;
+        state.index = Math.max(0, state.index - 1);
+        saveState();
+        render();
+      }
+
+      function jumpFirstUnlabeled() {
+        if (!state.images.length) return;
+        const idx = state.images.findIndex((img) => {
+          const r = state.labelsByFilename[img.name];
+          return !(r && (r.gt_label || r.skipped));
+        });
+        state.index = idx >= 0 ? idx : 0;
+        saveState();
+        render();
+      }
+
+      function renderLabelButtons() {
+        el.labelsWrap.innerHTML = "";
+        const selected = (getCurrentRecord() || {}).gt_label || "";
+
+        LABELS.forEach((item) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "label-btn" + (selected === item.value ? " selected" : "");
+          btn.textContent = item.key + " - " + item.value;
+          btn.addEventListener("click", () => setLabel(item.value));
+          el.labelsWrap.appendChild(btn);
+        });
+      }
+
+      function render() {
+        const total = state.images.length;
+        const current = getCurrentImage();
+        const record = getCurrentRecord() || {};
+
+        el.progressText.textContent = total ? "Image " + (state.index + 1) + " of " + total : "Image 0 of 0";
+        el.labeledText.innerHTML = "Labeled: <strong>" + countLabeled() + "</strong>";
+
+        if (!current) {
+          el.faceImg.style.display = "none";
+          el.placeholder.style.display = "block";
+          el.placeholder.textContent = "No image loaded yet.";
+          el.filenameText.textContent = "-";
+          el.modelLabelText.textContent = "-";
+          el.confidenceText.textContent = "-";
+          el.notesInput.value = "";
+          renderLabelButtons();
+          return;
+        }
+
+        el.faceImg.src = current.url;
+        el.faceImg.style.display = "block";
+        el.placeholder.style.display = "none";
+
+        const ann = state.annotationByFilename[current.name] || {};
+
+        el.filenameText.textContent = current.name;
+        el.modelLabelText.textContent = safeText(ann.label);
+        el.confidenceText.textContent = ann.confidence ? Number(ann.confidence).toFixed(4) : "-";
+        el.notesInput.value = record.notes || "";
+
+        renderLabelButtons();
+      }
+
+      function buildAnnotationMap(rows) {
+        const map = {};
+        rows.forEach((row) => {
+          const filename = (row.filename || "").trim();
+          if (!filename) return;
+          map[filename] = {
+            label: (row.label || "").trim(),
+            confidence: (row.confidence || "").trim(),
+          };
+        });
+        return map;
+      }
+
+      function normalizeFiles(fileList) {
+        const imageFiles = Array.from(fileList).filter((f) => {
+          const n = f.name.toLowerCase();
+          return n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".png") || n.endsWith(".webp");
+        });
+
+        imageFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }));
+
+        return imageFiles.map((f) => ({
+          name: f.name,
+          file: f,
+          url: URL.createObjectURL(f),
+        }));
+      }
+
+      function releaseImageUrls() {
+        state.images.forEach((img) => {
+          if (img.url) URL.revokeObjectURL(img.url);
+        });
+      }
+
+      async function onFolderSelected(evt) {
+        releaseImageUrls();
+        state.images = normalizeFiles(evt.target.files || []);
+        state.index = Math.min(state.index, Math.max(0, state.images.length - 1));
+        saveState();
+        setStatus("Loaded " + state.images.length + " face images.");
+        render();
+      }
+
+      async function onCsvSelected(evt) {
+        const file = evt.target.files && evt.target.files[0];
+        if (!file) return;
+        const text = await file.text();
+        const rows = parseCsv(text);
+        state.annotationByFilename = buildAnnotationMap(rows);
+        setStatus("Loaded annotations for " + Object.keys(state.annotationByFilename).length + " filenames.");
+        render();
+      }
+
+      function exportCsv() {
+        if (!state.images.length) {
+          setStatus("No images loaded. Nothing to export.");
+          return;
+        }
+
+        const header = ["filename", "gt_label", "model_label", "confidence", "notes", "labeled_at"];
+        const lines = [header.join(",")];
+
+        state.images.forEach((img) => {
+          const ann = state.annotationByFilename[img.name] || {};
+          const rec = state.labelsByFilename[img.name] || {};
+
+          const row = [
+            img.name,
+            rec.gt_label || "",
+            ann.label || "",
+            ann.confidence || "",
+            rec.notes || "",
+            rec.labeled_at || "",
+          ].map(toCsvCell);
+
+          lines.push(row.join(","));
+        });
+
+        const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "manual_labels_export.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        setStatus("Export complete: manual_labels_export.csv");
+      }
+
+      function onKeydown(evt) {
+        if (evt.target && (evt.target.tagName === "INPUT" || evt.target.tagName === "TEXTAREA")) {
+          return;
+        }
+
+        const k = evt.key;
+        const label = LABELS.find((x) => x.key === k);
+        if (label) {
+          evt.preventDefault();
+          setLabel(label.value);
+          return;
+        }
+
+        if (k === "ArrowRight") {
+          evt.preventDefault();
+          nextImage();
+        } else if (k === "ArrowLeft") {
+          evt.preventDefault();
+          prevImage();
+        }
+      }
+
+      function wireEvents() {
+        el.folderInput.addEventListener("change", onFolderSelected);
+        el.csvInput.addEventListener("change", onCsvSelected);
+        el.clearStorageBtn.addEventListener("click", clearState);
+        el.prevBtn.addEventListener("click", prevImage);
+        el.nextBtn.addEventListener("click", nextImage);
+        el.skipBtn.addEventListener("click", setSkip);
+        el.exportBtn.addEventListener("click", exportCsv);
+        el.jumpUnlabeledBtn.addEventListener("click", jumpFirstUnlabeled);
+        el.notesInput.addEventListener("input", (e) => updateNotes(e.target.value));
+        document.addEventListener("keydown", onKeydown);
+      }
+
+      loadState();
+      wireEvents();
+      render();
+      setStatus("Ready. Choose folder and annotations CSV.");
+    })();
+  </script>
+</body>
+</html>
