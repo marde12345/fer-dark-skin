@@ -8,6 +8,7 @@ dependencies = [
     "fer>=25.10.3",
     "hsemotion-onnx>=0.3.1",
     "insightface>=1.0.1",
+    "jupyter>=1.1.1",
     "mediapipe>=0.10",
     "numpy>=2.5.1",
     "onnxruntime>=1.28.0",

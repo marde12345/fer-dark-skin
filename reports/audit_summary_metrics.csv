@@ -1,0 +1,7 @@
+metric,value
+overall_accuracy,0.22466960352422907
+error_rate,0.775330396475771
+false_angry_rate,0.1762114537444934
+fairness_gap,0.29714285714285715
+accuracy_Dark,0.44
+accuracy_Medium-Dark,0.14285714285714285
