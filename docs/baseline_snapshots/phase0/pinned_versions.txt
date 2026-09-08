@@ -1,0 +1,7 @@
+insightface==1.0.1
+hsemotion-onnx==0.3.1
+mediapipe==1.0.0
+opencv-python==5.0.0.93
+onnxruntime==1.28.0
+numpy==2.5.1
+pandas==3.0.5
