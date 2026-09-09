@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FER Research Dashboard — Thesis ITB</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-subtle:#f6f8fb;
+    --bg-panel:#fbfcfe;
+    --border:#dde3ec;
+    --text:#1a2233;
+    --text-muted:#5b6472;
+    --primary:#1e3a8a;
+    --primary-2:#2f5bd7;
+    --primary-soft:#eaf0fd;
+    --success:#1f7a3d;
+    --success-soft:#eaf6ee;
+    --error:#b3261e;
+    --error-soft:#fbebea;
+    --warning:#9a5b00;
+    --warning-soft:#fbf1de;
+    --gray:#8993a4;
+    --gray-soft:#eef1f5;
+    --radius:6px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.5;
+    font-size:15px;
+  }
+  a{color:var(--primary-2);}
+  .layout{display:flex;min-height:100vh;}
+
+  /* Sidebar nav */
+  nav.side{
+    width:220px;
+    flex:0 0 220px;
+    border-right:1px solid var(--border);
+    padding:24px 16px;
+    position:sticky;
+    top:0;
+    align-self:flex-start;
+    height:100vh;
+    overflow-y:auto;
+  }
+  nav.side .brand{
+    font-size:13px;
+    font-weight:600;
+    color:var(--primary);
+    letter-spacing:.02em;
+    margin-bottom:4px;
+  }
+  nav.side .subbrand{
+    font-size:11.5px;
+    color:var(--text-muted);
+    margin-bottom:20px;
+  }
+  nav.side a{
+    display:block;
+    padding:6px 8px;
+    font-size:13.5px;
+    color:var(--text);
+    text-decoration:none;
+    border-radius:var(--radius);
+    margin-bottom:2px;
+  }
+  nav.side a:hover{background:var(--bg-subtle);}
+  nav.side a.active{background:var(--primary-soft);color:var(--primary);font-weight:600;}
+
+  main{flex:1;min-width:0;padding:40px 48px 96px;max-width:var(--maxw);}
+
+  section{margin-bottom:64px;scroll-margin-top:24px;}
+  section h2{
+    font-size:22px;
+    margin:0 0 6px;
+    color:var(--text);
+  }
+  section .section-intro{
+    color:var(--text-muted);
+    font-size:14px;
+    margin:0 0 24px;
+    max-width:760px;
+  }
+  h3{font-size:16px;margin:28px 0 10px;}
+
+  /* Overview hero */
+  .hero-title{font-size:26px;margin:0 0 6px;color:var(--text);}
+  .hero-sub{color:var(--text-muted);font-size:14.5px;max-width:680px;margin:0 0 28px;}
+
+  .stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .stat{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 18px;
+    min-width:150px;
+    background:var(--bg-panel);
+  }
+  .stat .label{font-size:11.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .stat .value{font-size:22px;font-weight:600;color:var(--primary);}
+  .stat .note{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+
+  /* Pipeline */
+  .pipeline{display:flex;flex-wrap:wrap;gap:0;align-items:center;margin:20px 0 8px;}
+  .pipeline .step{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:10px 14px;
+    font-size:13px;
+    background:var(--bg-panel);
+    cursor:pointer;
+    text-decoration:none;
+    color:var(--text);
+  }
+  .pipeline .step:hover{border-color:var(--primary-2);color:var(--primary-2);}
+  .pipeline .arrow{color:var(--gray);padding:0 8px;font-size:13px;}
+
+  /* Cards / tables */
+  .card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    background:var(--bg-panel);
+    margin-bottom:16px;
+  }
+  .card-row{display:flex;gap:16px;flex-wrap:wrap;}
+  .card-row .card{flex:1;min-width:260px;}
+  .metric-big{font-size:30px;font-weight:700;color:var(--primary);margin:2px 0 2px;}
+  .metric-label{font-size:13px;color:var(--text-muted);}
+  .metric-explain{font-size:13px;color:var(--text-muted);margin-top:8px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 4px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+  th{color:var(--text-muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
+  td.num, th.num{text-align:right;}
+  tr:last-child td{border-bottom:none;}
+  .row-arcface{color:var(--primary);}
+  .row-hsemotion{color:#3a3a3a;}
+
+  /* tags / badges */
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.02em;}
+  .badge.blue{background:var(--primary-soft);color:var(--primary);}
+  .badge.green{background:var(--success-soft);color:var(--success);}
+  .badge.red{background:var(--error-soft);color:var(--error);}
+  .badge.amber{background:var(--warning-soft);color:var(--warning);}
+  .badge.gray{background:var(--gray-soft);color:var(--gray);}
+
+  /* details/expanders */
+  details{border:1px solid var(--border);border-radius:var(--radius);margin:10px 0;background:var(--bg);}
+  details summary{
+    cursor:pointer;
+    padding:10px 14px;
+    font-size:13px;
+    color:var(--primary-2);
+    font-weight:600;
+    list-style:none;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary:before{content:"+ ";}
+  details[open] summary:before{content:"– ";}
+  details .details-body{padding:0 14px 14px;font-size:13.5px;color:var(--text-muted);}
+
+  /* bars (dependency-free charts) */
+  .barchart{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
+  .bar-item{display:grid;grid-template-columns:110px 1fr 56px;align-items:center;gap:10px;font-size:13px;}
+  .bar-track{background:var(--gray-soft);border-radius:4px;height:14px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:4px;}
+  .bar-fill.arcface{background:var(--primary-2);}
+  .bar-fill.hsemotion{background:#9aa5b1;}
+  .bar-val{text-align:right;color:var(--text-muted);}
+
+  .legend{display:flex;gap:18px;font-size:12.5px;color:var(--text-muted);margin:4px 0 14px;}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;position:relative;top:-1px;}
+  .legend .dot.arcface{background:var(--primary-2);}
+  .legend .dot.hsemotion{background:#9aa5b1;}
+
+  img.evidence{max-width:100%;border:1px solid var(--border);border-radius:var(--radius);display:block;margin:10px 0;}
+  .img-caption{font-size:12px;color:var(--text-muted);margin-top:-4px;}
+
+  .compare-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:760px){.compare-cols{grid-template-columns:1fr;}}
+
+  .findings-block{border-left:3px solid var(--primary-2);padding:6px 0 6px 16px;margin:14px 0;}
+  .findings-block.suggest{border-color:var(--gray);}
+  .findings-block.unresolved{border-color:var(--warning);}
+  .findings-block.cannot{border-color:var(--error);}
+  .findings-block h4{margin:0 0 6px;font-size:14px;}
+  .findings-block ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--text-muted);}
+
+  .status-table td:first-child{color:var(--text);}
+  .na{color:var(--gray);font-style:italic;}
+
+  footer{color:var(--text-muted);font-size:12px;border-top:1px solid var(--border);padding-top:16px;margin-top:40px;}
+
+  @media (max-width:900px){
+    nav.side{display:none;}
+    main{padding:24px;}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="side">
+    <div class="brand">FER Research Dashboard</div>
+    <div class="subbrand">Thesis ITB — evidence overview</div>
+    <a href="#overview">Overview</a>
+    <a href="#dataset">Dataset</a>
+    <a href="#how-it-works">How the System Works</a>
+    <a href="#baseline">Baseline Results</a>
+    <a href="#arcface">ArcFace Results</a>
+    <a href="#comparison">Model Comparison</a>
+    <a href="#errors">Error Analysis</a>
+    <a href="#neutral">Neutral Analysis</a>
+    <a href="#skin-tone">Skin-Tone Analysis</a>
+    <a href="#statistics">Statistical Evidence</a>
+    <a href="#findings">Key Findings</a>
+    <a href="#limitations">Limitations</a>
+    <a href="#status">Research Status</a>
+  </nav>
+
+  <main>
+
+    <!-- 1. OVERVIEW -->
+    <section id="overview">
+      <div class="hero-title">Recognizing Facial Expressions in Dark-Skinned Faces</div>
+      <p class="hero-sub">
+        This project studies how well an off-the-shelf facial-expression recognition system works on a
+        dark-skinned, Papuan-sourced video dataset, and tests whether a different face-representation
+        method (ArcFace) plus a simple classifier performs differently. The source video is a documentary
+        called <em>"Pesta Babi."</em>
+      </p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="label">Dataset (labeled)</div><div class="value">227</div><div class="note">face images with a human-checked label</div></div>
+        <div class="stat"><div class="label">Main comparison size</div><div class="value">135</div><div class="note">samples used to compare both models fairly</div></div>
+        <div class="stat"><div class="label">Expression groups compared</div><div class="value">5</div><div class="note">Neutral, Happy, Sad, Surprise, Fear</div></div>
+        <div class="stat"><div class="label">ArcFace accuracy</div><div class="value">40.7%</div><div class="note">on the 135-sample comparison</div></div>
+        <div class="stat"><div class="label">HSEmotion accuracy</div><div class="value">36.3%</div><div class="note">on the same 135 samples</div></div>
+        <div class="stat"><div class="label">Neutral → Angry (baseline)</div><div class="value">23.7%</div><div class="note">HSEmotion mistakes Neutral faces for Angry</div></div>
+      </div>
+
+      <h3>Research Pipeline</h3>
+      <div class="pipeline">
+        <a class="step" href="#dataset">Dataset</a><span class="arrow">→</span>
+        <a class="step" href="#dataset">Labeling</a><span class="arrow">→</span>
+        <a class="step" href="#baseline">Baseline</a><span class="arrow">→</span>
+        <a class="step" href="#arcface">ArcFace</a><span class="arrow">→</span>
+        <a class="step" href="#comparison">Evaluation</a><span class="arrow">→</span>
+        <a class="step" href="#errors">Error Analysis</a><span class="arrow">→</span>
+        <a class="step" href="#skin-tone">Skin Tone</a><span class="arrow">→</span>
+        <a class="step" href="#findings">Findings</a>
+      </div>
+
+      <details>
+        <summary>What does this dashboard show?</summary>
+        <div class="details-body">
+          It shows, step by step, how the face dataset was built, what the current baseline system
+          (HSEmotion) achieves, what a proposed alternative (ArcFace + a simple classifier) achieves on the
+          exact same faces, where each system makes mistakes, and what is still uncertain. Every number
+          here comes from a saved research file — nothing is generated on the fly.
+        </div>
+      </details>
+    </section>
+
+    <!-- 2. DATASET -->
+    <section id="dataset">
+      <h2>Dataset</h2>
+      <p class="section-intro">How the labeled dataset was built, and how many samples are usable at each stage.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0;">From video to usable samples</h3>
+        <table id="funnel-table"></table>
+        <p class="metric-explain">
+          Not every detected face could be used. Some face crops could not be matched to a clean facial
+          outline a second time (needed to prepare them for ArcFace), and some labels were marked
+          <strong>Ambiguous</strong> by the human reviewer (not a usable expression label).
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Number of Samples per Expression (final comparison set)</h3>
+        <div id="class-dist-chart" class="barchart"></div>
+        <details>
+          <summary>Why are Angry and Disgust missing?</summary>
+          <div class="details-body">
+            Out of all 227 labeled faces, only <strong>1</strong> was labeled "Angry" and only
+            <strong>2</strong> were labeled "Disgust" by the human reviewer — this is true at every stage of
+            the data pipeline, not something caused by the face-processing steps. With so few examples,
+            no classifier can be fairly trained or tested on these two groups, so they are left out of the
+            main comparison. This is a limitation of the available data, not a decision made to favor
+            either system. <a href="#limitations">See Limitations.</a>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 3. HOW THE SYSTEM WORKS -->
+    <section id="how-it-works">
+      <h2>How the System Works</h2>
+      <p class="section-intro">Two systems are compared: the existing baseline, and the proposed approach.</p>
+
+      <div class="compare-cols">
+        <div class="card">
+          <span class="badge blue">Baseline</span>
+          <h3>HSEmotion</h3>
+          <p style="font-size:13.5px;color:var(--text-muted);">
+            Video → Frame extraction → Face detection → <strong>HSEmotion</strong> predicts the expression
+            directly from the face image → Human reviewer checks the label → Facial landmark / skin-tone
+            analysis.
+          </p>
+          <details>
+            <summary>What is HSEmotion?</summary>
+            <div class="details-body">
+              HSEmotion is the existing, ready-made expression-recognition model already used to label this
+              dataset automatically. It looks at a face image and directly predicts an expression. It is
+              the reference point ("baseline") that the proposed method is compared against.
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <span class="badge blue" style="background:var(--success-soft);color:var(--success);">Proposed approach</span>
+          <h3>ArcFace + Logistic Regression</h3>
+          <p style="font-size:13.5px;color:var(--text-muted);">
+            Face crop → Face alignment → <strong>ArcFace</strong> turns the face into 512 numbers →
+            <strong>Logistic Regression</strong> uses those numbers to predict the expression.
+          </p>
+          <details open>
+            <summary>What is ArcFace? What is Logistic Regression?</summary>
+            <div class="details-body">
+              <strong>ArcFace</strong> does not predict expressions itself. It converts a face image into a
+              set of 512 numbers that describe the face. Think of it as turning a picture into a
+              fingerprint made of numbers. <br /><br />
+              <strong>Logistic Regression</strong> is a simple, well-understood classification method. It
+              takes those 512 numbers and learns to predict which expression they most likely represent.
+              <br /><br />
+              <em>ArcFace is not the expression classifier — it only prepares the numbers that Logistic
+              Regression then uses.</em>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. BASELINE -->
+    <section id="baseline">
+      <h2>Baseline Results — HSEmotion</h2>
+      <p class="section-intro">Two different sample groups are reported below. They must not be mixed together.</p>
+
+      <div class="card-row">
+        <div class="card">
+          <span class="badge gray">Historical full-sample baseline</span>
+          <h3 style="margin-top:10px;">227 samples</h3>
+          <table>
+            <tr><td>Accuracy</td><td class="num" id="hist-acc"></td></tr>
+            <tr><td>Wrong "Angry" guesses</td><td class="num" id="hist-fa"></td></tr>
+            <tr><td>Neutral faces called "Angry"</td><td class="num" id="hist-na"></td></tr>
+          </table>
+          <p class="metric-explain">This is HSEmotion's performance across the entire labeled dataset.</p>
+        </div>
+        <div class="card">
+          <span class="badge blue">Common 135-sample evaluation</span>
+          <h3 style="margin-top:10px;">135 samples, 5 expression groups</h3>
+          <table>
+            <tr><td>Accuracy</td><td class="num" id="common-hse-acc"></td></tr>
+            <tr><td>Precision (average)</td><td class="num" id="common-hse-p"></td></tr>
+            <tr><td>Recall (average)</td><td class="num" id="common-hse-r"></td></tr>
+            <tr><td>F1 (average)</td><td class="num" id="common-hse-f1"></td></tr>
+          </table>
+          <p class="metric-explain">This is HSEmotion measured only on the smaller, fair comparison group used against ArcFace.</p>
+        </div>
+      </div>
+      <details>
+        <summary>What does "Accuracy" mean? What is "Precision", "Recall", "F1"?</summary>
+        <div class="details-body">
+          <strong>Accuracy</strong> — how often the prediction was correct.<br/>
+          <strong>Precision</strong> — when the system predicts a certain expression, how often it is
+          actually right.<br/>
+          <strong>Recall</strong> — of all faces that truly show a certain expression, how many the system
+          actually found.<br/>
+          <strong>F1</strong> — a single score that balances Precision and Recall together.<br/>
+          <strong>Macro</strong> (e.g. "Macro F1") means each expression group counts equally, even if some
+          groups have far fewer samples than others.
+        </div>
+      </details>
+    </section>
+
+    <!-- 5. ARCFACE -->
+    <section id="arcface">
+      <h2>ArcFace Results</h2>
+      <p class="section-intro">Frozen ArcFace (model: <code>w600k_r50</code>) turns each face into 512 numbers; Logistic Regression predicts the expression from those numbers.</p>
+      <div class="card">
+        <div class="stat-row" style="margin-bottom:6px;">
+          <div class="stat"><div class="label">Evaluation size</div><div class="value">135</div></div>
+          <div class="stat"><div class="label">Accuracy</div><div class="value" id="af-acc"></div><div class="note">correct predictions out of 100</div></div>
+          <div class="stat"><div class="label">Precision (avg.)</div><div class="value" id="af-p"></div></div>
+          <div class="stat"><div class="label">Recall (avg.)</div><div class="value" id="af-r"></div></div>
+          <div class="stat"><div class="label">F1 (avg.)</div><div class="value" id="af-f1"></div></div>
+        </div>
+        <p class="metric-explain">
+          ArcFace converts each face into a set of numbers that describe the face. A simple classifier
+          (Logistic Regression) then uses those numbers to predict the expression.
+        </p>
+        <details>
+          <summary>View evidence</summary>
+          <div class="details-body">
+            Experiment: <strong>EXP-007</strong> · Population: 135 samples, common evaluation set ·
+            Source: <code>reports/arcface_evaluation/comparison_metrics.csv</code> · Model:
+            frozen <code>buffalo_l / w600k_r50</code> ArcFace embedding (512 numbers, standardized) →
+            multinomial Logistic Regression, evaluated with grouped cross-validation so no face is
+            ever tested by a version of the model that already saw it during training.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 6. MODEL COMPARISON -->
+    <section id="comparison">
+      <h2>Model Comparison</h2>
+      <p class="section-intro">Both systems measured on the exact same 135 samples.</p>
+
+      <div class="card">
+        <table>
+          <thead><tr><th></th><th class="num">ArcFace + Logistic Regression</th><th class="num">HSEmotion</th></tr></thead>
+          <tbody id="comparison-table"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Was the difference real, or could it be chance?</h3>
+        <div class="stat-row">
+          <div class="stat"><div class="label">McNemar Test</div><div class="value" id="mcnemar-p"></div><div class="note">p-value</div></div>
+        </div>
+        <p class="metric-explain">
+          ArcFace had higher measured accuracy, but this statistical test did not show a clear difference
+          between the two models on this group of samples.
+        </p>
+        <details>
+          <summary>What does this mean? / View evidence</summary>
+          <div class="details-body">
+            A <strong>statistical test</strong> checks whether an observed difference is likely to be a real
+            pattern, or could reasonably happen just by chance with this sample size. The McNemar test
+            compares the two models on the exact same samples. A result is usually called
+            "not statistically clear" when its p-value is above 0.05 — here it is
+            <strong id="mcnemar-p-2"></strong>, so we cannot say the two models are reliably different from
+            this test alone.<br/><br/>
+            Experiment: <strong>EXP-007</strong> · Source: <code>reports/arcface_evaluation/statistical_tests.csv</code>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 7. ERROR ANALYSIS -->
+    <section id="errors">
+      <h2>Error Analysis</h2>
+      <p class="section-intro">Where each system's predictions were wrong, by expression group.</p>
+
+      <div class="card">
+        <h3 style="margin-top:0;">How often each expression was predicted wrong</h3>
+        <div class="legend"><span><span class="dot arcface"></span>ArcFace + LR</span><span><span class="dot hsemotion"></span>HSEmotion</span></div>
+        <div id="error-rate-chart" class="barchart"></div>
+      </div>
+
+      <div class="compare-cols">
+        <div class="card">
+          <h3 style="margin-top:0;">ArcFace — Prediction Comparison (Confusion Matrix)</h3>
+          <img class="evidence" src="assets/confusion_matrix_arcface.png" alt="ArcFace confusion matrix" />
+          <p class="img-caption">Rows = correct label, columns = what the model predicted.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">HSEmotion — Prediction Comparison (Confusion Matrix)</h3>
+          <img class="evidence" src="assets/confusion_matrix_hsemotion.png" alt="HSEmotion confusion matrix" />
+          <p class="img-caption">"Other" = predictions outside the 5 shared groups (mostly Angry).</p>
+        </div>
+      </div>
+      <details>
+        <summary>View evidence</summary>
+        <div class="details-body">
+          Experiment: <strong>EXP-008</strong> · Population: 135 samples ·
+          Source: <code>reports/arcface_error_analysis/overall_error_analysis.csv</code>,
+          <code>confusion_matrix_arcface.png</code>, <code>confusion_matrix_hsemotion.png</code>
+        </div>
+      </details>
+    </section>
+
+    <!-- 8. NEUTRAL ANALYSIS -->
+    <section id="neutral">
+      <h2>Neutral Analysis</h2>
+      <p class="section-intro">
+        A closer look at "Neutral" faces, since this is where the most notable pattern in the baseline
+        system was found.
+      </p>
+
+      <div class="compare-cols">
+        <div class="card">
+          <span class="badge blue">ArcFace + LR</span>
+          <table>
+            <tr><td>Neutral faces</td><td class="num" id="neu-af-n"></td></tr>
+            <tr><td>Correctly predicted</td><td class="num" id="neu-af-correct"></td></tr>
+            <tr><td>Wrong prediction rate</td><td class="num" id="neu-af-err"></td></tr>
+            <tr><td>Most common wrong guess</td><td class="num" id="neu-af-dom"></td></tr>
+            <tr><td>Neutral called "Angry"</td><td class="num"><span class="na">N/A — not possible for this model</span></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <span class="badge gray">HSEmotion</span>
+          <table>
+            <tr><td>Neutral faces</td><td class="num" id="neu-hse-n"></td></tr>
+            <tr><td>Correctly predicted</td><td class="num" id="neu-hse-correct"></td></tr>
+            <tr><td>Wrong prediction rate</td><td class="num" id="neu-hse-err"></td></tr>
+            <tr><td>Most common wrong guess</td><td class="num" id="neu-hse-dom"></td></tr>
+            <tr><td>Neutral called "Angry"</td><td class="num" id="neu-hse-angry"></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">What each system guessed instead, for Neutral faces</h3>
+        <img class="evidence" src="assets/neutral_prediction_distribution.png" alt="Neutral prediction distribution" />
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--warning);">
+        <strong>Important distinction</strong>
+        <p style="font-size:13.5px;color:var(--text-muted);margin:8px 0 0;">
+          "Neutral called Angry" is a specific, narrower number than the overall "Neutral wrong-prediction
+          rate" above — it only counts one particular kind of mistake. For ArcFace, this specific number
+          does not exist (<span class="na">N/A</span>), because ArcFace was never given "Angry" as a
+          possible answer (see Dataset section). This is <strong>not</strong> the same as ArcFace
+          "solving" this problem — the comparison is simply not available for this model.
+        </p>
+      </div>
+    </section>
+
+    <!-- 9. SKIN TONE -->
+    <section id="skin-tone">
+      <h2>Skin-Tone Analysis</h2>
+      <p class="section-intro">
+        A supporting analysis: does performance look different for faces the system estimated as having
+        different skin tones?
+      </p>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Samples per skin-tone group</h3>
+        <table id="skin-tone-pop-table"></table>
+        <p class="metric-explain">
+          "Unknown" means the skin-tone estimate could not be computed for that face. It is
+          <strong>not</strong> a skin-tone group, and is left out of the accuracy comparison below.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Accuracy by Skin Tone</h3>
+        <img class="evidence" src="assets/skin_tone_accuracy_comparison.png" alt="Skin tone accuracy comparison" />
+        <details>
+          <summary>View evidence / statistical test</summary>
+          <div class="details-body">
+            An association was observed between skin-tone category and HSEmotion's accuracy in this sample
+            (Fisher's Exact Test, odds ratio = 5.88, p = 0.0027 — a value below 0.05 is usually called
+            "unlikely to be chance"). This shows a pattern <strong>in this sample only</strong>. It does
+            not show that skin tone causes the errors, and it does not describe any ethnicity or
+            demographic group — the dataset does not record ethnicity, and skin-tone is a color estimate
+            from the image, not an ethnicity label.<br/><br/>
+            Experiment: <strong>EXP-007 / EXP-008</strong> · Source:
+            <code>reports/arcface_error_analysis/skin_tone_analysis.csv</code>
+          </div>
+        </details>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--warning);">
+        <strong>On the source population</strong>
+        <p style="font-size:13.5px;color:var(--text-muted);margin:8px 0 0;">
+          The video source is described by the researcher as showing a Papuan community. The dataset does
+          not record ethnicity as a formal attribute, so this dashboard cannot show a "Papuan accuracy"
+          number — only the skin-tone-based comparison above, which is a different (and narrower) measure.
+        </p>
+      </div>
+    </section>
+
+    <!-- 10. STATISTICAL EVIDENCE -->
+    <section id="statistics">
+      <h2>Statistical Evidence</h2>
+      <p class="section-intro">The formal tests used to check whether the observed patterns above are likely to be real.</p>
+
+      <div class="card-row">
+        <div class="card">
+          <h3 style="margin-top:0;">Model comparison</h3>
+          <div class="metric-big" id="mcnemar-p-3"></div>
+          <div class="metric-label">McNemar Test (p-value)</div>
+          <p class="metric-explain">Checks whether the two models differ consistently on the same samples.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Accuracy uncertainty</h3>
+          <p style="font-size:13.5px;">
+            ArcFace: <strong id="ci-af"></strong><br/>
+            HSEmotion: <strong id="ci-hse"></strong>
+          </p>
+          <p class="metric-explain">The range shows the uncertainty around the measured accuracy (95% confidence interval).</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Skin-tone association</h3>
+          <div class="metric-big">p = 0.0027</div>
+          <div class="metric-label">Fisher's Exact Test (odds ratio 5.88)</div>
+          <p class="metric-explain">Checks whether the difference between the two skin-tone groups could reasonably occur by chance in this sample.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. FINDINGS -->
+    <section id="findings">
+      <h2>Key Findings</h2>
+      <p class="section-intro">Based strictly on the evidence above. Separated by how confident each statement can be.</p>
+
+      <div class="findings-block">
+        <h4>What the data shows</h4>
+        <ul>
+          <li>ArcFace + Logistic Regression achieved higher observed accuracy (40.7%) than HSEmotion (36.3%) on the common 135-sample, 5-group evaluation.</li>
+          <li>This difference was <strong>not statistically significant</strong> (McNemar p = 0.4614).</li>
+        </ul>
+      </div>
+      <div class="findings-block suggest">
+        <h4>What the data suggests</h4>
+        <ul>
+          <li>ArcFace and HSEmotion make different kinds of mistakes: ArcFace's Neutral mistakes spread across several other expressions, while HSEmotion's Neutral mistakes concentrate heavily on "Angry."</li>
+          <li>HSEmotion's accuracy and skin-tone groups show a descriptive relationship in this sample.</li>
+        </ul>
+      </div>
+      <div class="findings-block unresolved">
+        <h4>What remains unresolved</h4>
+        <ul>
+          <li>Whether ArcFace provides a real, reliable improvement for this population is not settled by the current sample size.</li>
+          <li>Whether more data would change the Angry/Disgust scarcity problem is untested.</li>
+        </ul>
+      </div>
+      <div class="findings-block cannot">
+        <h4>What cannot be concluded</h4>
+        <ul>
+          <li>ArcFace is <em>not</em> shown to be definitively better than HSEmotion.</li>
+          <li>ArcFace does <em>not</em> "solve" the Neutral→Angry mistake — that comparison is not available for this model.</li>
+          <li>Skin tone is <em>not</em> shown to cause errors — only an association was observed.</li>
+          <li>No ethnicity-specific effect (including any Papuan-specific claim) can be measured — the dataset does not record ethnicity.</li>
+          <li>The dataset is <em>not</em> 100% dark-skinned — it splits into two skin-tone groups, with many samples unclassified.</li>
+        </ul>
+      </div>
+
+      <details>
+        <summary>Full evidence table (research-grade detail)</summary>
+        <div class="details-body">
+          <table id="findings-table">
+            <thead><tr><th>Finding</th><th>Evidence</th><th>Strength</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- 12. LIMITATIONS -->
+    <section id="limitations">
+      <h2>Limitations</h2>
+      <p class="section-intro">What should be kept in mind when reading the results above.</p>
+      <details>
+        <summary>Show all limitations</summary>
+        <div class="details-body">
+          <table id="limitations-table">
+            <thead><tr><th>Limitation</th><th>Why it matters</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- 13. STATUS -->
+    <section id="status">
+      <h2>Research Status</h2>
+      <table class="status-table">
+        <tr><td>Data pipeline &amp; dataset</td><td><span class="badge green">Complete</span></td></tr>
+        <tr><td>Baseline evaluation (HSEmotion)</td><td><span class="badge green">Complete</span></td></tr>
+        <tr><td>ArcFace experiment</td><td><span class="badge green">Complete</span></td></tr>
+        <tr><td>Error analysis</td><td><span class="badge green">Complete</span></td></tr>
+        <tr><td>Statistical validation</td><td><span class="badge green">Complete</span></td></tr>
+        <tr><td>Official research question wording</td><td><span class="badge amber">Pending — thesis-author decision</span></td></tr>
+        <tr><td>"100% dark-skinned" description</td><td><span class="badge amber">Needs reconciliation with actual data</span></td></tr>
+        <tr><td>7-expression-group evaluation</td><td><span class="badge amber">Not yet possible — needs more data</span></td></tr>
+      </table>
+    </section>
+
+    <footer>
+      Generated from repository research artifacts (EXP-005–EXP-009). Source data:
+      <code>reports/arcface_evaluation/</code>, <code>reports/arcface_error_analysis/</code>,
+      <code>reports/final_research_validation/</code>. This dashboard displays existing results only and
+      does not run or alter any experiment.
+    </footer>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
