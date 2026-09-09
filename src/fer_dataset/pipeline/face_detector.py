@@ -4,7 +4,7 @@ import insightface
 
 from pathlib import Path
 from tqdm import tqdm
-from file_utils import clear_directory
+from fer_dataset.pipeline.file_utils import clear_directory
 
 
 class FaceDetector:
@@ -20,8 +20,6 @@ class FaceDetector:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        clear_directory(self.output_dir, "*.jpg")
-
         self.app = insightface.app.FaceAnalysis(
             name="buffalo_l",
             providers=["CPUExecutionProvider"],
@@ -31,6 +29,15 @@ class FaceDetector:
             ctx_id=0,
             det_size=det_size,
         )
+
+    def clear_outputs(self) -> None:
+        """
+        Remove previously saved face crops from output_dir.
+
+        This is an explicit action, not a side effect of construction —
+        call it before detect() if a clean output state is desired.
+        """
+        clear_directory(self.output_dir, "*.jpg")
 
     def detect(self, frame_paths: list[Path]) -> None:
         """

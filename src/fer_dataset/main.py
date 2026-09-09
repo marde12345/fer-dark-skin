@@ -1,12 +1,13 @@
 import yaml
 
-from frame_extractor import FrameExtractor
-from face_detector import FaceDetector
-from landmark_analyzer import LandmarkAnalyzer
-from emotion_classifier import EmotionClassifier
-from dataset_builder import DatasetBuilder
-from logger import section
-from dataset_report import DatasetReport
+from fer_dataset.pipeline.frame_extractor import FrameExtractor
+from fer_dataset.pipeline.face_detector import FaceDetector
+from fer_dataset.pipeline.landmark_analyzer import LandmarkAnalyzer
+from fer_dataset.pipeline.emotion_classifier import EmotionClassifier
+from fer_dataset.pipeline.dataset_builder import DatasetBuilder
+from fer_dataset.pipeline.logger import section
+from fer_dataset.pipeline.dataset_report import DatasetReport
+from fer_dataset.analysis.landmark_comparison import LandmarkComparison
 
 
 def load_config():
@@ -40,7 +41,13 @@ def main():
     landmark_analyzer = LandmarkAnalyzer(
         input_dir=config["output"]["faces"],
         output_dir=config["output"]["landmarks_468"],
-        annotation_file=config["output"]["processed_annotations"],
+        # LandmarkAnalyzer iterates face crops from config["output"]["faces"]
+        # (data/intermediate/faces, "frame_XXXXXX_faceNN.jpg" namespace), so
+        # its annotation source must be intermediate_annotations.csv, which
+        # is written by EmotionClassifier in that same filename namespace —
+        # NOT processed_annotations.csv, whose filenames were renumbered by
+        # DatasetBuilder into a different "img_NNNNNN.jpg" namespace.
+        annotation_file=config["output"]["intermediate_annotations"],
         feature_file=config["output"]["landmark_features"],
         save_format=config["landmark_analysis"]["save_format"],
     )
@@ -51,21 +58,33 @@ def main():
         output_dir=config["output"]["dataset"],
     )
 
+    landmark_comparison = LandmarkComparison(
+        # Uses the same corrected landmark feature source as LandmarkAnalyzer
+        # writes (config.output.landmark_features) — never
+        # processed_annotations.csv, per the Phase 9B data-lineage fix.
+        feature_file=config["output"]["landmark_features"],
+        report_dir="reports",
+    )
+
     report = DatasetReport(
         annotation_file=config["output"]["processed_annotations"],
         output_dir="reports",
     )
 
     section("Frame Extraction")
+    extractor.clear_outputs()
     frame_paths = extractor.extract()
 
     section("Face Detection")
+    detector.clear_outputs()
     face_count = detector.detect(frame_paths)
 
     section("Emotion Classification")
+    classifier.clear_outputs()
     prediction_count = classifier.predict()
 
     section("Dataset Builder")
+    builder.clear_outputs()
     dataset_count = builder.build()
 
     landmark_feature_count = 0
@@ -74,6 +93,12 @@ def main():
         landmark_feature_count = landmark_analyzer.run()
     else:
         print("\nLandmark Analysis skipped (landmark_analysis.enabled = false)")
+
+    if config["analysis"]["landmark_comparison"]["enabled"]:
+        section("Landmark Comparison Analysis (Optional)")
+        landmark_comparison.run()
+    else:
+        print("\nLandmark Comparison Analysis skipped (analysis.landmark_comparison.enabled = false)")
 
     section("Dataset Report")
     report.generate()

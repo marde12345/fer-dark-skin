@@ -3,7 +3,7 @@ from pathlib import Path
 import cv2
 from tqdm import tqdm
 
-from file_utils import clear_directory
+from fer_dataset.pipeline.file_utils import clear_directory
 
 
 class FrameExtractor:
@@ -27,6 +27,13 @@ class FrameExtractor:
 
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
+    def clear_outputs(self) -> None:
+        """
+        Remove previously extracted frames from output_dir.
+
+        This is an explicit action, not a side effect of construction —
+        call it before extract() if a clean output state is desired.
+        """
         clear_directory(self.output_dir, "*.jpg")
 
     def extract(self) -> list[Path]:

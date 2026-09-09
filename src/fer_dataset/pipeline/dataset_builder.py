@@ -3,7 +3,7 @@ import pandas as pd
 
 from tqdm import tqdm
 from pathlib import Path
-from file_utils import clear_directory
+from fer_dataset.pipeline.file_utils import clear_directory
 
 
 class DatasetBuilder:
@@ -24,9 +24,21 @@ class DatasetBuilder:
         self.image_dir = self.output_dir / "images"
         self.image_dir.mkdir(parents=True, exist_ok=True)
 
+    def clear_outputs(self) -> None:
+        """
+        Remove previously built dataset images.
+
+        This is an explicit action, not a side effect of construction —
+        call it before build() if a clean output state is desired.
+
+        Deliberately does NOT touch self.annotation_file: that path is an
+        INPUT to DatasetBuilder (read in build()), not an output it owns.
+        In the current pipeline it is the same file EmotionClassifier just
+        wrote (config.output.intermediate_annotations) — clearing it here
+        would delete build()'s own input out from under it. Its lifecycle
+        (clear-then-write) is owned by EmotionClassifier.clear_outputs().
+        """
         clear_directory(self.output_dir, "*.jpg")
-        if self.annotation_file.exists():
-            self.annotation_file.unlink()
 
     def build(self) -> None:
 

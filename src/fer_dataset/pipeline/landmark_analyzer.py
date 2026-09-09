@@ -163,6 +163,7 @@ class LandmarkAnalyzer:
         ann = self._load_annotations()
 
         records: list[dict[str, object]] = []
+        unmatched_count = 0
 
         for idx, image_path in enumerate(tqdm(image_paths, desc="Face Landmarker 478")):
             image_bgr = cv2.imread(str(image_path))
@@ -193,20 +194,28 @@ class LandmarkAnalyzer:
             feats = self._compute_features(landmarks_xy)
             skin_tone, l_weighted = self._compute_skin_tone(image_bgr)
 
-            label = "Unknown"
-            dataset_filename = ""
-
-            # Prefer explicit filename match; fallback to row-order alignment.
-            if not ann.empty:
+            # Annotation association is by filename identity ONLY. A
+            # landmark feature must never be attributed to an emotion
+            # label/confidence merely because it occupies the same row
+            # index as some annotation row — that has previously produced
+            # silently mislabeled feature rows when data/intermediate/faces
+            # and the annotation file drift in count or order (see
+            # docs/EXPERIMENT.md, formerly "Known issue"). If no
+            # annotation data exists at all, every row is explicitly
+            # labeled "Unknown" (see _load_annotations) rather than guessed.
+            # If annotation data exists but this filename has no match,
+            # the row is skipped — not silently mislabeled.
+            if ann.empty:
+                label = "Unknown"
+                dataset_filename = ""
+            else:
                 matched = ann[ann["filename"] == image_path.name]
-                if not matched.empty:
-                    row = matched.iloc[0]
-                    label = str(row.get("label", "Unknown"))
-                    dataset_filename = str(row.get("filename", ""))
-                elif idx < len(ann):
-                    row = ann.iloc[idx]
-                    label = str(row.get("label", "Unknown"))
-                    dataset_filename = str(row.get("filename", ""))
+                if matched.empty:
+                    unmatched_count += 1
+                    continue
+                row = matched.iloc[0]
+                label = str(row.get("label", "Unknown"))
+                dataset_filename = str(row.get("filename", ""))
 
             records.append(
                 {
@@ -226,16 +235,10 @@ class LandmarkAnalyzer:
 
         print(f"Saved {len(df)} landmark feature rows to {self.feature_file}")
         print(f"Saved per-image landmarks (up to 478 points) to {self.output_dir}")
+        if unmatched_count:
+            print(
+                f"WARNING: {unmatched_count} face crop(s) had no matching "
+                f"annotation filename and were skipped (no row-order fallback)."
+            )
 
         return len(df)
-
-
-if __name__ == "__main__":
-    analyzer = LandmarkAnalyzer(
-        input_dir="data/intermediate/faces",
-        output_dir="data/intermediate/landmarks_468",
-        annotation_file="data/processed/annotations.csv",
-        feature_file="data/intermediate/landmark_features.csv",
-        save_format="npy",
-    )
-    analyzer.run()

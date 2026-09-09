@@ -12,39 +12,41 @@ Instead of manually annotating every image, the pipeline automatically:
 
 - Extracts frames from videos
 - Detects human faces
-- Filters low-quality face images
-- Detects facial landmarks
-- Predicts facial expressions using a pretrained FER model
-- Generates a structured dataset with labels and metadata
+- Detects facial landmarks and derived geometric features
+- Predicts facial expressions using a pretrained FER model (pseudo-labeling, not human annotation)
+- Generates a structured dataset with labels
 
 The generated dataset is intended to support research involving facial expression recognition across subjects with diverse skin tones.
+
+There is currently no quality-filtering stage (blur/face-size/brightness) and no checkpoint/resume system — each run processes the full configured input from scratch. See `docs/ARCHITECTURE.md` for the authoritative current-state architecture.
 
 ---
 
 ## Features
 
 - 🎥 Video-to-dataset pipeline
-- 😀 Seven facial expression labels
-- 📍 Facial landmark extraction
+- 😀 Emotion pseudo-labels (HSEmotion model vocabulary)
+- 📍 Facial landmark extraction with geometric features and skin-tone estimation
 - 📦 Automatic dataset generation
 - ⚙️ YAML-based configuration
-- 💾 Checkpoint system
-- 📊 Metadata generation
+- 📊 Optional downstream landmark comparison analysis
 - 📝 Experiment logging
-- 🔄 Reproducible workflow
+- 🔄 Reproducible workflow (deterministic given fixed input, model weights, and dependency versions)
 
 ---
 
 ## Supported Facial Expressions
 
+The HSEmotion model's own label vocabulary (as stored, unmapped, in the dataset):
+
 | Label |
 |--------|
-| Angry |
+| Anger |
 | Disgust |
 | Fear |
-| Happy |
+| Happiness |
 | Neutral |
-| Sad |
+| Sadness |
 | Surprise |
 
 ---
@@ -58,42 +60,37 @@ FER-Dataset/
 │   └── config.yaml
 │
 ├── data/
-│   ├── raw/
-│   │   └── videos/
-│   │
+│   ├── raw/videos/
 │   ├── intermediate/
 │   │   ├── frames/
 │   │   ├── faces/
-│   │   └── landmarks/
-│   │
+│   │   ├── landmarks_468/
+│   │   └── annotations.csv
 │   └── processed/
 │       ├── images/
-│       ├── visualization/
-│       ├── annotations.csv
-│       └── metadata.csv
+│       └── annotations.csv
 │
 ├── docs/
 │   ├── SDD.md
 │   ├── ARCHITECTURE.md
-│   └── EXPERIMENT.md
-│
-├── logs/
-│
-├── models/
+│   ├── EXPERIMENT.md
+│   ├── REPO_AUDIT_REPORT.md
+│   └── REFACTORING_PLAN.md
 │
 ├── src/
-│   ├── main.py
-│   ├── pipeline.py
-│   ├── frame_extractor.py
-│   ├── face_detector.py
-│   ├── quality_filter.py
-│   ├── landmark_detector.py
-│   ├── expression_classifier.py
-│   ├── dataset_builder.py
-│   ├── config.py
-│   └── utils.py
+│   └── fer_dataset/
+│       ├── main.py            # entry point (uv run python -m fer_dataset.main)
+│       ├── pipeline/          # frame_extractor, face_detector, emotion_classifier,
+│       │                      # dataset_builder, landmark_analyzer, dataset_report, ...
+│       └── analysis/          # landmark_comparison (optional, config-gated stage)
+│
+├── tools/
+│   └── visualize_landmark_npy.py
 │
 ├── tests/
+│
+├── notebooks/
+├── reports/
 │
 ├── pyproject.toml
 ├── uv.lock
@@ -114,23 +111,22 @@ FER-Dataset/
            Face Detection
                     │
                     ▼
-         Quality Filtering
-                    │
-                    ▼
-          Face Alignment
-                    │
-                    ▼
-      Landmark Detection
-                    │
-                    ▼
-     Expression Prediction
+     Expression Pseudo-labeling
                     │
                     ▼
           Dataset Builder
                     │
                     ▼
-            Final FER Dataset
+      Landmark / Feature Extraction  (optional, landmark_analysis.enabled)
+                    │
+                    ▼
+   Landmark Comparison Analysis      (optional, analysis.landmark_comparison.enabled)
+                    │
+                    ▼
+            Dataset Report
 ```
+
+There is no Quality Filtering or Face Alignment stage in the current implementation — see `docs/ARCHITECTURE.md` for the full current-state module breakdown.
 
 ---
 
@@ -170,26 +166,24 @@ All parameters are stored in
 config/config.yaml
 ```
 
-Example
+Example (see `config/config.yaml` for the complete, current set of keys):
 
 ```yaml
 video:
   path: data/raw/videos/pesta_babi.mp4
   fps: 2
 
-face_detection:
-  confidence: 0.7
+landmark_analysis:
+  enabled: true
+  save_format: npy
 
-quality:
-  min_face_size: 120
-  blur_threshold: 80
+analysis:
+  landmark_comparison:
+    enabled: false   # set true to run landmark comparison after feature extraction
 
-expression:
-  confidence_threshold: 0.90
-
-output:
-  save_landmarks: true
-  save_csv: true
+debug:
+  enabled: true
+  max_frames: 100
 ```
 
 ---
@@ -197,7 +191,7 @@ output:
 ## Running the Pipeline
 
 ```bash
-uv run python src/main.py
+uv run python -m fer_dataset.main
 ```
 
 ---
@@ -205,66 +199,76 @@ uv run python src/main.py
 ## Output
 
 ```
-processed/
-
-images/
-
-annotations.csv
-
-metadata.csv
+data/processed/
+├── images/
+└── annotations.csv
 ```
 
 ---
 
 ## Annotation Format
 
-### annotations.csv
+### data/processed/annotations.csv
 
 | Column | Description |
 |----------|-------------|
-| filename | Image filename |
-| label | Expression label |
+| filename | Image filename (renumbered `img_NNNNNN.jpg`) |
+| label | Expression pseudo-label |
+| confidence | Softmax confidence score |
 
 Example
 
-| filename | label |
-|----------|-------|
-| img000001.jpg | Happy |
-| img000002.jpg | Neutral |
+| filename | label | confidence |
+|----------|-------|-----------|
+| img_000001.jpg | Fear | 0.36 |
+| img_000002.jpg | Neutral | 0.49 |
+
+There is no separate `metadata.csv` — bounding box, blur score, brightness, and head pose are not currently captured anywhere in the pipeline's output.
 
 ---
 
-## Metadata Format
+## Optional: Landmark Comparison Analysis
 
-metadata.csv
+When `landmark_analysis.enabled: true`, the pipeline additionally produces `data/intermediate/landmark_features.csv` (landmark geometry, skin-tone estimate, and the associated emotion label per face crop).
 
-| Column | Description |
-|----------|-------------|
-| filename | Image filename |
-| confidence | Prediction confidence |
-| blur | Blur score |
-| brightness | Brightness score |
-| yaw | Head yaw angle |
-| pitch | Head pitch angle |
-| roll | Head roll angle |
-| face_width | Face width |
-| face_height | Face height |
+Setting `analysis.landmark_comparison.enabled: true` runs an additional optional stage after landmark/feature extraction, comparing these geometric features across emotion labels and skin-tone groups, writing `reports/landmark_comparison_summary.csv` and comparison plots to `reports/assets/`. This stage consumes `data/intermediate/landmark_features.csv` for label association — never `data/processed/annotations.csv`. When the flag is `false` (the default), this stage is skipped entirely and the rest of the pipeline is unaffected.
+
+It can also be run standalone, independent of `main`:
+
+```bash
+uv run python -m fer_dataset.analysis.landmark_comparison
+```
 
 ---
 
 ## Intermediate Outputs
 
-The pipeline stores intermediate results to support checkpointing.
-
 ```text
-frames/
-
-faces/
-
-landmarks/
+data/intermediate/
+├── frames/
+├── faces/
+├── annotations.csv
+├── landmarks_468/
+└── landmark_features.csv
 ```
 
-If the pipeline stops unexpectedly, processing can resume without restarting from the beginning.
+Each pipeline run clears and regenerates these from scratch — there is no checkpoint/resume system, so an interrupted run must be restarted from the beginning.
+
+---
+
+## Landmark Visualization Tool
+
+`tools/visualize_landmark_npy.py` renders a saved landmark `.npy` file as a scatter plot, optionally overlaid on its source face-crop image:
+
+```bash
+uv run python tools/visualize_landmark_npy.py \
+  --input <landmark.npy> \
+  [--output <blank_canvas.png>] \
+  [--image <face_crop.jpg>] \
+  [--overlay-output <overlay.png>]
+```
+
+`--output`/`--overlay-output` default to `reports/assets/landmark_<input-stem>_{blank,overlay}.png` if omitted; `--image` is optional and enables the overlay plot when provided.
 
 ---
 
@@ -293,9 +297,9 @@ Examples include:
 | Language | Python 3.12 |
 | Environment | uv |
 | Computer Vision | OpenCV |
-| Face Detection | YOLO |
-| Landmark Detection | MediaPipe Face Mesh |
-| FER | Pretrained FER Model |
+| Face Detection | InsightFace (SCRFD, `buffalo_l`) |
+| Landmark Detection | MediaPipe FaceLandmarker |
+| FER | HSEmotion (pretrained, `enet_b0_8_best_vgaf`) |
 | Data Processing | Pandas |
 | Progress Bar | tqdm |
 | Configuration | YAML |
@@ -306,7 +310,6 @@ Examples include:
 
 - Face tracking
 - Duplicate face removal
-- Automatic skin tone estimation
 - Human verification interface
 - Batch video processing
 - Multi-thread processing
@@ -329,6 +332,8 @@ docs/
 | SDD.md | Software Design Document |
 | ARCHITECTURE.md | System Architecture |
 | EXPERIMENT.md | Experiment Log |
+| REPO_AUDIT_REPORT.md | Codebase audit (current-state findings) |
+| REFACTORING_PLAN.md | Refactoring plan and approved decisions |
 
 ---
 

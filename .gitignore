@@ -16,3 +16,12 @@ __pycache__/
 
 data/
 logs/
+
+# OS artifacts
+.DS_Store
+
+# Jupyter autosave checkpoints
+.ipynb_checkpoints/
+
+# MediaPipe model binary (auto-downloaded by src/landmark_analyzer.py if missing)
+face_landmarker.task

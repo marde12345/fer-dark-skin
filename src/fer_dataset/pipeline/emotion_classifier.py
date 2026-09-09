@@ -31,9 +31,6 @@ class EmotionClassifier:
         self.visualization_dir = Path(visualization_dir) if visualization_dir else None
         self.visualize = visualize
 
-        if self.annotation_file.exists():
-            self.annotation_file.unlink()
-
         self.annotation_file.parent.mkdir(parents=True, exist_ok=True)
 
         self.model = HSEmotionRecognizer(model_name="enet_b0_8_best_vgaf")
@@ -44,6 +41,16 @@ class EmotionClassifier:
         )
 
         self.face_app.prepare(ctx_id=0)
+
+    def clear_outputs(self) -> None:
+        """
+        Remove a previously written annotation file, if present.
+
+        This is an explicit action, not a side effect of construction —
+        call it before predict() if a clean output state is desired.
+        """
+        if self.annotation_file.exists():
+            self.annotation_file.unlink()
 
     def predict(self) -> int:
 
