@@ -1,0 +1,8 @@
+finding,evidence,strength,limitation
+ArcFace accuracy vs HSEmotion (common subset),"ArcFace 0.4074 vs HSEmotion 0.3630, N=135, McNemar p=0.4614 (R7)",Moderate,Not statistically significant; small/uneven per-class N; single dataset/video
+ArcFace Neutral error behavior,"Neutral N=76, error rate=0.5658, dominant wrong class=Happy",Moderate,Descriptive only; no significance test; ArcFace cannot predict Angry/Disgust (out of label space)
+HSEmotion Neutral->Angry (common subset),18/76 Neutral samples predicted Angry,Strong,"Descriptive; population is the 135-sample common subset, not the full 227-sample historical population"
+"HSEmotion Neutral->Angry (historical, full dataset)",18/76 = 23.7% (docs/EXPERIMENT.md EXP-005),Strong,Different population (N=227) than the R7/R8 common subset; not directly poolable with the common-subset figure
+Dark vs Medium-Dark performance (HSEmotion),R7 Fisher's exact test p=0.0027 on the 135-sample common subset (docs/EXP-007_ARCFACE_EVALUATION.md Section 10),Moderate,"Statistically significant in this sample, but small subgroup sizes and no external replication; association only, not causal"
+Papuan-specific error effect,No ethnicity field exists in any dataset artifact,Unsupported,Cannot be quantitatively estimated with current metadata; remains a researcher observation only
+ArcFace false-Angry = 0,Structural: Angry excluded from ArcFace's 5-class label space (R6/R7.5),Unsupported (as an improvement claim),Not a behavioral finding; must not be interpreted as evidence of anything about false-Angry behavior

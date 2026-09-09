@@ -1,0 +1,19 @@
+finding,source_experiment,population,value,recomputed,consistent
+EXP-005 overall accuracy,EXP-005,N=227 (full manual set),0.2247,yes (reports/audit_summary_metrics.csv),yes
+EXP-005 false-Angry rate,EXP-005,N=227,0.1762,yes (reports/audit_summary_metrics.csv),yes
+EXP-005 Neutral->Angry,EXP-005,N=76 Neutral (of 227),18/76=0.2368,yes (docs/EXPERIMENT.md EXP-005 + notebooks/data_audit.ipynb cell 11 output),yes
+EXP-006 CLAHE accuracy before/after,EXP-006,N=227,0.2247 / 0.1982,yes (reports/preprocessing_experiment_summary.csv),yes
+EXP-006 CLAHE false-Angry before/after,EXP-006,N=227,0.1762 / 0.1806,yes (reports/preprocessing_experiment_summary.csv),yes
+EXP-007 ArcFace accuracy,EXP-007,N=135 common subset,0.4074,yes (reports/arcface_evaluation/comparison_metrics.csv),yes
+EXP-007 HSEmotion accuracy (common subset),EXP-007,N=135,0.3630,yes (reports/arcface_evaluation/comparison_metrics.csv),yes
+EXP-007 ArcFace macro P/R/F1,EXP-007,N=135,0.2803/0.2931/0.2717,yes (reports/arcface_evaluation/comparison_metrics.csv),yes
+EXP-007 HSEmotion macro P/R/F1 (common subset),EXP-007,N=135,0.5898/0.2058/0.2489,yes (reports/arcface_evaluation/comparison_metrics.csv),yes
+EXP-007 McNemar,EXP-007,N=135 paired,"b=20 c=26 p=0.4614",yes (reports/arcface_evaluation/statistical_tests.csv),yes
+EXP-007 bootstrap CI ArcFace accuracy,EXP-007,N=135 (group-aware),"0.4074 [0.3383 0.4809]",yes (reports/arcface_evaluation/statistical_tests.csv),yes
+EXP-007 bootstrap CI HSEmotion accuracy,EXP-007,N=135 (group-aware),"0.3630 [0.2692 0.4672]",yes (reports/arcface_evaluation/statistical_tests.csv),yes
+EXP-007 Fisher exact Dark vs Medium-Dark,EXP-007,N=46+32=78 (HSEmotion),"OR=5.88 p=0.0027",yes (reports/arcface_evaluation/statistical_tests.csv),yes
+EXP-008 Neutral error rate ArcFace,EXP-008,N=76 (of 135),43/76=0.5658,yes (reports/arcface_error_analysis/neutral_error_analysis.csv),yes
+EXP-008 Neutral error rate HSEmotion (common subset),EXP-008,N=76 (of 135),34/76=0.4474,yes (reports/arcface_error_analysis/neutral_error_analysis.csv),yes
+EXP-008 Neutral->Angry (common subset),EXP-008,N=76 (of 135),18/76=0.2368,yes (reports/arcface_error_analysis/neutral_error_analysis.csv),yes -- matches EXP-005 historical value exactly
+EXP-008 skin-tone counts,EXP-008,N=135,"Dark=46 Medium-Dark=32 Unknown=57",yes (reports/arcface_error_analysis/skin_tone_analysis.csv),yes -- matches EXP-007
+EXP-008 subgroup accuracies,EXP-008,N=46/32,"Dark: ArcFace=0.4565 HSEmotion=0.4565; Medium-Dark: ArcFace=0.3125 HSEmotion=0.1250",yes (reports/arcface_error_analysis/skin_tone_analysis.csv),yes -- matches EXP-007 skin_tone_analysis.csv

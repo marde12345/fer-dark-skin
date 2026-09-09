@@ -1,0 +1,12 @@
+model,neutral_n,correct_neutral,neutral_error_rate,dominant_wrong_class,dominant_wrong_count
+ArcFace+LR,76,33,0.5657894736842105,Happy,15
+HSEmotion,76,42,0.4473684210526316,Angry,18
+
+predicted_class,arcface_count_or_na,hsemotion_count
+Neutral,33,42
+Happy,15,0
+Sad,14,3
+Surprise,6,0
+Fear,8,13
+Angry,N/A,18
+Disgust,N/A,0

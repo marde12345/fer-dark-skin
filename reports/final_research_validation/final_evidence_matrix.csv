@@ -1,0 +1,11 @@
+finding,metric,population,evidence_strength,thesis_use
+ArcFace achieved 40.74% accuracy,accuracy=0.4074,N=135 common subset,Moderate,"Report as observed accuracy, always paired with HSEmotion figure and McNemar result"
+HSEmotion achieved 36.30% on the same population,accuracy=0.3630,N=135 common subset,Moderate,Report alongside ArcFace figure; do not present in isolation from the 227-sample historical figure
+The paired accuracy difference was not statistically significant,"McNemar p=0.4614 (b=20, c=26)",N=135 paired,Strong (as a null result),Report explicitly as not statistically significant; do not omit
+ArcFace errors were distributed across multiple wrong classes,"Neutral: Happy=15, Sad=14, Fear=8, Surprise=6",N=76 (Neutral subset of 135),Moderate,Descriptive error-pattern evidence only
+HSEmotion showed a strong Neutral->Angry pattern,18/76=23.7% of Neutral; 52.9% of HSEmotion Neutral errors,N=76 (both 227 and 135 populations),Strong,Central motivating finding; always state population size
+Neutral->Angry = 18/76 = 23.7%,"count=18, rate=0.2368",N=76 (identical in historical N=227 and common-subset N=135),Strong,"Report once, note it holds in both populations"
+Dark vs Medium-Dark HSEmotion performance differed descriptively/statistically,"accuracy 0.4565 vs 0.1250; Fisher exact OR=5.88, p=0.0027",N=46 (Dark) / N=32 (Medium-Dark),Moderate,"Report as in-sample statistical association; not causal, not demographic"
+Papuan-specific quantitative error rate cannot be established,no ethnicity field in any dataset artifact,N/A,Unsupported,Must not be quantitatively claimed; researcher observation only
+ArcFace false-Angry = 0 is not a valid improvement claim,Angry excluded from ArcFace 5-class label space (1 GT sample),N=135,Unsupported (as improvement claim),Must always be presented with the structural-limitation caveat
+7-class ArcFace evaluation is not currently defensible,"Angry=1, Disgust=2 GT samples in every population stage",N=227/144/138,Strong (as a limitation finding),Report as a dataset limitation requiring more data to resolve

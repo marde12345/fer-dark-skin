@@ -1,0 +1,11 @@
+scope,metric,arcface,hsemotion
+common_subset_N135,Evaluation N,135,135
+common_subset_N135,Accuracy,0.4074074074074074,0.362962962962963
+common_subset_N135,Macro Precision,0.28027479766610197,0.5897849462365592
+common_subset_N135,Macro Recall,0.2930921052631579,0.20576441102756898
+common_subset_N135,Macro F1,0.27174636721406253,0.24891015417331203
+common_subset_N135,Neutral Error Rate,0.5657894736842105,0.4473684210526316
+historical_N227,N,N/A (not evaluated on full 227),227
+historical_N227,Accuracy,N/A,0.22466960352422907
+historical_N227,False-Angry Rate,N/A,0.1762114537444934
+historical_N227,Neutral->Angry Rate,N/A,0.23684210526315788

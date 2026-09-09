@@ -87,6 +87,9 @@ Summarize findings.
 | EXP-000 | Phase 0 Refactoring Baseline | Completed (see below) |
 | EXP-005 | Data Audit: Model Predictions vs. Manual Ground Truth | Completed (see below) |
 | EXP-006 | Preprocessing Experiment: Strategy B CLAHE vs. False-Angry Rate | Completed (see below) |
+| EXP-007 | Frozen ArcFace Feature Extraction + Logistic Regression, formally evaluated vs. HSEmotion (R5/R6/R7) | Completed — see `docs/EXP-007_ARCFACE_EVALUATION.md` for the formal R7 evaluation |
+| EXP-008 | ArcFace/HSEmotion Error & Skin-Tone Analysis (R8, descriptive-only, reuses R7's common evaluation artifact) | Completed — see `docs/EXP-008_ERROR_AND_SKIN_TONE_ANALYSIS.md` |
+| EXP-009 | Final Statistical Validation & Research Findings Synthesis (R9, consolidates EXP-005–EXP-008; no new experiment) | Completed — see `docs/RESEARCH_FINDINGS.md` and `docs/R9_FINAL_STATISTICAL_VALIDATION.md` |
 
 ---
 
@@ -351,6 +354,77 @@ The following parameters/logic define the pipeline's actual methodology and must
 | Skin-tone calculation (LAB L-channel, weighted mean/median/center) | `src/landmark_analyzer.py:118-129` | Thesis-relevant grouping variable (fairness/robustness analysis by skin tone). | Research-methodology change |
 | Skin-tone bucket thresholds (100 / 150 / 190) | `src/landmark_analyzer.py:131-137` | Boundaries are load-bearing for skin-tone group comparisons in `landmark_comparison.py` and the notebooks. | Research-methodology change |
 | Label/annotation alignment (filename match, fallback to row-order) | `src/landmark_analyzer.py:199-209` | Determines which label gets attached to which landmark feature row; see Known Issue #1 below. | Behavioral change (fixing the fallback) / Research-methodology change (if the fix would alter which rows get which label in the existing dataset) |
+
+---
+
+# EXP-007 — Frozen ArcFace Feature Extraction + Logistic Regression
+
+> **This entry records implementation/validation evidence, not final research evaluation evidence.** No accuracy/F1/statistical comparison against HSEmotion has been computed. That is reserved for a future evaluation phase (R7). Everything below is a sanity-check record confirming the pipeline runs correctly and produces a valid artifact — not a thesis finding.
+
+## Date
+
+2026-09-09 (session date; not independently corroborated by an external log).
+
+## Objective
+
+Implement and validate the first stage of the ArcFace-based FER experiment proposed in `docs/ARCFACE_EXPERIMENT_DESIGN.md`: frozen ArcFace embedding extraction (R5) followed by a frozen-embedding, trained Logistic Regression classifier evaluated via group-aware cross-validation (R6). HSEmotion remains the pipeline's production expression classifier, unchanged.
+
+## Implementation
+
+- `tools/extract_arcface_embeddings.py` — extracts 512-d, L2-normalized ArcFace (`buffalo_l/w600k_r50`) embeddings from existing face crops, re-detecting 5-point landmarks within each crop for InsightFace's internal `norm_crop` alignment (112×112). Every crop resolves to `embedded` or an explicit exclusion reason.
+- `tools/train_arcface_classifier.py` — joins embeddings to `manual_labels_export.csv`'s `gt_label` by filename (never row order), excludes `Ambiguous`/missing labels and classes with fewer than 5 usable samples, and trains/evaluates a multinomial, L2-regularized, class-weighted Logistic Regression via 5-fold `StratifiedGroupKFold` cross-validation, grouped by 3-consecutive-frame temporal blocks (no person-identity metadata exists in this repository).
+
+## Full-Dataset Population
+
+| Stage | Count |
+|---|---|
+| Total face crops (`data/intermediate/faces`) | 227 |
+| ArcFace-embedded successfully | 178 |
+| Excluded — no face on crop re-detection | 48 |
+| Excluded — multiple faces on crop re-detection | 1 |
+| Excluded — invalid image | 0 |
+| Excluded — embedding error | 0 |
+| Excluded — `Ambiguous` ground-truth label | 40 |
+| Excluded — rare class `Disgust` (2 samples, below the 5-sample minimum) | 2 |
+| Excluded — rare class `Angry` (1 sample, below the 5-sample minimum) | 1 |
+| **Final usable samples for classifier training/evaluation** | **135** |
+
+## Class Order and Counts (deterministic, alphabetical)
+
+`["Fear", "Happy", "Neutral", "Sad", "Surprise"]` — `Neutral: 76, Happy: 32, Sad: 12, Surprise: 8, Fear: 7`.
+
+**Deviation from R4's "seven classes" assumption**: only 5 of the 7 canonical HSEmotion-vocabulary classes have enough manually-labeled ground-truth examples (≥5) to be included in this classifier experiment. `Angry` (1 sample) and `Disgust` (2 samples) are excluded — not silently dropped, but explicitly counted and reported here, per the requirement not to force an invalid cross-validation configuration around single-digit classes.
+
+## Cross-Validation
+
+`StratifiedGroupKFold`, 5 splits, 16 temporal groups (blocks of 3 consecutive frame indices), `random_state=42`. Every one of the 135 usable samples received exactly one out-of-fold prediction; no group appeared as a CV test set in more than one fold (verified programmatically, not merely assumed — see `tests/test_train_arcface_classifier.py`).
+
+## Classifier Configuration
+
+`LogisticRegression(penalty="l2", solver="lbfgs", class_weight="balanced", max_iter=1000, random_state=42)`. No hyperparameter sweep was performed.
+
+## Output Artifacts (not committed; `data/` is gitignored)
+
+- `data/intermediate/arcface_embeddings/embeddings.csv` — full-dataset ArcFace embeddings (identity: `sample_id`, `face_filename`).
+- `data/intermediate/arcface_embeddings/classifier_predictions.csv` — 135 out-of-fold predictions (`sample_id`, `face_filename`, `gt_label`, `predicted_label`, `fold`, `split_role`, `prediction_probabilities`).
+- `data/intermediate/arcface_embeddings/classifier_metadata.json` — full reproducibility metadata (model identifiers, configuration, class order, exclusion counts).
+
+## Basic Sanity Checks (implementation validation only — NOT final metrics)
+
+- Embedding dimensionality: 512, confirmed finite and L2-normalized (norm ≈ 1.0) on a real sample.
+- Prediction probabilities: confirmed finite, in [0, 1], summing to ≈1.0 per sample.
+- No duplicate `sample_id` in the prediction artifact (135 rows, 135 unique IDs).
+- All 5 folds represented in the output.
+
+No accuracy, F1, confusion matrix, or comparison to HSEmotion's baseline was computed in this entry — see the reservation at the top of this section.
+
+## Relationship to HSEmotion Baseline
+
+Entirely separate. `data/intermediate/annotations.csv` and `data/processed/annotations.csv` (HSEmotion's outputs) were not read, modified, or regenerated by this experiment. HSEmotion's `model_label` was never used as a training target — ground truth for this experiment is exclusively `manual_labels_export.csv`'s `gt_label`.
+
+## Reproducibility Notes
+
+Requires `data/intermediate/faces` (227 crops from the existing debug-mode pipeline run) and `data/1408-1010-intermediate/manual_labels_export.csv` (227-row manual ground truth). Both are gitignored/local artifacts, not committed — reproducing this experiment requires regenerating or retaining them.
 
 ---
 

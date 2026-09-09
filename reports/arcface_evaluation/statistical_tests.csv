@@ -1,0 +1,11 @@
+test,detail,value
+McNemar,a_both_correct,29
+McNemar,b_hsemotion_only_correct,20
+McNemar,c_arcface_only_correct,26
+McNemar,d_both_wrong,60
+McNemar,p_value,0.4613911821367651
+Bootstrap_Accuracy_ArcFace,"point,lower,upper","(0.4074074074074074, 0.3383458646616541, 0.48091603053435117)"
+Bootstrap_Accuracy_HSEmotion,"point,lower,upper","(0.362962962962963, 0.2692307692307692, 0.4672210985735576)"
+Bootstrap_FalseAngryRate_ArcFace,"point,lower,upper","(0.0, 0.0, 0.0)"
+Bootstrap_FalseAngryRate_HSEmotion,"point,lower,upper","(0.2740740740740741, 0.20719944082013048, 0.3521333885666941)"
+Fisher_exact,HSEmotion accuracy: Dark vs Medium-Dark,"OR=5.8800, p=0.0027, table=[[21, 25], [4, 28]]"

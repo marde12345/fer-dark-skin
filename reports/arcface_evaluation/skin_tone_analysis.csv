@@ -1,0 +1,4 @@
+skin_tone,n,arcface_accuracy,hsemotion_accuracy,arcface_false_angry_count,hsemotion_false_angry_count,arcface_false_angry_rate,hsemotion_false_angry_rate
+Dark,46,0.45652173913043476,0.45652173913043476,0,10,0.0,0.21739130434782608
+Medium-Dark,32,0.3125,0.125,0,16,0.0,0.5
+Unknown,57,0.42105263157894735,0.42105263157894735,0,11,0.0,0.19298245614035087
