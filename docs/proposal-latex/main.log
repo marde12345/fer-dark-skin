@@ -1,0 +1,748 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.9)  9 SEP 2026 15:46
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/Users/MAC/Projects/FER-Dataset/docs/proposal-latex/main.tex
+(/Users/MAC/Projects/FER-Dataset/docs/proposal-latex/main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@chapter=\count276
+\c@section=\count277
+\c@subsection=\count278
+\c@subsubsection=\count279
+\c@paragraph=\count280
+\c@subparagraph=\count281
+\c@figure=\count282
+\c@table=\count283
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count284
+\Gm@cntv=\count285
+\c@Gm@tempcnt=\count286
+\Gm@bindingoffset=\dimen149
+\Gm@wd@mp=\dimen150
+\Gm@odd@mp=\dimen151
+\Gm@even@mp=\dimen152
+\Gm@layoutwidth=\dimen153
+\Gm@layoutheight=\dimen154
+\Gm@layouthoffset=\dimen155
+\Gm@layoutvoffset=\dimen156
+\Gm@dimlist=\toks20
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen157
+\Gin@req@width=\dimen158
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen159
+\lightrulewidth=\dimen160
+\cmidrulewidth=\dimen161
+\belowrulesep=\dimen162
+\belowbottomsep=\dimen163
+\aboverulesep=\dimen164
+\abovetopsep=\dimen165
+\cmidrulesep=\dimen166
+\cmidrulekern=\dimen167
+\defaultaddspace=\dimen168
+\@cmidla=\count287
+\@cmidlb=\count288
+\@aboverulesep=\dimen169
+\@belowrulesep=\dimen170
+\@thisruleclass=\count289
+\@lastruleclass=\count290
+\@thisrulewidth=\dimen171
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks21
+\ex@=\dimen172
+)) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen173
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count291
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count292
+\leftroot@=\count293
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count294
+\DOTSCASE@=\count295
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen174
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count296
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count297
+\dotsspace@=\muskip18
+\c@parentequation=\count298
+\dspbrk@lvl=\count299
+\tag@help=\toks22
+\row@=\count300
+\column@=\count301
+\maxfields@=\count302
+\andhelp@=\toks23
+\eqnshift@=\dimen175
+\alignsep@=\dimen176
+\tagshift@=\dimen177
+\tagwidth@=\dimen178
+\totwidth@=\dimen179
+\lineht@=\dimen180
+\@envbody=\toks24
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks25
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2026-01-29 v7.01p Hypertext links for LaTeX
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count303
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count304
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+)
+\@linkdim=\dimen181
+\Hy@linkcounter=\count305
+\Hy@pagecounter=\count306
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2026-01-29 v7.01p Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/usr/local/texlive/2026basic/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count307
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2026-01-29 v7.01p Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4201.
+Package hyperref Info: Link nesting OFF on input line 4206.
+Package hyperref Info: Hyper index ON on input line 4209.
+Package hyperref Info: Plain pages OFF on input line 4216.
+Package hyperref Info: Backreferencing OFF on input line 4221.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4468.
+\c@Hy@tempcnt=\count308
+LaTeX Info: Redefining \url on input line 4807.
+\XeTeXLinkMargin=\dimen182
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count309
+\Field@Width=\dimen183
+\Fld@charsize=\dimen184
+Package hyperref Info: Hyper figures OFF on input line 6084.
+Package hyperref Info: Link nesting OFF on input line 6089.
+Package hyperref Info: Hyper index ON on input line 6092.
+Package hyperref Info: backreferencing OFF on input line 6099.
+Package hyperref Info: Link coloring OFF on input line 6104.
+Package hyperref Info: Link coloring with OCG OFF on input line 6109.
+Package hyperref Info: PDF/A mode OFF on input line 6114.
+\Hy@abspage=\count310
+\c@Item=\count311
+\c@Hfootnote=\count312
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2026-01-29 v7.01p Hyperref driver for pdfTeX
+\Fld@listcount=\count313
+\c@bookmark@seq@number=\count314
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
+)
+\Hy@SectionHShift=\skip54
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip55
+\bibsep=\skip56
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count315
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count316
+) (./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count317
+\scratchdimen=\dimen185
+\scratchbox=\box55
+\nofMPsegments=\count318
+\nofMParguments=\count319
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count320
+\MPscratchDim=\dimen186
+\MPnumerator=\count321
+\makeMPintoPDFobject=\count322
+\everyMPtoPDFconversion=\toks27
+) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package hyperref Info: Link coloring OFF on input line 51.
+ (./main.out) (./main.out)
+\@outlinefile=\write3
+\openout3 = `main.out'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 54.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 54.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+
+{/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 60--61
+[]\T1/cmr/bx/n/12 [TODO: AB-STRACT TO BE WRIT-TEN AF-TER
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.61 \end{abstract}
+                    [1] (./main.toc
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.31 ...round Truth / Annotation}{13}{section.3.7}
+                                                  % [1
+
+])
+\tf@toc=\write4
+\openout4 = `main.toc'.
+
+ [2] (./main.lot)
+\tf@lot=\write5
+\openout5 = `main.lot'.
+
+ [3
+
+] (./main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+ (./chapters/01_introduction.tex [4
+
+]
+Chapter 1.
+
+Underfull \hbox (badness 2368) in paragraph at lines 41--42
+\T1/cmr/bx/n/12 LEM_ARCHITECTURE.md Ÿ``Claims We Can Make Now'' and RE-
+ []
+
+[5
+
+]
+Underfull \hbox (badness 2698) in paragraph at lines 62--63
+[]\T1/cmr/bx/n/12 [TODO: SCOPE STATE-MENT RE-QUIRED ^^V must ex-plic-itly state
+ []
+
+
+Underfull \hbox (badness 1975) in paragraph at lines 62--63
+\T1/cmr/bx/n/12 the cur-rent 5-class eval-u-a-tion scope (Neu-tral, Happy, Sad, Sur-prise,
+ []
+
+
+Underfull \hbox (badness 3826) in paragraph at lines 62--63
+\T1/cmr/bx/n/12 Fear) and the An-gry/Disgust ground-truth scarcity (An-gry=1, Dis-
+ []
+
+
+Underfull \hbox (badness 2717) in paragraph at lines 62--63
+\T1/cmr/bx/n/12 gust=2 across ev-ery pop-u-la-tion stage checked: 227/144/138 ^^V see
+ []
+
+) (./chapters/02_literature_review.tex [6] [7]
+Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+[]\T1/cmr/bx/n/12 [TODO: EX-PAND ^^V gen-eral face-representation-learning back-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+\T1/cmr/bx/n/12 ground (identity-oriented em-bed-dings, margin-based losses) from
+ []
+
+[8
+
+]
+Underfull \hbox (badness 2512) in paragraph at lines 59--60
+[]\T1/cmr/bx/n/12 Important ^^V con-cept sep-a-ra-tion (must be pre-served ver-ba-tim in
+ []
+
+
+Underfull \hbox (badness 2644) in paragraph at lines 59--60
+\T1/cmr/bx/n/12 any fu-ture draft): \T1/cmr/m/n/12 skin tone, race, eth-nic-ity, and de-mo-graphic rep-re-sen-ta-
+ []
+
+
+Underfull \hbox (badness 3019) in paragraph at lines 59--60
+\T1/cmr/m/n/12 tion are four dis-tinct con-cepts and must not be col-lapsed into one an-other
+ []
+
+[9]
+Underfull \hbox (badness 1460) in paragraph at lines 71--72
+\T1/cmr/bx/n/12 bles/state_of_art_comparison.tex place-holder. Pop-u-late di-rectly from
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
+[]\T1/cmr/bx/n/12 [TODO: RE-SEARCH GAP NOT YET FI-NAL-IZED --
+ []
+
+[10]) (./chapters/03_research_methodology.tex [11]
+Chapter 3.
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--25
+\T1/cmr/bx/n/12 [RESEARCH METHOD-OL-OGY TO BE FI-NAL-IZED]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--25
+[]\T1/cmr/bx/n/12 [TODO: Phase 7 of the proposal-design work-flow
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--25
+\T1/cmr/bx/n/12 (docs/proposal/design/METHODOLOGY_DESIGN.md) has not been
+ []
+
+[12
+
+]
+Underfull \hbox (badness 1072) in paragraph at lines 38--40
+\T1/cmr/m/n/12 The dataset con-sists of face crops drawn from the film \T1/cmr/m/it/12 Pesta Babi\T1/cmr/m/n/12 . []\T1/cmr/bx/n/12 [TODO:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--40
+\T1/cmr/bx/n/12 EX-PAND ^^V de-scribe data source prove-nance fac-tu-ally, match-
+ []
+
+
+Underfull \hbox (badness 5862) in paragraph at lines 38--40
+\T1/cmr/bx/n/12 ing PROB-LEM_ARCHITECTURE.md only. Note: for-mal data-
+ []
+
+
+Underfull \hbox (badness 1577) in paragraph at lines 38--40
+\T1/cmr/bx/n/12 provenance/consent doc-u-men-ta-tion for this source is cur-rently flagged
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
+\T1/cmr/m/n/12 Ground truth is a man-u-ally as-signed ex-pres-sion la-bel per face
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
+\T1/cmr/m/n/12 crop (N=227 his-tor-i-cal pop-u-la-tion). []\T1/cmr/bx/n/12 [TODO: EX-PAND ^^V cite
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
+\T1/cmr/bx/n/12 data/1408-1010-intermediate/manual_labels_export.csv prove-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
+\T1/cmr/bx/n/12 nance and the An-gry(1)/Disgust(2) scarcity lim-i-ta-tion ex-plic-itly
+ []
+
+[13]) (./chapters/04_proposed_design.tex
+Underfull \hbox (badness 10000) in paragraph at lines 78--15
+[]\T1/cmr/bx/n/12 [TODO: ETHICS SEC-TION RE-QUIRED ^^V per
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 78--15
+\T1/cmr/bx/n/12 docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md, the
+ []
+
+[14] [15]
+Chapter 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
+[]\T1/cmr/bx/n/12 [TODO: TRACE-ABIL-ITY MA-TRIX RE-QUIRED ^^V see ta-
+ []
+
+
+Underfull \hbox (badness 3449) in paragraph at lines 21--22
+\T1/cmr/bx/n/12 bles/requirements_traceability.tex place-holder. Can-not be pop-u-lated
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 [DESIGN RE-QUIRE-MENTS TO BE FI-NAL-IZED]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+[]\T1/cmr/bx/n/12 [TODO: Phase 5 of the proposal-design work-flow
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 (docs/proposal/design/DESIGN_REQUIREMENTS.md) has not
+ []
+
+
+Underfull \hbox (badness 6428) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 been ex-e-cuted. Re-quire-ments must be de-rived from the prac-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 ti-cal prob-lem and root cause (Chap-ter []1[]), NOT back-filled
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 from the already-built ArcFace+Logistic-Regression pipeline
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+\T1/cmr/bx/n/12 (docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md, ``Re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 [ARTIFACT TO BE DE-FINED] [][TODO: Phase 6
+ []
+
+
+Underfull \hbox (badness 1635) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 (docs/proposal/design/ARTIFACT_ARCHITECTURE.md) has not been
+ []
+
+
+Underfull \hbox (badness 1199) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 ex-e-cuted. The ar-ti-fact type (con-struct / model / method / frame-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 per docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 this is cur-rently only a work-ing \T1/cmr/bx/it/12 in-stan-ti-a-tion\T1/cmr/bx/n/12 , not
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 a guideline-compliant ar-ti-fact spec-i-fi-ca-tion, and per
+ []
+
+
+Underfull \hbox (badness 4531) in paragraph at lines 30--32
+\T1/cmr/bx/n/12 docs/proposal/research/STATE_OF_ART_AND_GAP.md Ÿ7, ArcFace-
+ []
+
+[16
+
+] [17]) (./chapters/05_evaluation_plan.tex
+Overfull \hbox (96.33453pt too wide) in paragraph at lines 61--15
+\T1/cmr/m/n/12 This chap-ter is in-ten-tion-ally in-com-plete. Per \T1/cmtt/m/n/12 docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md\T1/cmr/m/n/12 ,
+ []
+
+[18]
+Chapter 5.
+
+Underfull \hbox (badness 4479) in paragraph at lines 34--36
+\T1/cmr/m/n/12 The ex-ist-ing base-line clas-si-fier al-ready eval-u-ated in this dataset is HSE-mo-
+ []
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 34--36
+\T1/cmr/bx/n/12 si-fier (not ``Ar-c-Face emo-tion clas-si-fier'' ter-mi-nol-ogy any-where in this
+ []
+
+
+Underfull \hbox (badness 3333) in paragraph at lines 34--36
+\T1/cmr/bx/n/12 doc-u-ment ^^V Ar-c-Face is a frozen face-representation ap-proach, per
+ []
+
+
+Underfull \hbox (badness 2253) in paragraph at lines 39--40
+[]\T1/cmr/bx/n/12 [TODO: Ex-per-i-men-tal de-sign (e.g., cross-validation strat-egy, group-ing
+ []
+
+
+Underfull \hbox (badness 2894) in paragraph at lines 39--40
+\T1/cmr/bx/n/12 strat-egy) de-pends on the fi-nal-ized method-ol-ogy (Chap-ter []3[]). Ex-
+ []
+
+
+Underfull \hbox (badness 3954) in paragraph at lines 39--40
+\T1/cmr/bx/n/12 ist-ing prece-dent (Strat-i-fied-Group-K-Fold with temporal-block group-ing,
+ []
+
+[19
+
+] [20]
+Underfull \hbox (badness 4673) in paragraph at lines 64--65
+[]\T1/cmr/bx/n/12 [TODO: Cross-reference Chap-ter []3[], Ÿ[]3.13[]. Do not du-pli-cate ^^V
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+\T1/cmr/bx/n/12 this sec-tion should ad-dress evaluation-specific va-lid-ity con-cerns
+ []
+
+
+Underfull \hbox (badness 7540) in paragraph at lines 64--65
+\T1/cmr/bx/n/12 only (e.g., con-struct va-lid-ity of the skin-tone mea-sure-ment, per
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+\T1/cmr/bx/n/12 docs/proposal/research/STATE_OF_ART_AND_GAP.md Ÿ8's ex-plicit
+ []
+
+
+Underfull \hbox (badness 1147) in paragraph at lines 64--65
+\T1/cmr/bx/n/12 warn-ing that this the-sis's image-derived skin-tone mea-sure-ment is not
+ []
+
+) (./main.bbl [21]
+Underfull \hbox (badness 2671) in paragraph at lines 19--26
+[]\T1/cmr/m/n/12 Joy Buo-lamwini and Timnit Ge-bru.  Gen-der shades: In-ter-sec-tional ac-cu-
+ []
+
+
+Underfull \hbox (badness 1874) in paragraph at lines 19--26
+\T1/cmr/m/n/12 racy dis-par-i-ties in com-mer-cial gen-der clas-si-fi-ca-tion.  In \T1/cmr/m/it/12 Pro-ceed-ings of Ma-
+ []
+
+
+Underfull \hbox (badness 1286) in paragraph at lines 37--43
+\T1/cmr/m/n/12 di-tive an-gu-lar mar-gin loss for deep face recog-ni-tion.  In \T1/cmr/m/it/12 Pro-ceed-ings of the
+ []
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 53--61
+[]\T1/cmr/m/n/12 Ali Mol-la-hos-seini, Be-hzad Hasani, and Mo-ham-mad H. Ma-hoor.  Af-fect-Net:
+ []
+
+
+Underfull \hbox (badness 1082) in paragraph at lines 53--61
+\T1/cmr/m/it/12 IEEE Trans-ac-tions on Af-fec-tive Com-put-ing\T1/cmr/m/n/12 , 2017.  TODO: ex-act pub-li-ca-tion
+ []
+
+
+Underfull \hbox (badness 1184) in paragraph at lines 53--61
+\T1/cmr/m/n/12 year re-quires ver-i-fi-ca-tion (2017 vs. 2019 vs. jour-nal is-sue year) -- flagged in
+ []
+
+[22
+
+]) [23] (./main.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 53D4CBE3A4AA4AFE5A6297A6F4C900C2;9411.
+ ) 
+Here is how much of TeX's memory you used:
+ 11600 strings out of 469006
+ 174669 string characters out of 5454814
+ 598098 words of memory out of 5000000
+ 40031 multiletter control sequences out of 15000+600000
+ 644722 words of font info for 83 fonts, out of 8000000 for 9000
+ 319 hyphenation exceptions out of 8191
+ 75i,6n,79p,833b,556s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2488.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </Users/MAC/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on main.pdf (25 pages, 215968 bytes).
+PDF statistics:
+ 980 PDF objects out of 1000 (max. 8388607)
+ 499 compressed objects within 5 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 481 words of extra memory for PDF output out of 10000 (max. 10000000)
+

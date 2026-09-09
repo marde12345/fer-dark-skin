@@ -1,0 +1,72 @@
+% =============================================================
+% Chapter 1 — Introduction
+% =============================================================
+% Source (traceability, not rendered content):
+% docs/proposal/research/PROBLEM_ARCHITECTURE.md
+% docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md
+% docs/proposal/research/RQ_OPTIONS.md
+%
+% STATUS: Skeleton only. No final Problem Statement or RQ is
+% written here. Working direction under consideration (NOT an
+% official RQ): Structure A+B — FER performance and systematic
+% error characterization (primary), with performance/error
+% patterns across measured skin-tone categories as a secondary
+% analytical dimension. ArcFace, if evaluated, appears only as
+% one evaluated face-representation approach, not as the RQ
+% subject and not claimed as novel (see Chapter 2).
+% =============================================================
+
+\chapter{Introduction}
+\label{chap:introduction}
+
+\section{Background}
+\label{sec:background}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md (Context, Phenomenon)
+\TODO{BACKGROUND NARRATIVE REQUIRED — draft from PROBLEM\_ARCHITECTURE.md \S{}Context/\S{}Phenomenon only after framing is confirmed with supervisor}
+
+\section{Research Context}
+\label{sec:research-context}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md (Current State, Evidence)
+\TODO{RESEARCH CONTEXT REQUIRED — dataset origin (Pesta Babi film frames), labeling process, and current empirical state (HSEmotion N=227 historical baseline; ArcFace+LR vs.\ HSEmotion N=135 common-subset comparison) to be written with denominators kept explicit and never merged}
+
+\section{Problem Identification}
+\label{sec:problem-identification}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md (Practical Problem, Knowledge Problem, Design Problem)
+\TODO{PROBLEM STATEMENT NOT YET FINALIZED — do not draft a final Problem Statement here. See PROBLEM\_ARCHITECTURE.md \S1--\S2 for the solution-neutral practical/knowledge/design problem chain currently on record. ArcFace must NOT be used to define the problem (guideline neutrality principle, BAB 4 \S4.6).}
+
+\section{Research Evidence}
+\label{sec:research-evidence}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md ("Claims We Can Make Now")
+% Source: docs/RESEARCH_FINDINGS.md
+\TODO{EVIDENCE SUMMARY REQUIRED — restate only from PROBLEM\_ARCHITECTURE.md \S{}``Claims We Can Make Now'' and RESEARCH\_FINDINGS.md \S9. Preserve N=227 (historical) vs.\ N=135 (controlled common-subset) separation. Do not restate any item from \S{}``Claims We Cannot Make Yet.''}
+
+\section{Research Gap}
+\label{sec:research-gap}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md (Section 5: Gap Analysis, Section 9: Research Gap Statement Options)
+\TODO{RESEARCH GAP NOT YET FINALIZED — four non-final gap-statement options exist in STATE\_OF\_ART\_AND\_GAP.md \S9 (Options 1--4). None is selected. Do not present any option here as settled.}
+
+\section{Research Questions}
+\label{sec:research-questions}
+% Source: docs/proposal/research/RQ_OPTIONS.md
+\TODO{OFFICIAL RQ REQUIRED — RQ\_OPTIONS.md \S2 lists 5 non-final candidate RQs (RQ-1 through RQ-5) and a recommended working direction (Structure A+B, per the decision-support memo). \textbf{No official RQ has been selected.} This section must not be written until the supervisor/user makes this decision (RQ\_OPTIONS.md \S{}``Decision Required'').}
+
+\section{Research Objectives}
+\label{sec:research-objectives}
+% Source: docs/proposal/research/RQ_OPTIONS.md (Section 7: RQ -> Objective derivation)
+\TODO{RESEARCH OBJECTIVES REQUIRED — depend directly on the RQ selected above; cannot be finalized first. See RQ\_OPTIONS.md \S7 for candidate (non-final) objective derivations per RQ.}
+
+\section{Research Scope}
+\label{sec:research-scope}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md (Limitation section)
+% Source: docs/R7_5_CLASS_DECISION.md
+\TODO{SCOPE STATEMENT REQUIRED — must explicitly state the current 5-class evaluation scope (Neutral, Happy, Sad, Surprise, Fear) and the Angry/Disgust ground-truth scarcity (Angry=1, Disgust=2 across every population stage checked: 227/144/138 — see docs/R7\_5\_CLASS\_DECISION.md) as an explicit scope boundary, not a silently omitted detail.}
+
+\section{Expected Contributions}
+\label{sec:expected-contributions}
+% Source: docs/proposal/research/RQ_OPTIONS.md (Section 8: Contribution Test)
+\TODO{EXPECTED CONTRIBUTION REQUIRED — depends on final RQ. Do not claim design contribution by default; RQ\_OPTIONS.md \S8 shows several candidate RQs are primarily empirical, not design, contributions. Novelty is NOT claimed for ArcFace-as-feature-extractor (confirmed not novel, STATE\_OF\_ART\_AND\_GAP.md \S7).}
+
+\section{Proposal Organization}
+\label{sec:proposal-organization}
+This proposal is organized as follows. Chapter~\ref{chap:literature-review} reviews related literature and establishes the state of the art. Chapter~\ref{chap:research-methodology} presents the intended research methodology. Chapter~\ref{chap:proposed-design} presents the proposed design requirements and artifact (pending finalization). Chapter~\ref{chap:evaluation-plan} presents the evaluation plan.
+\TODO{Confirm this organization matches the final chapter set once the official RQ/artifact are locked.}

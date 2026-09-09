@@ -1,0 +1,88 @@
+% =============================================================
+% Chapter 2 — Literature Review
+% =============================================================
+% Source (traceability, not rendered content):
+% docs/proposal/research/STATE_OF_ART_AND_GAP.md
+%
+% STATUS: Skeleton only. Citations below are drawn ONLY from
+% STATE_OF_ART_AND_GAP.md's "Verified" reference list (Section
+% 11). The 5 "requires verification" sources from that document
+% are NOT cited here yet -- each has an explicit TODO instead,
+% per instruction not to silently resolve them. Do not add any
+% citation not already present, verified, in references.bib.
+% =============================================================
+
+\chapter{Literature Review}
+\label{chap:literature-review}
+
+\section{Facial Expression Recognition}
+\label{sec:lit-fer}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2A
+Deep learning-based facial expression recognition (FER) is a mature, actively surveyed research area \citep{li2020deep}.
+\TODO{EXPAND — general FER background, drawing only from STATE\_OF\_ART\_AND\_GAP.md \S2A. Do not add claims beyond what that document supports.}
+
+\section{FER Datasets and Benchmarks}
+\label{sec:lit-fer-datasets}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2A, 2E
+AffectNet \citep{mollahosseini2017affectnet} is among the largest in-the-wild FER benchmark datasets.
+\TODO{EXPAND — RAF-DB and FER2013 discussion requires resolving TODO citations (see \S{}``Citations Requiring Verification'' below) before inclusion. Do not cite RAF-DB's primary source until verified.}
+
+\section{Face Representation Learning}
+\label{sec:lit-face-representation}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2B
+\TODO{EXPAND — general face-representation-learning background (identity-oriented embeddings, margin-based losses) from STATE\_OF\_ART\_AND\_GAP.md \S2B only.}
+
+\section{ArcFace and Face Recognition Representations}
+\label{sec:lit-arcface}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2B, Section 7 (ArcFace Novelty Check)
+ArcFace \citep{deng2019arcface} proposes an additive angular margin loss for face \emph{verification}, evaluated on face-verification benchmarks; it was not designed or evaluated for expression recognition.
+
+\textbf{Important — novelty status (must not be silently omitted or softened):} per the targeted literature review in \texttt{docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md} \S7, using ArcFace-family embeddings as a frozen feature extractor for FER, followed by a separate classifier, \textbf{has already been published} and is \textbf{not} treated as novel in this proposal.
+
+\section{Transfer / Downstream Use of Face Representations}
+\label{sec:lit-transfer}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2B
+At least two directly relevant precedents exist for using ArcFace-family embeddings as a frozen or near-frozen feature extractor for FER via a downstream classifier: \citet{altaha2023facial} (ArcFace features with a TinySiamese classifier, evaluated on FER2013, RAF-DB, and ExpW) and \citet{waldner2024pairwise} (ArcFace among other backbones via transfer learning, evaluated on AffectNet).
+\TODO{EXPAND — explicitly state, per STATE\_OF\_ART\_AND\_GAP.md \S7, that neither precedent evaluates on a skin-tone-stratified or dark-skinned-specific population -- this is the candidate context-level gap, not a technique-level one.}
+
+\section{FER Error Analysis}
+\label{sec:lit-error-analysis}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2D
+\citet{chhua2024bias} document that, for at least one class of system (large multimodal foundation models, evaluated on the RADIATE dataset), class-specific FER confusion is demographically stratified -- e.g., Anger is misclassified as Disgust 2.1 times more often in Black female subjects than in White female subjects (for GPT-4o).
+\TODO{EXPAND — this is a structurally similar but not identical phenomenon (different confusion pair, different system class) to any pattern in this thesis's own data. Do not present it as external confirmation of this thesis's specific Neutral\ensuremath{\rightarrow}Angry finding; that finding is thesis evidence only (Chapter~\ref{chap:research-methodology} / Chapter~\ref{chap:evaluation-plan}), not literature evidence.}
+
+\section{Skin Tone and Demographic Robustness}
+\label{sec:lit-skin-tone}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 2C, Section 8
+\citet{buolamwini2018gender} found that commercial gender-classification systems showed substantially higher error rates for darker-skinned female subjects than for lighter-skinned male subjects, and that existing facial-analysis benchmark datasets were predominantly lighter-skinned.
+
+\textbf{Important — concept separation (must be preserved verbatim in any future draft):} skin tone, race, ethnicity, and demographic representation are four distinct concepts and must not be collapsed into one another (\texttt{docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md} \S8). This thesis's dataset contains no race or ethnicity field. Any skin-tone finding discussed in this proposal is an image-derived measurement, not a race or ethnicity classification, and any accuracy difference reported across skin-tone categories is an \emph{association}, not a causal or biological claim.
+
+\TODO{EXPAND — cite Fitzpatrick-scale critique regarding conflation with race/ethnicity once the primary Fitzpatrick source is verified (see TODO list below); until then, reference only the corroborating discussion already present in STATE\_OF\_ART\_AND\_GAP.md \S2C.}
+
+\section{Existing Solutions}
+\label{sec:lit-existing-solutions}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 4
+\TODO{EXPAND — summarize the 4 existing-solution categories from STATE\_OF\_ART\_AND\_GAP.md \S4 (general-purpose deep FER classifiers; face-recognition-embedding-based FER; domain-adaptation methods for cross-dataset FER bias; fairness-auditing methodology). State each solution's limitation as documented there -- do not add limitations not stated in that document.}
+
+\section{State of the Art}
+\label{sec:lit-state-of-the-art}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 3 (table), Section 6 (Framing Assessment)
+\TODO{INSERT STATE-OF-THE-ART COMPARISON TABLE -- see tables/state\_of\_art\_comparison.tex placeholder. Populate directly from STATE\_OF\_ART\_AND\_GAP.md \S3; do not add rows not present there.}
+
+\section{Research Gap}
+\label{sec:lit-research-gap}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 5 (Gap Analysis), Section 9 (Gap Statement Options)
+\TODO{RESEARCH GAP NOT YET FINALIZED -- STATE\_OF\_ART\_AND\_GAP.md \S5 lists four candidate gaps (G1 moderate, G2 moderate-to-strong, G3 moderate/contingent, G4 unsupported) and \S9 lists four non-final gap-statement options. This section must not select or assert a final gap ahead of the official RQ decision (see Chapter~\ref{chap:introduction}, \S\ref{sec:research-gap}).}
+
+\section*{Citations Requiring Verification}
+\addcontentsline{toc}{section}{Citations Requiring Verification}
+% Source: docs/proposal/research/STATE_OF_ART_AND_GAP.md, Section 11 ("Requires verification" list)
+The following sources are referenced in \texttt{STATE\_OF\_ART\_AND\_GAP.md} but their metadata was \textbf{not} fully independently verified during Phase 3, and are therefore \textbf{not yet included} in \texttt{references.bib}. They must not be cited in this proposal until verified:
+\begin{itemize}
+  \item \TODO{VERIFY — Hosseini, Pourramezan Fard \& Mahoor, ``Faces of Fairness'' (arXiv:2502.11049) — publication year inconsistent (arXiv numbering implies \textasciitilde{}2025; fetched page metadata read 2026) — resolve before citing.}
+  \item \TODO{VERIFY — ``Racial Bias within Face Recognition: A Survey,'' ACM Computing Surveys (arXiv:2305.00817) — full author list not independently confirmed.}
+  \item \TODO{VERIFY — Fitzpatrick skin-type scale primary source (commonly cited as Fitzpatrick, T.\,B., 1988) — not fetched or verified in Phase 3.}
+  \item \TODO{VERIFY — RAF-DB primary dataset paper (commonly cited as Li, Deng \& Du, CVPR 2017) — title/author/venue combination not independently confirmed in Phase 3.}
+  \item \TODO{VERIFY — general transfer-learning-for-FER literature (e.g., an MDPI ``Transfer Learning for Facial Expression Recognition'' paper) — title-level only, not independently fetched.}
+\end{itemize}

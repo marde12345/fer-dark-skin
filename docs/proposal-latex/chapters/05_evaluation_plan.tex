@@ -1,0 +1,68 @@
+% =============================================================
+% Chapter 5 — Evaluation Plan
+% =============================================================
+% Source (traceability, not rendered content):
+% docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md ("Evaluation": PARTIALLY READY)
+% docs/RESEARCH_FINDINGS.md (EXISTING evidence, not future proposal results)
+% docs/R9_FINAL_STATISTICAL_VALIDATION.md
+%
+% STATUS: Skeleton only. Existing R1-R9 results are referenced
+% ONLY as preliminary/existing evidence, explicitly labeled as
+% such -- never presented as future proposal results. N=227
+% (historical) and N=135 (controlled common-subset) populations
+% are kept explicitly separate throughout.
+% =============================================================
+
+\chapter{Evaluation Plan}
+\label{chap:evaluation-plan}
+
+\section{Evaluation Objectives}
+\label{sec:evaluation-objectives}
+\TODO{Evaluation objectives depend on the finalized RQ (Chapter~\ref{chap:introduction}) and artifact (Chapter~\ref{chap:proposed-design}). Do not state objectives that presuppose an artifact form not yet defined.}
+
+\section{Evaluation Criteria}
+\label{sec:evaluation-criteria}
+\TODO{Per the guideline (BAB 13 \S13.5): criterion $\rightarrow$ indicator $\rightarrow$ metric, each derived from Requirements/Objectives — cannot be finalized before Chapter~\ref{chap:proposed-design}'s Design Requirements exist.}
+
+\section{Evaluation Metrics}
+\label{sec:evaluation-metrics}
+\TODO{Candidate metrics already demonstrated as usable in this dataset (existing evidence, not yet re-confirmed as the final proposal's metrics): accuracy, macro precision/recall/F1, per-class error rate, false-Angry rate. Source: docs/RESEARCH\_FINDINGS.md \S2--\S3. Final metric selection depends on the finalized RQ.}
+
+\section{Baseline}
+\label{sec:baseline}
+% Source: docs/RESEARCH_FINDINGS.md, Section 2
+The existing baseline classifier already evaluated in this dataset is HSEmotion.
+\TODO{EXPAND — describe HSEmotion's role as baseline classifier (not ``ArcFace emotion classifier'' terminology anywhere in this document — ArcFace is a frozen face-representation approach, per docs/proposal/research/RQ\_OPTIONS.md \S14 terminology rule).}
+
+\section{Experimental Design}
+\label{sec:experimental-design}
+\TODO{Experimental design (e.g., cross-validation strategy, grouping strategy) depends on the finalized methodology (Chapter~\ref{chap:research-methodology}). Existing precedent (StratifiedGroupKFold with temporal-block grouping, tools/train\_arcface\_classifier.py) is documented as \emph{already-executed thesis evidence}, not yet re-adopted as the final proposal's design.}
+
+\section{Error Analysis}
+\label{sec:evaluation-error-analysis}
+% Source: docs/RESEARCH_FINDINGS.md, Section 3-4 (EXISTING evidence)
+\textbf{Existing preliminary evidence (N=135 common-evaluation subset, not a future proposal result):} HSEmotion's Neutral ground-truth samples are disproportionately misclassified as Angry (18/76 = 23.68\%, identically reproduced on the N=227 historical population and the N=135 common subset).
+\TODO{EXPAND — this is reported here as already-obtained evidence motivating further characterization (per the working direction, Structure A+B), not as a result this proposal will newly produce. Any future error-analysis plan must be stated separately from this existing finding.}
+
+\section{Skin-Tone-Stratified Analysis}
+\label{sec:skin-tone-stratified-analysis}
+% Source: docs/RESEARCH_FINDINGS.md, Section 5 (EXISTING evidence)
+\textbf{Existing preliminary evidence (N=135 common-evaluation subset):} an association was observed between skin-tone category and HSEmotion accuracy (Dark $n=46$: 45.65\%; Medium-Dark $n=32$: 12.5\%; Fisher's exact test, OR=5.88, $p=0.0027$). The \texttt{Unknown} skin-tone bucket ($n=57$ of 135) is excluded from this comparison, not imputed.
+
+\textbf{This association must not be described as causal, as evidence of racial or ethnic bias, or as Papuan-specific}, consistent with \texttt{docs/RESEARCH\_FINDINGS.md} \S10 and \texttt{docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md} \S8. The dataset contains no ethnicity field, and skin tone (an image-derived LAB-luminance bucket) is not a valid proxy for ethnicity.
+
+\TODO{EXPAND — state whether/how this secondary analysis will be extended in the final proposal (per the working-direction recommendation, Structure A+B treats this as a secondary, not primary, analytical dimension) — pending official RQ confirmation.}
+
+\section{Statistical Analysis}
+\label{sec:statistical-analysis}
+% Source: docs/RESEARCH_FINDINGS.md, Section 8 (EXISTING evidence)
+\textbf{Existing preliminary evidence:} McNemar's exact test (paired comparison, N=135: $b=20$, $c=26$, $p=0.4614$ — not statistically significant); group-aware bootstrap 95\% confidence intervals (ArcFace accuracy $[0.3383, 0.4809]$, HSEmotion accuracy $[0.2692, 0.4672]$); Fisher's exact test (skin-tone subgroup, reported above).
+\TODO{EXPAND — final proposal must state which statistical tests are proposed for the (not-yet-finalized) RQ, distinguishing clearly from the tests already applied to the existing R7 comparison above.}
+
+\section{Validity Threats}
+\label{sec:evaluation-validity-threats}
+\TODO{Cross-reference Chapter~\ref{chap:research-methodology}, \S\ref{sec:validity-threats}. Do not duplicate — this section should address evaluation-specific validity concerns only (e.g., construct validity of the skin-tone measurement, per docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md \S8's explicit warning that this thesis's image-derived skin-tone measurement is not equivalent to the literature's typical race/Fitzpatrick measurement).}
+
+\section{Expected Evidence}
+\label{sec:expected-evidence}
+\TODO{State what evidence the finalized RQ would require to be answered (per docs/proposal/research/RQ\_OPTIONS.md \S6--\S7 for each non-final candidate RQ's data/evidence requirements). Do not present already-obtained R1--R9 evidence as if it were yet to be produced.}

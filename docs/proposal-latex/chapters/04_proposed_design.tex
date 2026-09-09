@@ -1,0 +1,61 @@
+% =============================================================
+% Chapter 4 — Proposed Design
+% =============================================================
+% Source (traceability, not rendered content):
+% docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md ("Requirements": MISSING, "Artifact": PARTIALLY READY)
+% docs/proposal/research/RQ_OPTIONS.md
+%
+% STATUS: Skeleton only. Design Requirements (Phase 5) and
+% Artifact Architecture (Phase 6) of docs/proposal/ have NOT
+% been executed. Do NOT define "ArcFace + Logistic Regression"
+% as the artifact here -- per the guideline, artifact form is a
+% CONSEQUENCE of problem->requirements analysis, never chosen
+% first (BAB 11 p.169).
+% =============================================================
+
+\chapter{Proposed Design}
+\label{chap:proposed-design}
+
+\section{Problem-to-Requirement Traceability}
+\label{sec:problem-to-requirement}
+\TODO{TRACEABILITY MATRIX REQUIRED — see tables/requirements\_traceability.tex placeholder. Cannot be populated before Design Requirements (Phase 5) exists. Guideline reference: BAB 10 \S10.7, Table 10.3.}
+
+\section{Design Requirements}
+\label{sec:design-requirements}
+\textbf{[DESIGN REQUIREMENTS TO BE FINALIZED]}
+\TODO{Phase 5 of the proposal-design workflow (docs/proposal/design/DESIGN\_REQUIREMENTS.md) has not been executed. Requirements must be derived from the practical problem and root cause (Chapter~\ref{chap:introduction}), NOT backfilled from the already-built ArcFace+Logistic-Regression pipeline (docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md, ``Requirements'' row).}
+
+\section{Artifact Definition}
+\label{sec:artifact-definition}
+\textbf{[ARTIFACT TO BE DEFINED]}
+\TODO{Phase 6 (docs/proposal/design/ARTIFACT\_ARCHITECTURE.md) has not been executed. The artifact type (construct / model / method / framework / combination — guideline BAB 11 \S11.1) is not yet determined. \textbf{Do NOT default to ``ArcFace + Logistic Regression'' as the artifact} — per docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md, this is currently only a working \emph{instantiation}, not a guideline-compliant artifact specification, and per docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md \S7, ArcFace-as-feature-extractor for FER is \textbf{not novel} as a technique — any artifact contribution claim here must be scoped to context/evaluation-design, not the technique itself.}
+
+\section{Artifact Architecture}
+\label{sec:artifact-architecture}
+% TODO: INSERT ARTIFACT ARCHITECTURE DIAGRAM
+\TODO{See figures/artifact\_architecture.tex placeholder. Cannot be populated before \S\ref{sec:artifact-definition} is finalized.}
+
+\section{Design Rationale}
+\label{sec:design-rationale}
+\TODO{Per the guideline (BAB 11 \S11.7), each artifact component requires a design rationale of the form: ``because knowledge K shows mechanism M affects outcome O, the artifact provides function F to influence M.'' This requires the Theory/Knowledge phase (currently MISSING, per docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md) to be completed first.}
+
+\section{Components}
+\label{sec:components}
+\TODO{Component breakdown depends on \S\ref{sec:artifact-definition}. Do not list components (e.g., ``face detector,'' ``embedding extractor,'' ``classifier'') as if they were already-finalized design decisions rather than reused instantiation details from R5--R9.}
+
+\section{Assumptions}
+\label{sec:assumptions}
+\TODO{State explicitly which conditions are presumed true (guideline BAB 4 \S4.7 distinguishes assumption from constraint from limitation) once Design Requirements exist. Do not conflate with \S\ref{sec:limitations-design} or Chapter~\ref{chap:evaluation-plan}'s validity threats.}
+
+\section{Constraints}
+\label{sec:constraints}
+\TODO{At minimum, the following constraints are already known from existing evidence and must be carried into this section once written: (1) 5-class evaluation scope only (Angry=1, Disgust=2 ground-truth scarcity at every population stage: 227/144/138 — docs/R7\_5\_CLASS\_DECISION.md); (2) small, uneven skin-tone subgroups if a skin-tone-stratified design is pursued (Dark N=46, Medium-Dark N=32, Unknown N=57 of N=135).}
+
+\section{Expected Behavior}
+\label{sec:expected-behavior}
+\TODO{Per Rule 4 (docs/proposal/ plan): the proposed artifact does NOT have to outperform the baseline for the thesis to be meaningful. Any expected-behavior statement here must explicitly allow for a negative/null result as a valid outcome, consistent with the already-observed R7 result (ArcFace+LR vs.\ HSEmotion accuracy not significantly different, McNemar $p=0.4614$, N=135) — this existing result must be labeled as \emph{existing preliminary evidence}, not a \emph{future expected} result, if referenced here.}
+
+\section*{Limitations of the Current Design State}
+\label{sec:limitations-design}
+\addcontentsline{toc}{section}{Limitations of the Current Design State}
+This chapter is intentionally incomplete. Per \texttt{docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md}, both the ``Requirements'' and formal ``Artifact'' specification rows are not yet \texttt{READY}. This chapter must not be completed until Phases 5 and 6 of \texttt{docs/proposal/} are executed and approved.

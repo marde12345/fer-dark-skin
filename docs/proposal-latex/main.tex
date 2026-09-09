@@ -1,0 +1,82 @@
+% =============================================================
+% Research Proposal — SKELETON
+% Thesis ITB — Facial Expression Recognition on Dark-Skin Data
+% =============================================================
+% STATUS: This is a document-architecture SKELETON, not a final
+% proposal. It exists to establish structure only, per the
+% controlled-adjustment instruction inserted before Phase 5 of
+% docs/proposal/ (PLAN_PROPOSAL_DESIGN.md). No RQ, artifact,
+% methodology, or novelty claim is finalized anywhere in this
+% document tree. See docs/proposal-latex/README.md.
+%
+% No official ITB/department LaTeX class/template was found
+% anywhere in this repository at the time this skeleton was
+% built (searched for *.cls, *.sty, *itb*, *.tex — none found).
+% This uses the standard `report` class as a placeholder base,
+% to be swapped for the official template once available.
+% =============================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% --- Packages (minimal, standard; not template-specific) ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{url}
+\sloppy
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage[numbers]{natbib}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+\onehalfspacing
+
+% --- TODO macro: renders visibly in the compiled PDF so pending
+% decisions are never silently invisible to a reader. ---
+\newcommand{\TODO}[1]{\textbf{\textcolor{red}{[TODO: #1]}}}
+
+\title{
+  % TODO: OFFICIAL THESIS TITLE REQUIRED
+  \TODO{THESIS TITLE TO BE FINALIZED — depends on final RQ selection, see docs/proposal/research/RQ\_OPTIONS.md}
+}
+\author{
+  % TODO: AUTHOR NAME REQUIRED
+  \TODO{AUTHOR NAME}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+% TODO: ABSTRACT REQUIRED — must be written only after the
+% official RQ, artifact, and methodology are finalized
+% (docs/proposal/research/RQ_OPTIONS.md, Decision Required
+% section — none of these are finalized yet).
+\TODO{ABSTRACT TO BE WRITTEN AFTER RQ/ARTIFACT/METHODOLOGY ARE FINALIZED}
+\end{abstract}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+% =============================================================
+% Chapters
+% =============================================================
+\input{chapters/01_introduction}
+\input{chapters/02_literature_review}
+\input{chapters/03_research_methodology}
+\input{chapters/04_proposed_design}
+\input{chapters/05_evaluation_plan}
+
+% =============================================================
+% Bibliography
+% =============================================================
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

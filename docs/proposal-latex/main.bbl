@@ -1,0 +1,69 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altaha et~al.(2023)Altaha, Jarraya, Hamdani, and
+  Alimi]{altaha2023facial}
+Mohammed~A. Altaha, Islem Jarraya, Tarek~M. Hamdani, and Adel~M. Alimi.
+\newblock Facial expression recognition based on {ArcFace} features and
+  {TinySiamese} network.
+\newblock In \emph{2023 International Conference on Cyberworlds (CW)}, pages
+  24--31. IEEE, 2023.
+\newblock Confirmed via IEEE Xplore listing (document 10337533). See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\bibitem[Buolamwini and Gebru(2018)]{buolamwini2018gender}
+Joy Buolamwini and Timnit Gebru.
+\newblock Gender shades: Intersectional accuracy disparities in commercial
+  gender classification.
+\newblock In \emph{Proceedings of Machine Learning Research}, volume~81, 2018.
+\newblock Conference on Fairness, Accountability and Transparency (FAT*).
+  Confirmed via PMLR proceedings page. See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\bibitem[Chhua et~al.(2024)Chhua, Wen, Hathalia, Zhu, and
+  O'Brien]{chhua2024bias}
+Kimtiya Chhua, Zhiyao Wen, Vishal Hathalia, Kai Zhu, and Shane O'Brien.
+\newblock From bias to balance: Detecting facial expression recognition biases
+  in large multimodal foundation models.
+\newblock \emph{arXiv preprint arXiv:2408.14842}, 2024.
+\newblock Confirmed via direct fetch. See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\bibitem[Deng et~al.(2019)Deng, Guo, Xue, and Zafeiriou]{deng2019arcface}
+Jiankang Deng, Jia Guo, Niannan Xue, and Stefanos Zafeiriou.
+\newblock {ArcFace}: Additive angular margin loss for deep face recognition.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, 2019.
+\newblock Confirmed via CVF Open Access (openaccess.thecvf.com) and dblp. See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\bibitem[Li and Deng(2020)]{li2020deep}
+Shan Li and Weihong Deng.
+\newblock Deep facial expression recognition: A survey.
+\newblock \emph{IEEE Transactions on Affective Computing}, 2020.
+\newblock Confirmed via direct fetch (whdeng.cn hosted copy). See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\bibitem[Mollahosseini et~al.(2017)Mollahosseini, Hasani, and
+  Mahoor]{mollahosseini2017affectnet}
+Ali Mollahosseini, Behzad Hasani, and Mohammad~H. Mahoor.
+\newblock {AffectNet}: A database for facial expression, valence, and arousal
+  computing in the wild.
+\newblock \emph{IEEE Transactions on Affective Computing}, 2017.
+\newblock TODO: exact publication year requires verification (2017 vs.\ 2019
+  vs.\ journal issue year) -- flagged in
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11, item 4.
+  Confirmed via arXiv:1708.03985 and ACM DL listing only.
+
+\bibitem[Waldner and Mitra(2024)]{waldner2024pairwise}
+David Waldner and Sunanda Mitra.
+\newblock Pairwise discernment of {AffectNet} expressions with {ArcFace}.
+\newblock \emph{arXiv preprint arXiv:2412.01860}, 2024.
+\newblock Confirmed via direct fetch. See
+  docs/proposal/research/STATE\_OF\_ART\_AND\_GAP.md Section 11.
+
+\end{thebibliography}

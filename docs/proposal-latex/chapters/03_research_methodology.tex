@@ -1,0 +1,78 @@
+% =============================================================
+% Chapter 3 — Research Methodology
+% =============================================================
+% Source (traceability, not rendered content):
+% docs/proposal/guideline/PROPOSAL_GUIDELINE_EXTRACTION.md
+% docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md ("Methodology" row: MISSING)
+%
+% STATUS: Skeleton only. DSRM/DRM/other methodology is NOT
+% selected (Phase 7 of docs/proposal/ is not yet executed).
+% =============================================================
+
+\chapter{Research Methodology}
+\label{chap:research-methodology}
+
+\section{Research Paradigm}
+\label{sec:research-paradigm}
+% Source: docs/proposal/guideline/PROPOSAL_GUIDELINE_EXTRACTION.md, Section 1
+\TODO{RESEARCH PARADIGM TO BE STATED — per the guideline (BAB 2), state whether this research is positioned as design research, or design research combined with an explanatory/evaluative orientation, once the RQ type (descriptive/explanatory/design-oriented/evaluative — guideline Table 8.1) is fixed by the official RQ.}
+
+\section{Design Research Methodology}
+\label{sec:drm-selection}
+% Source: docs/proposal/ Phase 7 (Methodology Design) -- NOT YET EXECUTED
+\textbf{[RESEARCH METHODOLOGY TO BE FINALIZED]}
+\TODO{Phase 7 of the proposal-design workflow (docs/proposal/design/METHODOLOGY\_DESIGN.md) has not been executed. DSRM, DRM, and other candidate methodologies must be compared there before this section is written. Do not select a methodology preemptively.}
+
+\section{Conceptual Framework}
+\label{sec:conceptual-framework}
+% TODO: INSERT CONCEPTUAL FRAMEWORK
+\TODO{Conceptual framework requires the Theory/Knowledge phase (Phase 1 audit: ``Theory'' row = MISSING) to be completed first. See figures/conceptual\_framework.tex placeholder.}
+
+\section{Research Activities}
+\label{sec:research-activities}
+\TODO{Research activities depend on the finalized RQ and methodology. Do not list activities that presuppose a specific artifact (e.g., do not default to ``train ArcFace classifier'' as an activity before Chapter~\ref{chap:proposed-design}'s artifact definition is finalized).}
+
+\section{Data Sources}
+\label{sec:data-sources}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md, Section 1 (Current State / Evidence)
+The dataset consists of face crops drawn from the film \emph{Pesta Babi}.
+\TODO{EXPAND — describe data source provenance factually, matching PROBLEM\_ARCHITECTURE.md only. Note: formal data-provenance/consent documentation for this source is currently flagged as a gap (docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md, ``Ethics'' row) and must be addressed before this section is finalized.}
+
+\section{Dataset Preparation}
+\label{sec:dataset-preparation}
+\TODO{Describe the existing pipeline (face detection, cropping) factually once this chapter is finalized. Source: src/fer\_dataset/pipeline/ (code, not to be modified in this phase).}
+
+\section{Ground Truth / Annotation}
+\label{sec:ground-truth}
+% Source: docs/proposal/research/PROBLEM_ARCHITECTURE.md
+Ground truth is a manually assigned expression label per face crop (N=227 historical population).
+\TODO{EXPAND — cite data/1408-1010-intermediate/manual\_labels\_export.csv provenance and the Angry(1)/Disgust(2) scarcity limitation explicitly (docs/R7\_5\_CLASS\_DECISION.md).}
+
+\section{Artifact Development}
+\label{sec:artifact-development-methodology}
+\TODO{ARTIFACT NOT YET DEFINED — see Chapter~\ref{chap:proposed-design}. Do not describe artifact development steps before the artifact itself is defined there.}
+
+\section{Demonstration}
+\label{sec:demonstration}
+\TODO{Demonstration plan depends on the finalized artifact (Chapter~\ref{chap:proposed-design}) and cannot be written yet. Per the guideline (BAB 12 \S12.5), demonstration is distinct from evaluation (``can it run'' vs.\ ``how well does it work'') and must not be conflated with Chapter~\ref{chap:evaluation-plan}.}
+
+\section{Evaluation}
+\label{sec:methodology-evaluation}
+\TODO{See Chapter~\ref{chap:evaluation-plan} for the evaluation plan skeleton. This section should cross-reference, not duplicate, that chapter once both are finalized.}
+
+\section{Analysis}
+\label{sec:analysis}
+\TODO{Analysis approach (statistical tests, error/skin-tone analysis) depends on the finalized RQ. Existing precedent methodology (McNemar's test, group-aware bootstrap, Fisher's exact test) is documented as \emph{already-executed thesis evidence} in docs/RESEARCH\_FINDINGS.md, not yet as a \emph{proposed future methodology} — this distinction must be preserved when this section is written.}
+
+\section{Learning / Refinement}
+\label{sec:learning-refinement}
+\TODO{Per the guideline (BAB 12 \S12.2), the build-evaluate-learn cycle's explicit ``learning objective'' per iteration must be stated once a methodology (DSRM/DRM/other) is selected.}
+
+\section{Validity Threats}
+\label{sec:validity-threats}
+\TODO{Construct validity, internal validity, external validity/transferability, and reliability (guideline BAB 13 \S13.7) must each be addressed once the RQ and evaluation design are finalized. At minimum, the following threats are already known from existing evidence and must not be omitted: (1) small and uneven skin-tone subgroup sizes (Dark N=46, Medium-Dark N=32, Unknown N=57 of N=135); (2) Angry/Disgust ground-truth scarcity limiting generalization claims; (3) single-dataset, single-source-film scope limiting external validity.}
+
+\section{Ethical Considerations}
+\label{sec:ethical-considerations}
+% Source: docs/proposal/validation/PROPOSAL_GUIDELINE_AUDIT.md ("Ethics" row: WEAK)
+\TODO{ETHICS SECTION REQUIRED — per docs/proposal/validation/PROPOSAL\_GUIDELINE\_AUDIT.md, the ``Ethics'' row is rated WEAK: no documentation currently exists for (a) data provenance/consent for the source film \emph{Pesta Babi}, (b) face-crop data handling/retention policy, (c) a misuse-risk statement for the skin-tone finding. This section must not be left as a formality — these are real, unresolved content gaps, not merely missing paperwork.}
