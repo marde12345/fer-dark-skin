@@ -203,6 +203,138 @@
     nav.side{display:none;}
     main{padding:24px;}
   }
+
+  /* Live Model Demo */
+  .demo-btn{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    padding:9px 20px;
+    border-radius:var(--radius);
+    border:1px solid var(--primary-2);
+    background:var(--primary-2);
+    color:#fff;
+    cursor:pointer;
+  }
+  .demo-btn:hover{background:var(--primary);border-color:var(--primary);}
+  .demo-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .demo-status{
+    display:inline-block;
+    margin-left:14px;
+    font-size:12px;
+    color:var(--text-muted);
+    vertical-align:middle;
+  }
+  .demo-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:16px;
+  }
+  @media(max-width:760px){.demo-grid{grid-template-columns:1fr;}}
+  .demo-panel{display:flex;flex-direction:column;align-items:center;}
+  .demo-video-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/3;
+    background:#0d1524;
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin:10px 0;
+  }
+  .demo-video{width:100%;height:100%;object-fit:cover;display:block;}
+  .demo-canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+  .demo-prediction{text-align:center;margin-top:4px;}
+  .demo-prediction-label{font-size:11px;letter-spacing:.05em;color:var(--text-muted);}
+  .demo-prediction-value{font-size:24px;font-weight:700;color:var(--primary);margin:2px 0;}
+  .demo-prediction-confidence{font-size:12.5px;color:var(--text-muted);}
+
+  .demo-prediction-list{width:100%;margin-top:6px;}
+  .demo-prediction-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:6px 4px;
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  .demo-prediction-row:last-child{border-bottom:none;}
+  .demo-prediction-row .face-id{color:var(--text-muted);font-size:11.5px;min-width:52px;}
+  .demo-prediction-row .face-label{font-weight:600;color:var(--primary);flex:1;text-align:center;}
+  .demo-prediction-row .face-conf{color:var(--text-muted);font-size:12px;min-width:44px;text-align:right;}
+
+  .demo-server-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:13px;
+    flex-wrap:wrap;
+  }
+  .demo-server-dot{
+    display:inline-block;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--gray);
+  }
+  .demo-server-dot.offline{background:var(--gray);}
+  .demo-server-dot.ready{background:var(--success);}
+  .demo-server-dot.starting{background:var(--warning);}
+  .demo-btn-secondary{
+    background:var(--bg);
+    color:var(--primary-2);
+    border:1px solid var(--primary-2);
+    padding:6px 14px;
+    font-size:12.5px;
+  }
+  .demo-btn-secondary:hover{background:var(--primary-soft);}
+
+  .demo-faces-note{
+    font-size:12px;
+    color:var(--warning);
+    text-align:center;
+    margin:10px 0 0;
+    min-height:14px;
+  }
+
+  /* Live Processing Flow */
+  .flow-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .flow-face-selector{display:flex;gap:6px;}
+  .flow-face-btn{
+    font-family:inherit;font-size:12px;font-weight:600;
+    padding:4px 10px;border-radius:999px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text-muted);
+    cursor:pointer;
+  }
+  .flow-face-btn.active{background:var(--primary-2);border-color:var(--primary-2);color:#fff;}
+  .flow-row{display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:10px;}
+  .flow-row-branch{gap:24px;}
+  .flow-step{display:flex;flex-direction:column;align-items:center;width:120px;}
+  .flow-step-label{font-size:11px;color:var(--text-muted);margin-bottom:6px;text-align:center;}
+  .flow-thumb{
+    width:120px;height:90px;
+    object-fit:cover;
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    background:var(--gray-soft);
+    display:block;
+  }
+  .flow-step-status{font-size:11px;margin-top:4px;color:var(--success);}
+  .flow-step-status.unavailable{color:var(--error);}
+  .flow-arrow{font-size:18px;color:var(--gray);align-self:center;padding-top:36px;}
+  .flow-arrow-down{text-align:center;font-size:18px;color:var(--gray);margin:8px 0;}
+  .flow-branch{display:flex;flex-direction:column;align-items:center;width:150px;}
+  .flow-branch-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;}
+  .flow-model-line{
+    font-size:11.5px;color:var(--text-muted);
+    padding:3px 0;width:100%;text-align:center;
+    border-top:1px solid var(--border);
+  }
+  .flow-model-line:first-of-type{border-top:none;}
+  @media(max-width:700px){
+    .flow-row{flex-direction:column;align-items:center;}
+    .flow-arrow{transform:rotate(90deg);padding-top:0;}
+    .flow-row-branch{flex-direction:row;}
+  }
 </style>
 </head>
 <body>
@@ -210,6 +342,7 @@
   <nav class="side">
     <div class="brand">FER Research Dashboard</div>
     <div class="subbrand">Thesis ITB — evidence overview</div>
+    <a href="#live-demo">Live Model Demo</a>
     <a href="#overview">Overview</a>
     <a href="#dataset">Dataset</a>
     <a href="#how-it-works">How the System Works</a>
@@ -226,6 +359,171 @@
   </nav>
 
   <main>
+
+    <!-- 6.5 LIVE MODEL DEMO -->
+    <section id="live-demo">
+      <h2>Live Model &amp; Preprocessing Comparison</h2>
+      <p class="section-intro">
+        Same camera input is processed using two FER approaches under two preprocessing conditions:
+        Original and Adaptive CLAHE.
+      </p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin:-12px 0 20px;">
+        This is an interactive demonstration, not a formal evaluation. CLAHE is shown as an exploratory
+        preprocessing condition — it is included to demonstrate the preprocessing experiment conducted in
+        EXP-006, not because it is known to improve results.
+      </p>
+
+      <div class="card" style="text-align:center;">
+        <div class="demo-server-row">
+          <span class="demo-server-dot" id="demo-server-dot"></span>
+          <span>Demo Server: <strong id="demo-server-label">Offline</strong></span>
+          <button id="demo-server-start-btn" class="demo-btn demo-btn-secondary">Start Demo</button>
+          <button id="demo-server-stop-btn" class="demo-btn demo-btn-secondary" style="display:none;">Stop Demo</button>
+        </div>
+        <div style="margin-top:10px;">
+          <button id="demo-start-btn" class="demo-btn" disabled>Start Camera</button>
+          <button id="demo-stop-btn" class="demo-btn" style="display:none;">Stop Camera</button>
+          <div id="demo-status" class="demo-status">Camera: OFF</div>
+        </div>
+      </div>
+
+      <p id="demo-faces-note" class="demo-faces-note"></p>
+
+      <div class="demo-grid" id="demo-panels">
+        <div class="card demo-panel">
+          <span class="badge gray">ORIGINAL</span>
+          <h3 style="margin-top:10px;">HSEmotion</h3>
+          <div class="demo-video-wrap">
+            <video id="demo-video-orig-hse" class="demo-video" autoplay playsinline muted></video>
+            <canvas id="demo-canvas-orig-hse" class="demo-canvas"></canvas>
+          </div>
+          <div class="demo-prediction-list" id="demo-orig-hse-list"></div>
+        </div>
+        <div class="card demo-panel">
+          <span class="badge gray">ORIGINAL</span>
+          <h3 style="margin-top:10px;">ArcFace + Logistic Regression</h3>
+          <div class="demo-video-wrap">
+            <video id="demo-video-orig-af" class="demo-video" autoplay playsinline muted></video>
+            <canvas id="demo-canvas-orig-af" class="demo-canvas"></canvas>
+          </div>
+          <div class="demo-prediction-list" id="demo-orig-af-list"></div>
+        </div>
+        <div class="card demo-panel">
+          <span class="badge blue">CLAHE</span>
+          <h3 style="margin-top:10px;">HSEmotion</h3>
+          <div class="demo-video-wrap">
+            <video id="demo-video-clahe-hse" class="demo-video" autoplay playsinline muted></video>
+            <canvas id="demo-canvas-clahe-hse" class="demo-canvas"></canvas>
+          </div>
+          <div class="demo-prediction-list" id="demo-clahe-hse-list"></div>
+        </div>
+        <div class="card demo-panel">
+          <span class="badge blue">CLAHE</span>
+          <h3 style="margin-top:10px;">ArcFace + Logistic Regression</h3>
+          <div class="demo-video-wrap">
+            <video id="demo-video-clahe-af" class="demo-video" autoplay playsinline muted></video>
+            <canvas id="demo-canvas-clahe-af" class="demo-canvas"></canvas>
+          </div>
+          <div class="demo-prediction-list" id="demo-clahe-af-list"></div>
+        </div>
+      </div>
+
+      <div class="card" id="demo-flow-card" style="margin-top:16px;">
+        <div class="flow-header">
+          <strong style="font-size:13px;">
+            Live Processing Flow — Face <span id="demo-flow-face-num">1</span>
+          </strong>
+          <div id="demo-flow-face-selector" class="flow-face-selector"></div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin:6px 0 14px;">
+          A step-by-step look at how the selected face's prediction is produced. Every image below is the
+          actual intermediate data used for inference on the current frame — not an illustration.
+        </p>
+
+        <div class="flow-row flow-row-shared">
+          <div class="flow-step">
+            <div class="flow-step-label">1. Camera Frame</div>
+            <canvas id="demo-flow-camera" class="flow-thumb" width="120" height="90"></canvas>
+            <div class="flow-step-status" id="demo-flow-status-camera"></div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-label">2. Face Detection</div>
+            <canvas id="demo-flow-detection" class="flow-thumb" width="120" height="90"></canvas>
+            <div class="flow-step-status" id="demo-flow-status-detection"></div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-label">3. Face Crop</div>
+            <img id="demo-flow-crop" class="flow-thumb" alt="Detected face crop" />
+            <div class="flow-step-status" id="demo-flow-status-crop"></div>
+          </div>
+        </div>
+
+        <div class="flow-arrow flow-arrow-down">↓</div>
+        <div class="flow-step-label" style="text-align:center;margin-bottom:6px;">4. Preprocessing</div>
+
+        <div class="flow-row flow-row-branch">
+          <div class="flow-branch">
+            <div class="flow-branch-label">Original</div>
+            <img id="demo-flow-orig-crop" class="flow-thumb" alt="Original face crop" />
+            <div class="flow-step-status" id="demo-flow-status-orig"></div>
+            <div class="flow-branch-label" style="margin-top:10px;">5. Expression Model</div>
+            <div class="flow-model-line" id="demo-flow-orig-hse"></div>
+            <div class="flow-model-line" id="demo-flow-orig-af"></div>
+          </div>
+          <div class="flow-branch">
+            <div class="flow-branch-label">Adaptive CLAHE</div>
+            <img id="demo-flow-clahe-crop" class="flow-thumb" alt="CLAHE-processed face crop" />
+            <div class="flow-step-status" id="demo-flow-status-clahe"></div>
+            <div class="flow-branch-label" style="margin-top:10px;">5. Expression Model</div>
+            <div class="flow-model-line" id="demo-flow-clahe-hse"></div>
+            <div class="flow-model-line" id="demo-flow-clahe-af"></div>
+          </div>
+        </div>
+
+        <p style="font-size:11px;color:var(--text-muted);margin:14px 0 0;">
+          This visualization shows the processing path used by the live demo. It is an interactive
+          demonstration and is not part of the formal R7–R9 evaluation.
+        </p>
+      </div>
+
+      <details>
+        <summary>Technical details</summary>
+        <div class="details-body">
+          <strong>Original</strong> — face crop used directly for inference, no preprocessing.<br/>
+          <strong>CLAHE</strong> — LAB L-channel adaptive contrast enhancement (clip limit adaptively scaled
+          1.5–3.5, tile grid 8×8, per EXP-006) applied to the detected face crop before the model-specific
+          inference. It is an exploratory preprocessing condition, not a claimed improvement.<br/>
+          <strong>Models</strong> — HSEmotion (<code>enet_b0_8_best_vgaf</code>) and ArcFace + Logistic
+          Regression (frozen <code>buffalo_l/w600k_r50</code> embedding, 512-D, + a Logistic Regression
+          classifier), each loaded once and reused across both preprocessing conditions and every detected
+          face.<br/>
+          <strong>Input</strong> — the same live webcam frame and the same detected face(s) are used for all
+          four panels; only the preprocessing condition and the model differ.<br/>
+          <strong>Detection</strong> — InsightFace / SCRFD, run once per frame; up to 3 faces are processed
+          per frame (see "Live Model Demo" README for the exact limit and ordering rule).<br/>
+          <strong>Scope</strong> — ArcFace + LR recognizes five expression classes (Fear, Happy, Neutral,
+          Sad, Surprise); HSEmotion's native output classes are shown as reported by the model itself.<br/>
+          <strong>Processing</strong> — all processing remains local on your own machine
+          (<code>localhost</code>); camera frames are never uploaded anywhere else.
+        </div>
+      </details>
+
+      <div class="card" style="border-left:3px solid var(--primary-2);margin-top:16px;">
+        <strong>Research context</strong>
+        <p style="font-size:13.5px;color:var(--text-muted);margin:8px 0 0;">
+          Formal evaluation on the common N=135 subset: ArcFace + Logistic Regression accuracy
+          <strong id="demo-context-af-acc"></strong>, HSEmotion accuracy
+          <strong id="demo-context-hse-acc"></strong> (McNemar p = <strong id="demo-context-p"></strong>).
+          ArcFace achieved higher measured accuracy in the formal evaluation, but the difference was not
+          statistically significant. These numbers are from the formal R7–R9 evaluation, not from live-demo
+          predictions — the live demo above does not generate new accuracy figures and does not replace the
+          formal evaluation.
+        </p>
+      </div>
+    </section>
+
 
     <!-- 1. OVERVIEW -->
     <section id="overview">
@@ -702,5 +1000,6 @@
 
 <script src="data.js"></script>
 <script src="dashboard.js"></script>
+<script src="realtime_demo.js"></script>
 </body>
 </html>
