@@ -445,3 +445,132 @@ Requires `data/intermediate/faces` (227 crops from the existing debug-mode pipel
 **Description:** `EmotionClassifier` constructs a second, independent InsightFace `FaceAnalysis` (`buffalo_l`) instance solely to draw 5-point keypoints for the optional visualization output, duplicating the detector already instantiated in `FaceDetector` for the same face crops. This does not affect labels or features — it is a performance/resource redundancy, not a correctness issue.
 
 **Status:** `Known issue — not fixed in Phase 1`. Low priority per audit; flagged only because it touches face-detection code, which is classified high-risk.
+---
+
+# Papuan V2 Pilot Workflow (EXP-PAP-NNN)
+
+New namespace, approved in `docs/proposal/PAPUAN_V2_RECON_AND_PROPOSAL.md`
+("Approved Decisions" §2), used exclusively for Papuan V2 data-side work so
+it can never be confused with the `EXP-NNN`/`R\d` entries above, all of
+which describe the legacy pipeline/dataset and remain unmodified.
+
+## EXP-PAP-001 — Pilot-scale raw source pipeline (frame extraction, face detection, CLAHE)
+
+**Status:** Complete.
+
+**What was done:** Re-ran frame extraction (`FrameExtractor`, unmodified,
+reused from the legacy pipeline) and face detection (`FaceDetector`,
+unmodified) against `data/raw/videos/pesta_babi.mp4` — the same source
+video the legacy pipeline used — but writing to new,
+non-overlapping output paths (`data/papuan_v2/faces/`), never touching any
+legacy `data/` directory. CLAHE (Strategy B, promoted to
+`src/fer_dataset/shared/clahe.py`) was then applied to every face crop,
+writing `data/papuan_v2/clahe/`.
+
+**Config:** fps=2.0 (target), `frame_interval`=12 (from source FPS 25.0),
+debug mode with `max_frames=250` — a deliberate pilot-scale cap, not the
+full ~96-minute video, since this stage only needs to produce enough face
+crops to support a 100–200 image pilot (see script docstring for full
+rationale). A full-scale Papuan V2 build would reuse the same code with
+`debug=False`.
+
+**Results:** 250 frames sampled → 645 face crops detected → 645 CLAHE
+images written. Full reproducibility metadata (source video SHA-256,
+original FPS, frame interval, code provenance, timestamp) recorded in
+`data/papuan_v2/raw/source_video_manifest.json`.
+
+**Code:** `tools/papuan_v2/build_pilot_source.py`.
+
+## EXP-PAP-002 — Pilot set construction + human-labels template
+
+**Status:** Pilot set and template complete; actual human labeling pending
+(see EXP-PAP-004 status).
+
+**What was done:** Deterministically sampled 150 images (seed=42,
+`random.Random(seed).sample()` over the sorted face-crop filename list) from
+the 645 EXP-PAP-001 face crops, copying each image's CLAHE version (never
+the un-preprocessed crop, per the supervisor's requirement that AI-assisted
+annotation input be CLAHE-preprocessed) into `data/papuan_v2/pilot/images/`.
+Wrote `experiments/EXP-PAP-004/pilot_manifest.csv` (image_id, source paths,
+seed, timestamp) as the single source of truth for pilot membership, and an
+empty `human_labels.csv` template (150 rows, blank `gt_label`) for a human
+annotator to fill in independently of any AI prediction.
+
+**Code:** `tools/papuan_v2/sample_pilot.py`,
+`tools/papuan_v2/init_human_labels_template.py`.
+
+## EXP-PAP-003 — AI-assisted-annotation candidates + agreement analysis
+
+**Status:** AI predictions complete; agreement metrics pending human labels
+(see EXP-PAP-004).
+
+**What was done:** Ran both candidates on the exact same 150 CLAHE pilot
+images, neither performing a second face-detection pass on the crop:
+  - Candidate A (`hsemotion_clahe`): HSEmotion ONNX (`enet_b0_8_best_vgaf`)
+    directly on the CLAHE crop. 150/150 succeeded.
+  - Candidate B (`arcface_lr_clahe`): InsightFace ArcFace
+    (`buffalo_l/w600k_r50`) embedding of the CLAHE crop, classified by the
+    existing pre-trained `LogisticRegression` demo model
+    (`tools/realtime_demo/artifacts/arcface_lr_demo_model.joblib`, trained
+    per `tools/train_arcface_classifier.py`/R6 on legacy
+    `manual_labels_export.csv` — not retrained on any Papuan V2 data).
+    **150/150 succeeded** after a fix (see note below).
+
+**Implementation note — ArcFace embedding path was fixed to remove
+re-detection:** the first implementation reused
+`tools/extract_arcface_embeddings.py`'s `ArcFaceEmbedder`, which re-runs
+InsightFace's own face detector on the already-cropped pilot image solely to
+obtain 5-point landmarks for `face_align.norm_crop`. That re-detection
+failed to find exactly one face on 50/150 (33%) of pilot images (48
+`excluded_no_face`, 2 `excluded_multiple_faces`) — an artifact of redundant
+detection on a tight crop, not a real signal about ArcFace+LR's usefulness
+as an annotation assistant. **That 100/150 result was never used as
+agreement-analysis input**; it is preserved only as a debugging note (see
+`experiments/EXP-PAP-004/metadata.json`'s `superseded_result` field and
+`report.md`).
+
+Fix: Candidate B now calls the recognition sub-model directly
+(`insightface.model_zoo.get_model(".../w600k_r50.onnx")` →
+`ArcFaceONNX.get_feat()`), confirmed by reading InsightFace's own source to
+require no detection or landmarks — it resizes the given crop internally via
+`cv2.dnn.blobFromImages`. No detection model is loaded for this path at all
+(`FaceAnalysis` normally asserts one must be present), so a second detection
+is structurally impossible here, not merely avoided by convention. The
+embedding is L2-normalized identically to `Face.normed_embedding` before
+being passed to the same trained classifier.
+
+**Caveat, stated explicitly:** the classifier was trained on embeddings
+produced through the full detect+landmark-align pipeline
+(`tools/extract_arcface_embeddings.py`). This direct `get_feat()` path skips
+that alignment, relying instead on the crop already being face-centered by
+`FaceDetector`'s 20%-padded bounding box — a distributional difference from
+training input, to be weighed alongside the agreement metrics once computed.
+
+Predictions written to `experiments/EXP-PAP-004/ai_predictions.csv`. This
+file was never merged into or allowed to influence `human_labels.csv` (see
+`tests/test_pilot_independence.py`).
+
+The agreement-metrics computation (accuracy, macro-F1, Cohen's kappa,
+confusion matrix, confidence-vs-correctness) is implemented and unit-tested
+(`tools/papuan_v2/pilot_agreement_report.py`,
+`tests/test_pilot_agreement_metrics.py`) but has not been run against real
+data — it refuses to run while `human_labels.csv` has any blank `gt_label`
+(verified by attempting a run against the current template, which raised
+the expected `RuntimeError`).
+
+## EXP-PAP-004 — Annotation-assistant selection decision
+
+**Status:** PENDING. Blocked on human labeling of the 150-image pilot set
+(`experiments/EXP-PAP-004/human_labels.csv`) — see
+`experiments/EXP-PAP-004/report.md` for the full explanation of why this
+step cannot be performed by the assistant implementing this pipeline (doing
+so would fabricate the independent ground truth the pilot design depends
+on, exactly the self-confirmation-bias failure mode the pilot exists to
+prevent).
+
+Once human labeling is complete, running
+`uv run python tools/papuan_v2/pilot_agreement_report.py` produces the real
+`agreement_metrics.json`, `confusion_matrices/`, and `report.md`. The
+annotation-assistant selection decision itself must then be written here as
+a follow-up entry, referencing that report — it is not automatically chosen
+by the script.
