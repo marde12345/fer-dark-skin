@@ -1,0 +1,25 @@
+stage,n,pct_of_total
+Total pool (all detected faces),3413,100.0
+Pass resolution >= 60px (min dim),1964,57.54
+Pass resolution >= 80px (min dim),1416,41.49
+Pass resolution >= 96px (min dim),1156,33.87
+Pass resolution >= 112px (min dim),1005,29.45
+Pass blur > 75.0 (blur75),2233,65.43
+Pass blur > 325.3481 (blurP75),850,24.9
+Pass res>=60px AND blur>75.0(blur75) [JOINT],1090,31.94
+Pass res>=60px AND blur>325.3481(blurP75) [JOINT],319,9.35
+Pass res>=80px AND blur>75.0(blur75) [JOINT],696,20.39
+Pass res>=80px AND blur>325.3481(blurP75) [JOINT],177,5.19
+Pass res>=96px AND blur>75.0(blur75) [JOINT],519,15.21
+Pass res>=96px AND blur>325.3481(blurP75) [JOINT],130,3.81
+Pass res>=112px AND blur>75.0(blur75) [JOINT],400,11.72
+Pass res>=112px AND blur>325.3481(blurP75) [JOINT],97,2.84
+Pass frontality (FRONTAL or NEAR_FRONTAL),2267,66.42
+JOINT res>=60 AND blur>75.0(blur75) AND frontal,685,20.07
+JOINT res>=60 AND blur>325.3481(blurP75) AND frontal,195,5.71
+JOINT res>=80 AND blur>75.0(blur75) AND frontal,448,13.13
+JOINT res>=80 AND blur>325.3481(blurP75) AND frontal,114,3.34
+JOINT res>=96 AND blur>75.0(blur75) AND frontal,324,9.49
+JOINT res>=96 AND blur>325.3481(blurP75) AND frontal,88,2.58
+JOINT res>=112 AND blur>75.0(blur75) AND frontal,243,7.12
+JOINT res>=112 AND blur>325.3481(blurP75) AND frontal,69,2.02
