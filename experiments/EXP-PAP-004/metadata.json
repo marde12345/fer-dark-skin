@@ -1,0 +1,72 @@
+{
+  "experiment_id": "EXP-PAP-004",
+  "title": "Papuan V2 pilot annotation-assistant agreement analysis",
+  "status": "PENDING_HUMAN_LABELING",
+  "status_note": "AI predictions for both candidates are complete and final. Human labeling of the pilot set (experiments/EXP-PAP-004/human_labels.csv) has NOT been performed -- it must be done by a human annotator, independently of the AI predictions in ai_predictions.csv, before agreement_metrics.json/confusion_matrices/report.md can be generated. See report.md in this directory for the full explanation.",
+  "dataset_version": "papuan_v2",
+  "depends_on": ["EXP-PAP-001", "EXP-PAP-002", "EXP-PAP-003"],
+  "pilot_sample": {
+    "size": 150,
+    "sampling_seed": 42,
+    "sampling_method": "random.Random(seed).sample() over the sorted filename list of data/papuan_v2/faces/",
+    "manifest_path": "experiments/EXP-PAP-004/pilot_manifest.csv",
+    "source_stage": "EXP-PAP-001 (data/papuan_v2/raw/source_video_manifest.json)"
+  },
+  "preprocessing": {
+    "method": "CLAHE (Strategy B, EXP-006)",
+    "module": "src/fer_dataset/shared/clahe.py",
+    "params": {"clip_min": 1.5, "clip_max": 3.5, "l_min": 60, "l_max": 220, "tileGridSize": [8, 8]},
+    "applied_to": "face-crop images only (data/papuan_v2/pilot/images/*.jpg)"
+  },
+  "ai_models": [
+    {
+      "id": "hsemotion_clahe",
+      "description": "HSEmotion ONNX classifier applied directly to the CLAHE-preprocessed face crop.",
+      "model_name": "enet_b0_8_best_vgaf",
+      "package": "hsemotion-onnx==0.3.1",
+      "class_set": ["Anger", "Disgust", "Fear", "Happiness", "Neutral", "Sadness", "Surprise", "Contempt"],
+      "n_predictions_ok": 150,
+      "n_predictions_excluded": 0
+    },
+    {
+      "id": "arcface_lr_clahe",
+      "description": "InsightFace ArcFace (buffalo_l/w600k_r50) embedding of the CLAHE-preprocessed face crop, classified by a pre-trained multinomial LogisticRegression.",
+      "embedding_model": "buffalo_l/w600k_r50 (InsightFace 1.0.1)",
+      "embedding_method": "Direct ArcFaceONNX.get_feat() on the existing pilot crop -- no face detection performed (no detection model even loaded); embedding is L2-normalized to match Face.normed_embedding's convention. Fixed from an earlier implementation that re-detected faces on the crop via FaceAnalysis (see superseded_result below).",
+      "classifier_artifact": "tools/realtime_demo/artifacts/arcface_lr_demo_model.joblib",
+      "classifier_training_code": "tools/train_arcface_classifier.py (R6, trained on legacy manual_labels_export.csv -- NOT retrained on any Papuan V2 data)",
+      "class_set": ["Fear", "Happy", "Neutral", "Sad", "Surprise"],
+      "n_predictions_ok": 150,
+      "n_predictions_excluded": 0,
+      "caveat": "The classifier was trained on embeddings produced through InsightFace's full detect+landmark-align pipeline; this direct get_feat() path skips that alignment and relies on the crop already being face-centered (FaceDetector's 20%-padded bbox crop). This is a distributional difference from training input, stated explicitly for the EXP-PAP-004 decision.",
+      "superseded_result": {
+        "note": "An earlier implementation reused tools/extract_arcface_embeddings.py's ArcFaceEmbedder, which re-runs InsightFace's own detector on the already-cropped image to obtain landmarks. That re-detection failed to find exactly one face on 50/150 (33%) of pilot images (48 excluded_no_face, 2 excluded_multiple_faces). This was an artifact of redundant re-detection on a tight crop, not evidence of ArcFace+LR being a weaker annotation assistant, and is NOT used as an agreement-analysis input. See docs/EXPERIMENT.md EXP-PAP-003 for the full note.",
+        "n_predictions_ok": 100,
+        "n_predictions_excluded": 50
+      }
+    }
+  ],
+  "metrics": "PENDING -- see status above. Will populate agreement_metrics.json once human_labels.csv is complete.",
+  "code_provenance": {
+    "git_commit_at_pilot_start": "a62f0fa0cef528ff1dff5dca9be9fca367351720",
+    "clahe_module": "src/fer_dataset/shared/clahe.py",
+    "build_pilot_source_script": "tools/papuan_v2/build_pilot_source.py",
+    "sample_pilot_script": "tools/papuan_v2/sample_pilot.py",
+    "run_ai_predictions_script": "tools/papuan_v2/run_ai_predictions.py",
+    "pilot_agreement_report_script": "tools/papuan_v2/pilot_agreement_report.py",
+    "python_env": "uv-managed, Python >=3.12 (see pyproject.toml / uv.lock)",
+    "key_dependency_versions": {
+      "insightface": "1.0.1",
+      "hsemotion-onnx": "0.3.1",
+      "scikit-learn": "1.9.0",
+      "numpy": "2.5.1",
+      "opencv-python": "5.0.0.93"
+    }
+  },
+  "legacy_boundary": {
+    "legacy_data_modified": false,
+    "legacy_backup_location": "/Users/MAC/Projects/FER-Dataset-legacy-backup/20260919T144146/ (out-of-band, outside repo)",
+    "legacy_backup_manifest": "/Users/MAC/Projects/FER-Dataset-legacy-backup/20260919T144146/MANIFEST.md"
+  },
+  "timestamp": "2026-09-19T07:47:00Z"
+}
