@@ -164,8 +164,24 @@ NEEDS_HUMAN_REVIEW (0.35≤sim<0.5), NO_MATCH (sim<0.35), EMBED_FAILED}`.
 anywhere** — `person_id` is `unknown` for all 3413 rows in the main
 manifest.
 
-See the final-report summary (sent to orchestrator) for exact pair counts
-once this step completes — numbers are written directly to the CSV.
+**Results (21737 adjacent-frame face pairs evaluated, across 877 sampled
+frames that had a non-empty next-frame neighbor with faces):**
+
+| status | count |
+|---|---|
+| NO_MATCH | 10927 |
+| EMBED_FAILED (crop re-detection found 0 or >1 faces on re-run; no embedding produced) | 8563 |
+| LIKELY_DUPLICATE_ADJACENT (cosine sim ≥ 0.5) | 1773 |
+| NEEDS_HUMAN_REVIEW (0.35 ≤ sim < 0.5) | 474 |
+
+The high EMBED_FAILED count reflects that re-running `FaceAnalysis.get()` on
+an already-cropped face (per the embedding extraction pattern reused from
+`tools/extract_arcface_embeddings.py`) frequently fails to re-detect
+exactly one face in these specific crops — likely due to the tight 20%
+padding and generally poor image quality/lighting in this video, not a
+bug; this mirrors a known limitation already documented in the ArcFace
+embedding tool. No merges or exclusions resulted from this proposal; it is
+written as-is for human review.
 
 ## Step 5 — Contact sheets
 
