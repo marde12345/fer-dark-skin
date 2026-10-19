@@ -1,0 +1,13 @@
+pool,metric,threshold,n_pass,total,pct
+v1,min_dim_crop_original,>=60px,372,645,57.67
+v1,min_dim_crop_original,>=80px,261,645,40.47
+v1,min_dim_crop_original,>=96px,207,645,32.09
+v1,min_dim_crop_original,>=112px,176,645,27.29
+v1,blur_variance,>75.0 (blur75),443,645,68.68
+v1,blur_variance,>325.3481 (blurP75),161,645,24.96
+v2,min_dim_crop_original,>=60px,1964,3413,57.54
+v2,min_dim_crop_original,>=80px,1416,3413,41.49
+v2,min_dim_crop_original,>=96px,1156,3413,33.87
+v2,min_dim_crop_original,>=112px,1005,3413,29.45
+v2,blur_variance,>75.0 (blur75),2233,3413,65.43
+v2,blur_variance,>325.3481 (blurP75),850,3413,24.9
