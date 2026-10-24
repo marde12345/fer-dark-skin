@@ -1,0 +1,19 @@
+{
+  "experiment_id": "EXP-PAP-004",
+  "dataset_version": "papuan_v2",
+  "pilot_size": 150,
+  "annotator_A_assigned": 150,
+  "annotator_B_assigned": 75,
+  "overlap_size": 75,
+  "annotator_A_completed": 1,
+  "annotator_B_completed": 0,
+  "project_A_id": 2,
+  "project_A_url": "http://localhost:8080",
+  "project_B_id": 1,
+  "project_B_url": "http://localhost:8081",
+  "human_human_agreement": null,
+  "disagreements": null,
+  "adjudicated": false,
+  "status": "not_computed",
+  "generated_at": "2026-09-19T08:24:59.475974+00:00"
+}

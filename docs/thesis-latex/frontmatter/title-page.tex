@@ -1,0 +1,38 @@
+% Halaman Judul (Title Page) — Juknis p.2. Title 14pt bold centered;
+% "TESIS" block single-spaced; author/NIM/program; ITB logo
+% (figures/logo_itb.png, supplied 2026-10; placed per the Juknis's
+% own title-page diagram, which gives the logo an explicit 3.50cm
+% height between the author block and the institution name/date —
+% matches template-tesis_Mei2019.docx's own title-page layout);
+% institution name and month/year. Title page is unnumbered
+% (Juknis's Daftar Isi example starts numbering at "ABSTRAK" = i,
+% implying the cover/title page itself precedes page i).
+% All metadata below comes from config.tex — edit that file, not
+% this one, to fill in the real title/author/NIM/date.
+\thispagestyle{empty}
+\begin{center}
+\vspace*{1cm}
+
+{\bfseries\fontsize{14}{14}\selectfont \ThesisTitleID}
+
+\vspace{2\baselineskip}
+\textbf{TESIS}
+
+\vspace{1\baselineskip}
+Karya tulis sebagai salah satu syarat\\
+untuk memperoleh gelar Magister dari\\
+\ThesisInstitution
+
+\vspace{1.5\baselineskip}
+Oleh\\
+\textbf{\ThesisAuthor}\\
+NIM: \ThesisNIM\\
+(\ThesisProgramID)
+
+\vspace{1.5\baselineskip}
+\includegraphics[height=3.5cm]{figures/logo_itb.png}
+
+\vspace{1.5\baselineskip}
+\textbf{\MakeUppercase{\ThesisInstitution}}\\
+\textbf{\ThesisMonthYear}
+\end{center}

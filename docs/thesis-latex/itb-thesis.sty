@@ -1,0 +1,239 @@
+% =============================================================
+% itb-thesis.sty
+% =============================================================
+% Unofficial, centralized formatting configuration derived from two
+% supplied ITB sources, cross-checked against each other:
+%   1. fc0779-juknis_tesis_Mei2019_rev.pdf — "Petunjuk Teknis
+%      Penulisan Tesis Magister" (ITB Sekolah Pascasarjana, Juni
+%      2017 revision), 21 content pages, read directly.
+%   2. template-tesis_Mei2019.docx — the matching official Word
+%      template. Its word/styles.xml and word/document.xml
+%      (sectPr/pgMar) were extracted and inspected directly (not
+%      opened visually) to pin down exact point sizes, weights,
+%      and margins as actually encoded, not just as described in
+%      the PDF's prose. This is the authoritative source for any
+%      numeric value below where it and the PDF could both be
+%      checked — notably, the .docx's sectPr blocks contain NO
+%      `mirrorMargins` element anywhere, confirming the flat,
+%      non-alternating 4cm/3cm/3cm/3cm margin (not literal Word
+%      mirror margins) is what the real template actually applies,
+%      regardless of the PDF's own prose suggesting mirroring.
+%
+% This is NOT an official ITB-distributed .cls/.sty file — no such
+% file exists in either source. Every rule below traces to a
+% specific page of the PDF and/or a specific style/sectPr entry in
+% the .docx; see FORMAT_COMPLIANCE.md for the full mapping and the
+% validation status of each rule (compiled and visually confirmed
+% as of 2026-10-13 — see README.md "Compilation Status" for what
+% was actually checked and what remains open).
+% =============================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{itb-thesis}[2026/10/09 ITB Juknis-derived thesis formatting]
+
+% --- Engine detection: Times New Roman compliance requires an engine
+% that can load system fonts (XeLaTeX/LuaLaTeX via fontspec). Under
+% plain pdfLaTeX, fontspec is unavailable, so a Times-metric-compatible
+% clone (mathptmx, URW Nimbus Roman) is used instead. This is a
+% documented approximation, not literal Times New Roman — see
+% FORMAT_COMPLIANCE.md Section "Typography" for the exact caveat. ---
+\RequirePackage{iftex}
+\ifPDFTeX
+  \PackageWarningNoLine{itb-thesis}{%
+    pdfLaTeX detected: using mathptmx (a Times-metric clone) because\MessageBreak
+    literal Times New Roman requires XeLaTeX or LuaLaTeX with fontspec.\MessageBreak
+    Recompile with xelatex/lualatex for exact font compliance}%
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage{mathptmx}
+\else
+  \RequirePackage{fontspec}
+  % BUG FIX (found by compiling and visually inspecting a prior
+  % revision, 2026-10-13): explicitly setting UprightFont=*,
+  % BoldFont=*, ItalicFont=*, BoldItalicFont=* all to the same `*`
+  % token collapses every shape onto the Regular glyph file — bold
+  % and italic become visually indistinguishable from upright
+  % everywhere in the document (chapter titles, section headings,
+  % and apalike's italicized bibliography journal titles all
+  % rendered in the same weight/slant). Letting fontspec omit these
+  % options entirely restores its default behavior: querying the
+  % OS font-matching system for "Times New Roman"'s own registered
+  % Bold/Italic/Bold Italic sub-faces. Confirmed via a real xelatex
+  % compile on a machine with Times New Roman installed that the
+  % font family itself loads correctly either way — only the
+  % per-shape mapping was wrong.
+  \setmainfont{Times New Roman}[Ligatures=TeX]
+\fi
+
+% --- Page geometry (Juknis p.4, p.19-20; cross-checked against
+% template-tesis_Mei2019.docx word/document.xml sectPr/pgMar) ---
+% The PDF's prose describes MIRROR margins for double-sided
+% ("bolak-balik") printing: odd pages left=4cm/top=3/right=3/
+% bottom=3; even pages left=3/top=3/right=4cm/bottom=3 — and
+% separately permits a simpler, non-mirrored uniform margin for an
+% unbound draft under ~115 pages (p.4, point 2). The actual .docx
+% template settles which one is really in force: every w:pgMar in
+% its word/document.xml uses the identical left=2275 twips (4.01cm)
+% / top=right=bottom=1699 twips (3.00cm) values, and no
+% `<w:mirrorMargins/>` element exists anywhere in the file. The
+% real template does not alternate margins by page parity — it
+% applies this one flat margin throughout, confirming the simpler
+% variant (not literal mirroring) as the one to match.
+\RequirePackage[a4paper, left=4cm, right=3cm, top=3cm, bottom=3cm]{geometry}
+
+% --- Line spacing (Juknis p.2, "Jenis penulisan paragraf...") --
+\RequirePackage{setspace}
+\onehalfspacing
+
+% --- Paragraph style (Juknis p.2): no first-line indent; new
+% paragraphs separated by one blank line at 1.5 spacing instead
+% of indentation. \parskip is set to one baselineskip (approximating
+% "satu baris kosong, jarak satu setengah spasi") rather than a
+% fixed cm value, so it tracks \onehalfspacing's actual leading. ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+% --- Standard packages already in use, preserved --------------
+\RequirePackage{url}
+\sloppy
+\RequirePackage{graphicx}
+\RequirePackage{caption}
+\RequirePackage{subcaption} % for compound figures with (a)/(b)/(c) sub-parts,
+                            % matching the Juknis's own "Gambar III.1 (a) ... (b) ... (c)" example
+\RequirePackage{booktabs}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{hyperref}
+\RequirePackage{xcolor}
+\RequirePackage{longtable}
+\RequirePackage{array} % needed for the >{...}p{...} wrapped-and-centered
+                        % column spec used by frontmatter/pengesahan.tex's
+                        % two-Anggota signature block, so long supervisor-
+                        % name placeholders wrap instead of overflowing
+                        % the page margin.
+
+% --- Bibliography: author-year, matching the Juknis's own
+% DAFTAR PUSTAKA examples (p.12-13: "(Hill, 2007)", "Kramer dkk.
+% (2005)" for 3+ authors) and in-text citation examples (p.2).
+% The guide points to an official ITB-SPs Citation Style Language
+% (CSL) resource (http://www.sps.itb.ac.id/in/csl/) for exact
+% bibliography-entry formatting; that CSL file itself was not
+% fetched or verified in this revision (no network access
+% confirmed in this authoring environment) — see
+% FORMAT_COMPLIANCE.md. `apalike` is used here as the closest
+% verifiable, commonly available author-year .bst approximating
+% the guide's own printed examples; it is a documented substitute,
+% not a confirmed match to the official CSL. -------------------
+\RequirePackage[round,authoryear]{natbib}
+\newcommand{\itbBibliographyStyle}{apalike}
+
+% --- Chapter numbering in Roman numerals (Juknis p.5, "Bab III",
+% "Bab IV"; figure/table/equation numbers inherit this: "Gambar
+% II.1", "Tabel III.1", equation "(III.1)" on p.4-6). -----------
+\RequirePackage{titlesec}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\titleformat{\chapter}[display]
+  {\centering\bfseries\fontsize{14}{16}\selectfont}
+  {Bab \thechapter}
+  {4pt}
+  {}
+\titlespacing*{\chapter}{0pt}{0pt}{12pt}
+% titlesec's \titleformat{\chapter} only patches the NUMBERED \chapter
+% command — \chapter* (used by every frontmatter page: Abstrak,
+% Abstract, Pedoman Penggunaan Tesis, Kata Pengantar, Daftar
+% Singkatan dan Lambang) falls through to report's unmodified
+% \@schapter otherwise, silently losing the 14pt-bold-centered
+% style. The `numberless` variant below covers that case explicitly.
+\titleformat{name=\chapter,numberless}[display]
+  {\centering\bfseries\fontsize{14}{16}\selectfont}
+  {}
+  {0pt}
+  {}
+\titlespacing*{name=\chapter,numberless}{0pt}{0pt}{12pt}
+% Section/subsection headings: bold, body-text size (12pt), left-
+% aligned, matching the "I.1 Latar Belakang" / "IV.1.1 ..." examples
+% (Juknis p.2, p.8). No explicit distinct size is given for these
+% in the guide beyond "bold"; 12pt (body size) bold is used.
+\titleformat{\section}{\bfseries}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{0.5em}{}
+
+% Caption name prefixes: the document is in Bahasa Indonesia and the
+% Juknis itself captions figures/tables as "Gambar"/"Tabel" (never
+% "Figure"/"Table") -- LaTeX's default \figurename/\tablename is
+% English regardless of the prose language, since no babel/polyglossia
+% language package is loaded (adding one would be a much heavier
+% dependency than this one-line fix needs). Found and fixed after an
+% actual compile showed "Figure III.1" in the rendered PDF.
+\renewcommand{\figurename}{Gambar}
+\renewcommand{\tablename}{Tabel}
+\renewcommand{\contentsname}{Daftar Isi}
+\renewcommand{\listfigurename}{Daftar Gambar}
+\renewcommand{\listtablename}{Daftar Tabel}
+\renewcommand{\bibname}{Daftar Pustaka}
+
+% Figure/table numbering follows \thechapter (now Roman), giving
+% "Gambar II.1" / "Tabel III.1" style numbers automatically.
+\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\thetable}{\thechapter.\arabic{table}}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+% Equations numbered by chapter too (Juknis p.5: "(III.1)", "(III.2)").
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+
+% Table captions ABOVE the table, figure captions BELOW the figure —
+% both already follow this placement in the existing chapter source
+% by where \caption is called relative to the content; no package-
+% level caption-position override was needed beyond standard LaTeX
+% behavior (the `table`/`figure` float environments do not enforce
+% a caption position — it is wherever \caption appears in the source).
+
+% --- Daftar Isi spacing: report's default \l@chapter inserts
+% \addvspace{10pt} before every chapter-level TOC entry, producing
+% visibly larger gaps between "BAB I ..." / "BAB II ..." blocks
+% than the reference thesis "23524315_Yogi Putra_PT Pos.pdf", whose
+% Daftar Isi runs chapter and section entries with uniform,
+% single-line spacing and no extra vertical gap between chapters
+% (confirmed by reading that PDF's Daftar Isi page directly).
+% tocloft (which exposes \cftbeforechapskip for this) is not
+% available in this TeX installation, so \l@chapter is redefined
+% directly, in the same spirit as report.cls's own definition but
+% with the leading \addvspace{10pt} removed.
+\makeatletter
+\renewcommand*{\l@chapter}[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+\makeatother
+
+% --- Preliminary-page numbering helper (Juknis p.3 note: Roman
+% numerals for preliminary pages i, ii, iii...; Arabic for the main
+% body, restarting at 1 from Bab I). Call \itbFrontMatter at the
+% start of the frontmatter block and \itbMainMatter immediately
+% before \input{chapters/01-introduction}. -----------------------
+\newcommand{\itbFrontMatter}{%
+  \pagenumbering{roman}%
+  \setcounter{page}{1}%
+}
+\newcommand{\itbMainMatter}{%
+  \clearpage
+  \pagenumbering{arabic}%
+  \setcounter{page}{1}%
+}
+
+% --- TODO macro: renders visibly (red) in the compiled PDF so
+% pending decisions (metadata in config.tex, unresolved citations,
+% unwritten sections) are never silently invisible to a reader.
+% Moved here from main.tex so config.tex can rely on it being
+% defined as soon as \usepackage{itb-thesis} loads. -------------
+\newcommand{\TODO}[1]{\textbf{\textcolor{red}{[TODO: #1]}}}
+
+\endinput

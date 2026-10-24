@@ -1,0 +1,255 @@
+{
+  "tolerance_px": 0.5,
+  "points_compared": 2720,
+  "points_changed": 714,
+  "fraction_changed": 0.2625,
+  "mean_displacement_px": 1.487011363562609,
+  "median_displacement_px": 0.0,
+  "mean_displacement_normalized": 0.01502127309851487,
+  "median_displacement_normalized": 0.0,
+  "per_image": {
+    "frame_000011_face07": {
+      "mean_px": 9.396260408508514,
+      "median_px": 6.608798400964662,
+      "max_px": 23.11858575919596,
+      "points_changed": 57
+    },
+    "frame_000012_face09": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000015_face05": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000019_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000022_face04": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000034_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000037_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000038_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000043_face05": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000047_face03": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000060_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000102_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000127_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000133_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000134_face04": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000142_face03": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000168_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000169_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000170_face04": {
+      "mean_px": 4.647113504683251,
+      "median_px": 5.107144723242862,
+      "max_px": 6.037554874919527,
+      "points_changed": 68
+    },
+    "frame_000173_face06": {
+      "mean_px": 4.775218317003682,
+      "median_px": 5.120376700210699,
+      "max_px": 7.0898018934086915,
+      "points_changed": 68
+    },
+    "frame_000175_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000178_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000185_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000187_face05": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000188_face01": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000188_face02": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000190_face07": {
+      "mean_px": 3.2101435746031313,
+      "median_px": 3.87066126678687,
+      "max_px": 3.87066126678687,
+      "points_changed": 67
+    },
+    "frame_000191_face03": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000192_face02": {
+      "mean_px": 1.6103049802175413,
+      "median_px": 1.6103049802175413,
+      "max_px": 1.6103049802175413,
+      "points_changed": 68
+    },
+    "frame_000192_face05": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000198_face02": {
+      "mean_px": 7.846754478031274,
+      "median_px": 7.846754478031274,
+      "max_px": 7.846754478031274,
+      "points_changed": 68
+    },
+    "frame_000199_face02": {
+      "mean_px": 5.213364153331486,
+      "median_px": 5.213364153331486,
+      "max_px": 5.213364153331486,
+      "points_changed": 68
+    },
+    "frame_000215_face03": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000227_face03": {
+      "mean_px": 11.96844524447668,
+      "median_px": 13.402444343348705,
+      "max_px": 38.122669985295744,
+      "points_changed": 46
+    },
+    "frame_000243_face01": {
+      "mean_px": 3.431684369586542,
+      "median_px": 3.431684369586542,
+      "max_px": 3.431684369586542,
+      "points_changed": 68
+    },
+    "frame_000244_face05": {
+      "mean_px": 5.583823459056316,
+      "median_px": 5.583823459056316,
+      "max_px": 5.583823459056316,
+      "points_changed": 68
+    },
+    "frame_000245_face10": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000246_face02": {
+      "mean_px": 1.7973420530059505,
+      "median_px": 1.7973420530059505,
+      "max_px": 1.7973420530059505,
+      "points_changed": 68
+    },
+    "frame_000248_face11": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    },
+    "frame_000249_face18": {
+      "mean_px": 0.0,
+      "median_px": 0.0,
+      "max_px": 0.0,
+      "points_changed": 0
+    }
+  },
+  "qc_task3_pass": true,
+  "qc_task4_pass": true,
+  "image_set_match": true
+}

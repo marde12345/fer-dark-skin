@@ -44,6 +44,12 @@
   let selectedFaceId = 1;
   let lastFaces = []; // faces array from the most recent /predict response
 
+  // Input mode: "original" | "clahe" | "simulation". Controls which frame
+  // is sent to the FER server AND which frame the landmark panel renders,
+  // so both outputs consume the same selected input for the active mode.
+  let currentMode = "original";
+  let simIntensity = 0.5;
+
   const els = { panels: {} };
 
   function cacheEls() {
@@ -78,6 +84,26 @@
         list: document.getElementById("demo-" + p.key + "-list"),
       };
     });
+    els.lmkVideo = document.getElementById("lmk-video");
+    els.lmkCanvas = document.getElementById("lmk-canvas");
+    els.lmkBaseCanvas = document.getElementById("lmk-base-canvas");
+    els.lmkError = document.getElementById("lmk-error");
+    els.lmkStatus = document.getElementById("lmk-status-text");
+    els.lmkExprList = document.getElementById("lmk-expr-list");
+    els.lmkInputNote = document.getElementById("lmk-input-note");
+
+    els.modeBtns = Array.from(document.querySelectorAll(".demo-mode-btn"));
+    els.modeLabel = document.getElementById("demo-mode-label");
+    els.simControls = document.getElementById("sim-controls");
+    els.simCard = document.getElementById("sim-card");
+    els.simIntensityInput = document.getElementById("sim-intensity");
+    els.simIntensityValue = document.getElementById("sim-intensity-value");
+    els.simRawVideo = document.getElementById("sim-raw-video");
+
+    els.flowModeLabel = document.getElementById("demo-flow-mode-label");
+    els.flowLandmarkInput = document.getElementById("demo-flow-landmark-input");
+    els.flowLandmarkCaption = document.getElementById("demo-flow-landmark-caption");
+    els.flowStatusLandmark = document.getElementById("demo-flow-status-landmark");
   }
 
   function setStatus(text) {
@@ -245,6 +271,12 @@
     PANELS.forEach((p) => {
       els.panels[p.key].video.srcObject = stream;
     });
+    if (els.lmkVideo) {
+      els.lmkVideo.srcObject = stream;
+    }
+    if (els.simRawVideo) {
+      els.simRawVideo.srcObject = stream;
+    }
     els.startBtn.style.display = "none";
     els.stopBtn.style.display = "inline-block";
     els.stopBtn.disabled = false;
@@ -252,12 +284,23 @@
     setStatus("LIVE");
 
     inferenceTimer = setInterval(runInferenceTick, INFERENCE_INTERVAL_MS);
+
+    // Landmark overlay reuses this same stream -- no second getUserMedia()
+    // call. Landmarks for all three input modes now come from the FER
+    // server's InsightFace landmark_3d_68 model, returned as part of the
+    // same /predict response already fetched for HSEmotion/ArcFace --
+    // the overlay/classifier are therefore driven once per FER tick in
+    // every mode (see runInferenceTick/updateLandmarkPanel below), not
+    // by an independent, faster client-side detection loop as before.
   }
 
   function stopCamera() {
     if (inferenceTimer) {
       clearInterval(inferenceTimer);
       inferenceTimer = null;
+    }
+    if (window.LandmarkDemo) {
+      window.LandmarkDemo.clear(els.lmkCanvas, els.lmkStatus, els.lmkExprList);
     }
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
@@ -266,6 +309,16 @@
     PANELS.forEach((p) => {
       els.panels[p.key].video.srcObject = null;
     });
+    if (els.lmkVideo) {
+      els.lmkVideo.srcObject = null;
+    }
+    if (els.simRawVideo) {
+      els.simRawVideo.srcObject = null;
+    }
+    if (els.lmkBaseCanvas) clearCanvas(els.lmkBaseCanvas);
+    if (els.flowLandmarkInput) clearCanvas(els.flowLandmarkInput);
+    if (els.flowLandmarkCaption) els.flowLandmarkCaption.textContent = "";
+    if (els.flowStatusLandmark) els.flowStatusLandmark.textContent = "";
     els.startBtn.style.display = "inline-block";
     els.startBtn.disabled = false;
     els.stopBtn.style.display = "none";
@@ -274,45 +327,291 @@
     setStatus("OFF");
   }
 
-  function captureFrameBlob() {
-    return new Promise((resolve) => {
-      const video = els.panels["orig-hse"].video;
-      if (!video.videoWidth) {
-        resolve(null);
-        return;
-      }
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.8);
+  function grabRawCanvas() {
+    const video = els.panels["orig-hse"].video;
+    if (!video.videoWidth) return null;
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+    return canvas;
+  }
+
+  function canvasToBlob(canvas) {
+    return new Promise((resolve) => canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.8));
+  }
+
+  function loadImageFromDataUrl(dataUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("image load failed"));
+      img.src = dataUrl;
     });
+  }
+
+  // fetchPredict(canvas): POSTs one frame to the FER server's unchanged
+  // /predict endpoint and returns its parsed JSON, or throws. Shared by
+  // the main per-tick request and (in Appearance Simulation mode only)
+  // the extra landmarks-for-the-raw-frame request below.
+  async function fetchPredict(canvas) {
+    const blob = await canvasToBlob(canvas);
+    if (!blob) throw new Error("failed to encode frame");
+    const resp = await fetch(SERVER_URL + "/predict", {
+      method: "POST",
+      headers: { "Content-Type": "image/jpeg" },
+      body: blob,
+    });
+    if (!resp.ok) throw new Error("server error " + resp.status);
+    return resp.json();
+  }
+
+  // extractSelectedFaceLandmarks(data, which, width, height): reads the
+  // currently selected face's InsightFace landmarks ("original" or
+  // "clahe") from a /predict response and denormalizes the server's
+  // [0,1]-normalized coordinates to pixel space for a target of size
+  // (width, height). Returns null if unavailable (no face, landmark
+  // model unavailable, wrong status) -- never throws.
+  function extractSelectedFaceLandmarks(data, which, width, height) {
+    if (!data || data.status !== "ok") return null;
+    const faces = data.faces || [];
+    const face = faces.find((f) => f.face_id === selectedFaceId) || faces[0];
+    const norm = face && face.landmarks && face.landmarks[which];
+    if (!norm || !width || !height) return null;
+    return norm.map((p) => ({ x: p[0] * width, y: p[1] * height }));
+  }
+
+  // Builds the frame actually sent to the FER server this tick, according
+  // to currentMode. "original" and "clahe" modes send the unmodified raw
+  // camera frame unchanged -- the server's own unaltered pipeline already
+  // computes both Original and CLAHE predictions/crops (and, now,
+  // InsightFace landmarks for both) from that single request.
+  //
+  // "simulation" mode needs landmarks for the RAW frame to build the
+  // synthetic tone-shift mask, but those landmarks only exist in a
+  // /predict response -- so this mode makes ONE EXTRA request here,
+  // sending the raw frame purely to obtain its landmarks (its FER
+  // predictions are computed but not displayed). The simulated frame
+  // built from that mask is then sent as the tick's MAIN request (in
+  // runInferenceTick below); that response's own landmarks are reused
+  // for the overlay/classifier -- no third request is made. This roughly
+  // doubles Appearance Simulation mode's per-tick latency (two
+  // sequential server round-trips instead of one); Original and CLAHE
+  // modes are unaffected (still one request per tick).
+  async function buildOutgoingFrame() {
+    const rawCanvas = grabRawCanvas();
+    if (!rawCanvas) return null;
+
+    if (currentMode !== "simulation") {
+      return { sendCanvas: rawCanvas, rawCanvas };
+    }
+
+    let rawPositions = null;
+    try {
+      const rawData = await fetchPredict(rawCanvas);
+      rawPositions = extractSelectedFaceLandmarks(rawData, "original", rawCanvas.width, rawCanvas.height);
+    } catch (err) {
+      rawPositions = null; // server unreachable for this extra request -- simulate with no mask below
+    }
+
+    let simCanvas = rawCanvas;
+    if (rawPositions && window.AppearanceSimulation) {
+      simCanvas = window.AppearanceSimulation.apply(rawCanvas, rawPositions, simIntensity);
+    }
+    return { sendCanvas: simCanvas, rawCanvas, rawPositions };
   }
 
   async function runInferenceTick() {
     if (inflight || !stream) return;
     inflight = true;
     try {
-      const blob = await captureFrameBlob();
-      if (!blob) {
+      const frame = await buildOutgoingFrame();
+      if (!frame) {
         inflight = false;
         return;
       }
       setStatus("Processing...");
-      const resp = await fetch(SERVER_URL + "/predict", {
-        method: "POST",
-        headers: { "Content-Type": "image/jpeg" },
-        body: blob,
-      });
-      if (!resp.ok) throw new Error("server error " + resp.status);
-      const data = await resp.json();
+      const data = await fetchPredict(frame.sendCanvas);
       renderPrediction(data);
+      const lmkResult = await updateLandmarkPanel(data, frame);
+      updateLandmarkFlowThumb(lmkResult);
       setStatus("LIVE");
     } catch (err) {
       setStatus("Demo server unavailable — start the local inference server first.");
+      if (els.lmkError) {
+        els.lmkError.textContent =
+          "Landmark panel depends on the FER server response and is paused until it is reachable.";
+      }
     } finally {
       inflight = false;
     }
+  }
+
+  // ---------------------------------------------------------------
+  // Landmark panel (all three input modes -- InsightFace landmarks are
+  // now returned by the server's /predict response in every mode)
+  // ---------------------------------------------------------------
+
+  function drawBaseImageOnLmkCanvas(source) {
+    if (!els.lmkBaseCanvas) return;
+    if (!source) {
+      if (els.lmkBaseCanvas.width && els.lmkBaseCanvas.height) clearCanvas(els.lmkBaseCanvas);
+      return;
+    }
+    const w = source.naturalWidth || source.width;
+    const h = source.naturalHeight || source.height;
+    if (!w || !h) return;
+    if (els.lmkBaseCanvas.width !== w || els.lmkBaseCanvas.height !== h) {
+      els.lmkBaseCanvas.width = w;
+      els.lmkBaseCanvas.height = h;
+    }
+    els.lmkBaseCanvas.getContext("2d").drawImage(source, 0, 0, w, h);
+  }
+
+  // Updates the landmark panel for the active mode and returns
+  // { usedSource, caption } describing what was actually fed to the
+  // landmark overlay this tick, for the pipeline-flow thumbnail below.
+  async function updateLandmarkPanel(data, frame) {
+    if (!window.LandmarkDemo) {
+      return { usedSource: null, caption: "Landmark library unavailable" };
+    }
+
+    if (currentMode === "original") {
+      const video = els.panels["orig-hse"].video;
+      const positions = extractSelectedFaceLandmarks(data, "original", frame.rawCanvas.width, frame.rawCanvas.height);
+      await window.LandmarkDemo.renderForVideo(positions, video, els.lmkCanvas, els.lmkError, els.lmkStatus, els.lmkExprList);
+      return {
+        usedSource: frame.rawCanvas,
+        caption: "Live camera frame — InsightFace landmarks from the same /predict response used for the FER panels",
+      };
+    }
+
+    if (currentMode === "clahe") {
+      const faces = data.faces || [];
+      const face = faces.find((f) => f.face_id === selectedFaceId) || faces[0];
+      const claheCropUrl = face && face.preprocessing && face.preprocessing.clahe_crop;
+      const claheNorm = face && face.landmarks && face.landmarks.clahe;
+      if (!claheCropUrl || !claheNorm) {
+        if (els.lmkError) {
+          els.lmkError.textContent =
+            "No CLAHE crop/landmarks available this frame (no face detected, or CLAHE unavailable) — landmark overlay skipped for this tick.";
+        }
+        drawBaseImageOnLmkCanvas(null);
+        if (els.lmkCanvas) clearCanvas(els.lmkCanvas);
+        return { usedSource: null, caption: "No CLAHE crop/landmarks this tick" };
+      }
+      try {
+        const img = await loadImageFromDataUrl(claheCropUrl);
+        drawBaseImageOnLmkCanvas(img);
+        const positions = claheNorm.map((p) => ({ x: p[0] * img.naturalWidth, y: p[1] * img.naturalHeight }));
+        await window.LandmarkDemo.renderOnCanvas(
+          positions,
+          els.lmkCanvas,
+          img.naturalWidth,
+          img.naturalHeight,
+          els.lmkError,
+          els.lmkStatus,
+          els.lmkExprList
+        );
+        return {
+          usedSource: img,
+          caption:
+            "Server's own CLAHE-processed face crop — InsightFace landmarks computed directly on this same, full-resolution crop (not the 96×96 preview thumbnail)",
+        };
+      } catch (err) {
+        if (els.lmkError) els.lmkError.textContent = "Failed to load this frame's CLAHE crop for the landmark overlay.";
+        return { usedSource: null, caption: "CLAHE crop failed to load" };
+      }
+    }
+
+    if (currentMode === "simulation") {
+      drawBaseImageOnLmkCanvas(frame.sendCanvas);
+      const positions = extractSelectedFaceLandmarks(data, "original", frame.sendCanvas.width, frame.sendCanvas.height);
+      await window.LandmarkDemo.renderOnCanvas(
+        positions,
+        els.lmkCanvas,
+        frame.sendCanvas.width,
+        frame.sendCanvas.height,
+        els.lmkError,
+        els.lmkStatus,
+        els.lmkExprList
+      );
+      return {
+        usedSource: frame.sendCanvas,
+        caption:
+          "Simulated frame — InsightFace landmarks from this same request's response (a separate earlier request supplied the raw-frame landmarks used to build the mask)",
+      };
+    }
+
+    return { usedSource: null, caption: "" };
+  }
+
+  function updateLandmarkFlowThumb(result) {
+    if (!els.flowLandmarkInput) return;
+    const ctx = els.flowLandmarkInput.getContext("2d");
+    ctx.clearRect(0, 0, els.flowLandmarkInput.width, els.flowLandmarkInput.height);
+    if (result && result.usedSource) {
+      ctx.drawImage(result.usedSource, 0, 0, els.flowLandmarkInput.width, els.flowLandmarkInput.height);
+    }
+    if (els.flowLandmarkCaption) els.flowLandmarkCaption.textContent = (result && result.caption) || "";
+    if (els.flowStatusLandmark) {
+      els.flowStatusLandmark.textContent = result && result.usedSource ? "✓" : result && result.caption ? "⚠" : "";
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Input mode switching (Original / CLAHE / Appearance Simulation)
+  // ---------------------------------------------------------------
+
+  const MODE_NAMES = { original: "Original", clahe: "CLAHE", simulation: "Appearance Simulation" };
+  const MODE_DESCRIPTIONS = {
+    original: "(unmodified camera frame, sent to both FER and the InsightFace landmark model, one server request per tick)",
+    clahe:
+      "(unmodified frame sent to the server; FER computes CLAHE itself, unchanged, and InsightFace landmarks are computed on that same full-resolution CLAHE crop, one server request per tick)",
+    simulation:
+      "(synthetic tone-shifted frame sent to both FER and the InsightFace landmark model; building the mask needs an extra server request for the raw frame's landmarks, so this mode makes two requests per tick)",
+  };
+
+  function setMode(mode) {
+    if (mode === currentMode) return;
+    currentMode = mode;
+
+    if (els.modeBtns) {
+      els.modeBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-mode") === mode);
+      });
+    }
+    if (els.modeLabel) {
+      els.modeLabel.innerHTML = "Active mode: <strong>" + MODE_NAMES[mode] + "</strong> " + MODE_DESCRIPTIONS[mode];
+    }
+    if (els.flowModeLabel) els.flowModeLabel.textContent = MODE_NAMES[mode];
+    if (els.simControls) els.simControls.style.display = mode === "simulation" ? "block" : "none";
+    if (els.simCard) els.simCard.style.display = mode === "simulation" ? "block" : "none";
+
+    // Original mode displays the continuously-live <video> (the overlay
+    // dots are still only redrawn once per FER tick, ~every 600ms, since
+    // landmarks now come from the server); CLAHE/Simulation show a
+    // per-tick still <canvas> instead, matching their own base image.
+    if (els.lmkVideo) els.lmkVideo.style.display = mode === "original" ? "block" : "none";
+    if (els.lmkBaseCanvas) els.lmkBaseCanvas.style.display = mode === "original" ? "none" : "block";
+    if (els.lmkInputNote) {
+      els.lmkInputNote.textContent =
+        mode === "original"
+          ? "Input: live camera, InsightFace landmarks updated ~once per FER cycle (Original mode)"
+          : mode === "clahe"
+          ? "Input: server's InsightFace landmarks on the full-resolution CLAHE crop (updates ~once per FER cycle)"
+          : "Input: client-built Appearance Simulation frame, InsightFace landmarks from the server (updates ~once per FER cycle, two server requests per tick)";
+    }
+
+    if (!cameraActive) return;
+
+    // Every mode is now driven by the same per-tick /predict response
+    // (no continuous client-side detection loop), so switching modes
+    // only needs to clear stale drawings/predictions from the previous
+    // mode -- the next tick (within INFERENCE_INTERVAL_MS) repopulates
+    // the panel for the newly selected mode.
+    if (window.LandmarkDemo) window.LandmarkDemo.clear(els.lmkCanvas, els.lmkStatus, els.lmkExprList);
+    if (els.lmkBaseCanvas) clearCanvas(els.lmkBaseCanvas);
   }
 
   function panelRowHtml(face, modelResult, modelName) {
@@ -538,6 +837,19 @@
 
     els.serverStartBtn.addEventListener("click", startDemoServer);
     els.serverStopBtn.addEventListener("click", stopDemoServer);
+
+    if (els.modeBtns) {
+      els.modeBtns.forEach((btn) => {
+        btn.addEventListener("click", () => setMode(btn.getAttribute("data-mode")));
+      });
+    }
+    if (els.simIntensityInput) {
+      els.simIntensityInput.addEventListener("input", () => {
+        const pct = parseInt(els.simIntensityInput.value, 10);
+        simIntensity = pct / 100;
+        if (els.simIntensityValue) els.simIntensityValue.textContent = pct + "%";
+      });
+    }
 
     pollServerStatus();
     serverPollTimer = setInterval(pollServerStatus, SERVER_STATUS_POLL_MS);

@@ -26,6 +26,10 @@ dependencies = [
 dev = [
     "pytest>=9.1.1",
 ]
+labeling = [
+    "label-studio>=1.23.0",
+    "label-studio-sdk>=2.0.18",
+]
 
 [build-system]
 requires = ["hatchling"]

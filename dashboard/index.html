@@ -287,6 +287,30 @@
     font-size:12.5px;
   }
   .demo-btn-secondary:hover{background:var(--primary-soft);}
+  .demo-mode-btn.active{background:var(--primary-2);color:#fff;}
+  .demo-mode-btn{margin:0 4px;}
+  .lmk-status-text{
+    font-size:12.5px;
+    font-weight:600;
+    text-align:center;
+    margin:8px 0 0;
+    padding:4px 8px;
+    border-radius:var(--radius);
+    display:inline-block;
+  }
+  .lmk-status-ok{color:var(--success);background:var(--success-soft);}
+  .lmk-status-warn{color:var(--warning);background:var(--warning-soft);}
+  .lmk-legend{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px 12px;
+    margin:8px 0 0;
+    font-size:11px;
+    color:var(--text-muted);
+  }
+  .lmk-legend-item{display:inline-flex;align-items:center;gap:4px;}
+  .lmk-legend-item i{width:9px;height:9px;border-radius:50%;display:inline-block;}
 
   .demo-faces-note{
     font-size:12px;
@@ -342,7 +366,7 @@
   <nav class="side">
     <div class="brand">FER Research Dashboard</div>
     <div class="subbrand">Thesis ITB — evidence overview</div>
-    <a href="#live-demo">Live Model Demo</a>
+    <a href="#live-demo">Live FER &amp; Landmark Demo</a>
     <a href="#overview">Overview</a>
     <a href="#dataset">Dataset</a>
     <a href="#how-it-works">How the System Works</a>
@@ -354,23 +378,31 @@
     <a href="#skin-tone">Skin-Tone Analysis</a>
     <a href="#statistics">Statistical Evidence</a>
     <a href="#findings">Key Findings</a>
+    <a href="#landmark-experiments">Landmark Experiments (Preliminary)</a>
     <a href="#limitations">Limitations</a>
     <a href="#status">Research Status</a>
   </nav>
 
   <main>
 
-    <!-- 6.5 LIVE MODEL DEMO -->
+    <!-- 6.5 LIVE FER & LANDMARK DEMO (merged) -->
     <section id="live-demo">
-      <h2>Live Model &amp; Preprocessing Comparison</h2>
+      <h2>Live FER &amp; Landmark Demo</h2>
       <p class="section-intro">
-        Same camera input is processed using two FER approaches under two preprocessing conditions:
-        Original and Adaptive CLAHE.
+        One webcam stream, one selectable input mode, two outputs: live facial-expression predictions
+        (two FER approaches) and a live 68-point facial-landmark overlay — both computed from the same
+        selected input frame for the current mode.
       </p>
       <p style="font-size:12.5px;color:var(--text-muted);margin:-12px 0 20px;">
         This is an interactive demonstration, not a formal evaluation. CLAHE is shown as an exploratory
         preprocessing condition — it is included to demonstrate the preprocessing experiment conducted in
-        EXP-006, not because it is known to improve results.
+        EXP-006, not because it is known to improve results. The landmark overlay now uses the
+        <strong>same InsightFace <code>landmark_3d_68</code> model</strong> used elsewhere in this project
+        for the reviewed CVAT annotations and Ridge baseline (see "Landmark Experiments" below) — it runs
+        on the local FER inference server, not in the browser. This is still a meaningfully different
+        thing from that reviewed dataset: these are raw, un-reviewed AI landmark predictions on your live
+        face, not human-corrected ground truth, and are not evidence about this project's Ridge/mean-shape
+        baseline accuracy.
       </p>
 
       <div class="card" style="text-align:center;">
@@ -385,9 +417,49 @@
           <button id="demo-stop-btn" class="demo-btn" style="display:none;">Stop Camera</button>
           <div id="demo-status" class="demo-status">Camera: OFF</div>
         </div>
+
+        <div class="demo-mode-row" style="margin-top:14px;">
+          <span style="font-size:12px;color:var(--text-muted);margin-right:8px;">Input mode:</span>
+          <button type="button" class="demo-btn demo-btn-secondary demo-mode-btn active" id="mode-btn-original" data-mode="original">Original</button>
+          <button type="button" class="demo-btn demo-btn-secondary demo-mode-btn" id="mode-btn-clahe" data-mode="clahe">CLAHE</button>
+          <button type="button" class="demo-btn demo-btn-secondary demo-mode-btn" id="mode-btn-simulation" data-mode="simulation">Appearance Simulation</button>
+          <div id="demo-mode-label" style="font-size:12px;color:var(--text-muted);margin-top:8px;">Active mode: <strong>Original</strong> (unmodified camera frame, sent to both FER and the landmark model)</div>
+        </div>
+
+        <div id="sim-controls" style="display:none;margin-top:10px;">
+          <label for="sim-intensity" style="font-size:12px;color:var(--text-muted);">
+            Simulation intensity: <strong id="sim-intensity-value">50%</strong>
+          </label><br/>
+          <input type="range" id="sim-intensity" min="0" max="100" value="50" style="width:220px;vertical-align:middle;" />
+        </div>
+
+        <p style="font-size:11.5px;color:var(--text-muted);margin:10px 0 0;">
+          A single camera stream feeds the FER panels, the landmark panel, and (in Appearance Simulation
+          mode) the simulation preview below — only one camera-permission prompt, for any mode. The
+          landmark panel now also requires the Demo Server above (it uses the server's InsightFace model,
+          not a browser-only one) — in every mode, not just CLAHE/Simulation as before.
+        </p>
       </div>
 
       <p id="demo-faces-note" class="demo-faces-note"></p>
+
+      <div class="card" id="sim-card" style="display:none;margin-top:12px;background:var(--warning-soft);border-left:3px solid var(--warning);">
+        <strong>Appearance Simulation — synthetic visual effect only</strong>
+        <p style="font-size:12.5px;color:var(--text-muted);margin:8px 0 0;">
+          This applies a synthetic color/tone shift to the detected face region only (edges feathered,
+          using the same landmark points shown in the landmark panel to build the mask). It does
+          <strong>not</strong> alter facial geometry, landmark positions, expression, or texture — only
+          hue/saturation within the masked region is shifted, luminance (shading/texture) is preserved.
+          This is <strong>not a Papuan ethnicity simulator</strong> and is not a realistic representation
+          of any real population. It does not establish, and must not be read as evidence of, demographic
+          bias, fairness, or real-world robustness — it is a visual toy for exploring how a synthetic tone
+          shift alone affects these models' outputs, nothing more.
+        </p>
+        <div class="demo-video-wrap" style="max-width:360px;margin:12px auto 0;">
+          <video id="sim-raw-video" class="demo-video" autoplay playsinline muted></video>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin:6px 0 0;">Original camera feed (for comparison — not modified, not sent anywhere in this box).</p>
+      </div>
 
       <div class="demo-grid" id="demo-panels">
         <div class="card demo-panel">
@@ -426,6 +498,54 @@
           </div>
           <div class="demo-prediction-list" id="demo-clahe-af-list"></div>
         </div>
+        <div class="card demo-panel">
+          <span class="badge amber">LANDMARKS</span>
+          <h3 style="margin-top:10px;">InsightFace landmark_3d_68 (68-point)</h3>
+          <div class="demo-video-wrap">
+            <video id="lmk-video" class="demo-video" autoplay playsinline muted></video>
+            <canvas id="lmk-base-canvas" class="demo-video" style="display:none;position:absolute;top:0;left:0;"></canvas>
+            <canvas id="lmk-canvas" class="demo-canvas"></canvas>
+          </div>
+          <p id="lmk-status-text" class="lmk-status-text lmk-status-warn"></p>
+          <div class="lmk-legend" id="lmk-legend">
+            <span class="lmk-legend-item"><i style="background:#22d3ee;"></i>Jaw (0–16)</span>
+            <span class="lmk-legend-item"><i style="background:#fde047;"></i>Eyebrows (17–26)</span>
+            <span class="lmk-legend-item"><i style="background:#fb923c;"></i>Nose (27–35)</span>
+            <span class="lmk-legend-item"><i style="background:#4ade80;"></i>Eyes (36–47)</span>
+            <span class="lmk-legend-item"><i style="background:#f43f5e;"></i>Lips (48–67)</span>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);margin:6px 0 0;" id="lmk-input-note">Input: live camera (Original mode)</p>
+          <p id="lmk-error" class="demo-faces-note" style="color:var(--error);"></p>
+        </div>
+        <div class="card demo-panel">
+          <span class="badge amber">LANDMARK-FER</span>
+          <h3 style="margin-top:10px;">Landmark-based Expression <span style="font-weight:400;font-size:11px;color:var(--text-muted);">(experimental)</span></h3>
+          <p style="font-size:11px;color:var(--text-muted);margin:4px 0 10px;">
+            A small Logistic Regression trained on 7 geometric features (eye/mouth/brow ratios and angles)
+            computed from the <em>same</em> 68 landmark points shown in the panel to the left — no extra
+            face detection. Experimental: cross-validated macro-F1 ≈ 0.22 on 141 labeled examples (5
+            classes) — this may well perform worse than the image-based FER models shown above. See
+            "Technical details" below for the full evaluation.
+          </p>
+          <div class="demo-prediction-list" id="lmk-expr-list"></div>
+        </div>
+      </div>
+
+      <div class="card" id="comparison-note-card" style="margin-top:12px;background:var(--gray-soft);">
+        <strong style="font-size:12.5px;">Phase 4 — live comparison, not a quantitative evaluation</strong>
+        <p style="font-size:12px;color:var(--text-muted);margin:8px 0 0;">
+          The panels above let you watch image-based FER (HSEmotion, ArcFace+LR) and the landmark-based
+          classifier react to the same live face side by side — this is illustrative only. It is
+          <strong>not</strong> a quantitative comparison: the live demo has no ground truth for your face,
+          and the two approaches were never evaluated on exactly the same labeled test examples at the
+          same time. The only real quantitative numbers for the landmark classifier are its offline,
+          cross-validated metrics (macro-F1 ≈ 0.22, see "Technical details — landmark-based expression
+          classifier" below) — comparable image-based FER numbers come from the separate formal R7–R9
+          evaluation shown in "Research context" above, on a different test set. Do not read live
+          agreement/disagreement between panels here as an accuracy measurement for either approach, and
+          do not read the Appearance Simulation mode as evidence of demographic bias, fairness, or
+          real-world robustness for either approach.
+        </p>
       </div>
 
       <div class="card" id="demo-flow-card" style="margin-top:16px;">
@@ -436,8 +556,9 @@
           <div id="demo-flow-face-selector" class="flow-face-selector"></div>
         </div>
         <p style="font-size:12px;color:var(--text-muted);margin:6px 0 14px;">
-          A step-by-step look at how the selected face's prediction is produced. Every image below is the
-          actual intermediate data used for inference on the current frame — not an illustration.
+          A step-by-step look at how the selected face's FER prediction is produced, plus which exact
+          image the landmark model receives for the active mode. Every image below is the actual
+          intermediate data used on the current frame — not an illustration.
         </p>
 
         <div class="flow-row flow-row-shared">
@@ -461,7 +582,7 @@
         </div>
 
         <div class="flow-arrow flow-arrow-down">↓</div>
-        <div class="flow-step-label" style="text-align:center;margin-bottom:6px;">4. Preprocessing</div>
+        <div class="flow-step-label" style="text-align:center;margin-bottom:6px;">4. Preprocessing (active mode: <span id="demo-flow-mode-label">Original</span>)</div>
 
         <div class="flow-row flow-row-branch">
           <div class="flow-branch">
@@ -482,14 +603,24 @@
           </div>
         </div>
 
+        <div class="flow-arrow flow-arrow-down">↓</div>
+        <div class="flow-step-label" style="text-align:center;margin-bottom:6px;">6. Landmark Model Input (InsightFace landmark_3d_68, same server response as the FER models above)</div>
+        <div class="flow-row flow-row-shared">
+          <div class="flow-step">
+            <div class="flow-step-label" id="demo-flow-landmark-caption">Same frame as sent to FER (Original mode)</div>
+            <canvas id="demo-flow-landmark-input" class="flow-thumb" width="120" height="90"></canvas>
+            <div class="flow-step-status" id="demo-flow-status-landmark"></div>
+          </div>
+        </div>
+
         <p style="font-size:11px;color:var(--text-muted);margin:14px 0 0;">
-          This visualization shows the processing path used by the live demo. It is an interactive
+          This visualization shows the processing path used by the live FER demo. It is an interactive
           demonstration and is not part of the formal R7–R9 evaluation.
         </p>
       </div>
 
       <details>
-        <summary>Technical details</summary>
+        <summary>Technical details — FER panels</summary>
         <div class="details-body">
           <strong>Original</strong> — face crop used directly for inference, no preprocessing.<br/>
           <strong>CLAHE</strong> — LAB L-channel adaptive contrast enhancement (clip limit adaptively scaled
@@ -499,14 +630,105 @@
           Regression (frozen <code>buffalo_l/w600k_r50</code> embedding, 512-D, + a Logistic Regression
           classifier), each loaded once and reused across both preprocessing conditions and every detected
           face.<br/>
-          <strong>Input</strong> — the same live webcam frame and the same detected face(s) are used for all
-          four panels; only the preprocessing condition and the model differ.<br/>
+          <strong>Input</strong> — the camera frame selected by "Input mode" above (Original, CLAHE-prepared,
+          or an Appearance-Simulation-modified frame) is sent to this unchanged server pipeline; the server's
+          own detection/preprocessing/inference logic is never altered by the selected mode, only the bytes
+          of the frame it receives are.<br/>
           <strong>Detection</strong> — InsightFace / SCRFD, run once per frame; up to 3 faces are processed
           per frame (see "Live Model Demo" README for the exact limit and ordering rule).<br/>
           <strong>Scope</strong> — ArcFace + LR recognizes five expression classes (Fear, Happy, Neutral,
           Sad, Surprise); HSEmotion's native output classes are shown as reported by the model itself.<br/>
           <strong>Processing</strong> — all processing remains local on your own machine
           (<code>localhost</code>); camera frames are never uploaded anywhere else.
+        </div>
+      </details>
+
+      <details>
+        <summary>Technical details — landmark panel &amp; shared-input modes</summary>
+        <div class="details-body">
+          <strong>Model</strong> — InsightFace's <code>landmark_3d_68</code> (<code>buffalo_l</code>),
+          running entirely on the local FER inference server (<code>tools/realtime_demo/</code>) alongside
+          HSEmotion and ArcFace, not in the browser. The browser no longer loads any landmark model or CDN
+          script — the face-api.js library previously used here has been fully removed; landmark detection
+          now reuses the server's own single <code>FaceAnalysis.get()</code> call per frame (the same call
+          that already runs detection and the ArcFace recognition model), never a second detector.<br/>
+          <strong>Original mode</strong> — one request per tick: the raw camera frame is sent to
+          <code>/predict</code>; the response already includes that face's landmarks in full-frame pixel
+          space (normalized 0–1, same convention as its bounding box). Because landmarks now arrive once
+          per server response instead of a continuous client-side loop, the overlay updates roughly once
+          per FER cycle (~0.6s) rather than continuously — a real, visible cadence reduction from the
+          previous face-api.js implementation.<br/>
+          <strong>CLAHE mode</strong> — still one request per tick. The server now runs the landmark model
+          directly on the <em>same full-resolution CLAHE crop</em> used for the CLAHE HSEmotion/ArcFace
+          predictions (not the 96×96 preview thumbnail, which is only ever resized afterward for display) —
+          a byte-identical, full-accuracy shared input, with no face-api.js or 96×96-resolution limitation
+          involved anymore.<br/>
+          <strong>Appearance Simulation mode</strong> — needs landmarks for the <em>raw</em> frame to build
+          the synthetic-tone mask before the simulated frame even exists, so this mode makes <strong>two
+          sequential server requests per tick</strong> instead of one: the first sends the raw frame purely
+          to obtain its landmarks (its FER predictions are computed but not shown); the mask and simulated
+          frame are built from that response; the second request sends the simulated frame and its
+          response (FER predictions <em>and</em> landmarks) is what the overlay and expression panel
+          display — no third request is made. This roughly doubles this mode's per-tick latency; Original
+          and CLAHE modes are unaffected.<br/>
+          <strong>Processing</strong> — entirely local: your browser tab and the local FER server on your
+          own machine. No webcam frame or video is uploaded, sent to any external server, or stored
+          anywhere, in any mode.<br/>
+          <strong>Schema</strong> — 68 points, ibug-300W ordering. This is now the <em>same model</em> used
+          for the reviewed CVAT annotations and Ridge baseline described in "Landmark Experiments" below —
+          but these live predictions are raw, un-reviewed AI output on your face, not the human-corrected
+          ground truth used there; the two should still not be conflated.<br/>
+          <strong>Scope</strong> — this is a live interactive demo and a synthetic visual effect. Neither is
+          evidence about this project's own Ridge/mean-shape baselines, the 64-image reviewed dataset,
+          CLAHE's effect on landmark accuracy, or demographic bias/fairness/robustness. If the landmark
+          model is unavailable on the server, the FER panels are unaffected and continue to work
+          independently (and vice versa).
+        </div>
+      </details>
+
+      <details>
+        <summary>Technical details — landmark-based expression classifier (EXP-DASH-001)</summary>
+        <div class="details-body">
+          <strong>What it is</strong> — a dashboard demonstration experiment, separate from the formal
+          thesis experiments/results. A multinomial Logistic Regression trained on 7 normalized geometric
+          features (eye-aspect ratio, mouth openness, mouth-width ratio, lip-corner angle, brow-to-eye
+          distance, inner-brow distance, jaw drop) computed from 68-point landmarks.<br/>
+          <strong>Training data</strong> — 141 human-labeled face crops from
+          <code>data/1408-1010-intermediate/manual_labels_export.csv</code>'s <code>gt_label</code> column
+          (the same ground-truth label source already used by this project's real thesis ArcFace
+          classifier). HSEmotion's own prediction column in that file was <strong>never</strong> used as a
+          training target. "Ambiguous" labels and classes with fewer than 5 samples (Angry: 1, Disgust: 2)
+          were excluded — 5 usable classes remain: Neutral (80), Happy (34), Sad (12), Surprise (8), Fear
+          (7).<br/>
+          <strong>Landmarks for training</strong> — extracted with InsightFace's <code>landmark_3d_68</code>
+          model (same method as the CVAT pilot). The live demo now also uses this same InsightFace model
+          (the earlier face-api.js-based implementation has been removed), so the historical
+          cross-model scheme-compatibility assumption no longer applies here — training and live inference
+          use the identical detector and point ordering.<br/>
+          <strong>Evaluation</strong> — StratifiedGroupKFold cross-validation (5 folds), grouped by
+          consecutive-frame-index blocks (no person-ID field exists anywhere in this repository) so
+          near-adjacent frames of the same person never split across train and test. This is the actual
+          held-out evaluation; there is no separate static test set, because 141 samples across 5 classes
+          is too small to hold one out without making the rarer classes unusable.
+          <strong>Out-of-fold macro-F1 ≈ 0.22</strong> (chance for 5 roughly-balanced classes would be
+          ≈0.20) — this classifier is weak, and performs far worse on Fear/Surprise/Sad than on
+          Neutral/Happy. Random Forest and SVM-RBF baselines were also evaluated and did not do
+          better.<br/>
+          <strong>Why Logistic Regression is deployed</strong> — chosen for pure-JS browser portability
+          (a 7×5 dot product + softmax, zero inference libraries), not because it had the best offline
+          score by a wide margin — the three baselines performed similarly poorly.<br/>
+          <strong>Live inference</strong> — reuses the landmark points already returned by the FER
+          server's response for the overlay above; no second face-detection or landmark-detection call
+          happens for this panel. The classifier's own math (feature computation + the trained model's dot
+          product and softmax) runs entirely in your browser — only the landmark <em>detection</em> itself
+          now requires the local FER server to be reachable, which was not the case when landmarks were
+          detected client-side.<br/>
+          <strong>Caveat</strong> — this is an experimental, dashboard-only classifier with a small, highly
+          imbalanced training set. It has not been shown to be reliable, is not validated against this
+          project's formal thesis results, and may well perform worse than the image-based FER models
+          shown alongside it. See
+          <code>experiments/EXP-DASH-001-landmark-fer/landmark_classifier_metadata.json</code> for the full
+          metrics, confusion matrices, and limitations.
         </div>
       </details>
 
@@ -519,10 +741,12 @@
           ArcFace achieved higher measured accuracy in the formal evaluation, but the difference was not
           statistically significant. These numbers are from the formal R7–R9 evaluation, not from live-demo
           predictions — the live demo above does not generate new accuracy figures and does not replace the
-          formal evaluation.
+          formal evaluation. The landmark panel and the Appearance Simulation mode are separate, unrelated
+          demos and are not part of this evaluation.
         </p>
       </div>
     </section>
+
 
 
     <!-- 1. OVERVIEW -->
@@ -958,6 +1182,62 @@
       </details>
     </section>
 
+    <!-- 11b. LANDMARK EXPERIMENTS (PRELIMINARY / SUPPORTING) -->
+    <section id="landmark-experiments">
+      <h2>Landmark Experiments <span class="badge amber" style="font-size:12px;vertical-align:middle;">Preliminary / Supporting</span></h2>
+      <p class="section-intro">
+        A separate, exploratory track (Papuan V2 / EXP-PAP-005): facial landmark annotation and a first
+        baseline model. This is <strong>supporting infrastructure, not one of the thesis's registered
+        research questions</strong> (see Limitations below) — shown here for transparency and for
+        supervisor discussion, not as validated results.
+      </p>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Reviewed landmark annotation example</h3>
+        <img class="evidence" src="assets/landmark_fig1_reviewed_example.png" alt="Human-reviewed 68-point landmark example" />
+        <p class="img-caption">One human-reviewed image with all 68 landmarks, color-coded by facial region.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">AI proposal vs. human review</h3>
+        <img class="evidence" src="assets/landmark_fig2_proposal_vs_reviewed.png" alt="InsightFace proposal vs human-reviewed landmarks" />
+        <p class="img-caption">
+          Raw InsightFace proposal (red) vs. the final human-corrected landmarks (blue) on the same face —
+          one of several images where the whole landmark set was shifted into place during review.
+        </p>
+      </div>
+
+      <div class="compare-cols">
+        <div class="card">
+          <h3 style="margin-top:0;">Ground truth vs. Ridge model, held-out test images</h3>
+          <img class="evidence" src="assets/landmark_fig3_groundtruth_vs_ridge.png" alt="Ground truth vs Ridge regression predictions" />
+          <p class="img-caption">Best, median, and worst test-set images by saved error — not cherry-picked.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Mean-shape vs. Ridge test error</h3>
+          <img class="evidence" src="assets/landmark_fig4_meanshape_vs_ridge_errors.png" alt="Mean-shape vs Ridge test error comparison" />
+          <p class="img-caption">Per-image error, both models, all 8 held-out test images.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Original vs. CLAHE, same reviewed coordinates</h3>
+        <img class="evidence" src="assets/landmark_fig5_original_clahe_pair.png" alt="Original vs CLAHE landmark overlay" />
+        <p class="img-caption">Same reviewed landmark positions overlaid unchanged on both preprocessing conditions.</p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--warning);">
+        <strong>Key finding</strong>
+        <p style="font-size:13.5px;color:var(--text-muted);margin:8px 0 0;">
+          Ridge regression has <strong>not</strong> demonstrated a meaningful improvement over the
+          content-blind mean-shape baseline on the current 8-image held-out test set (64 total reviewed
+          images; 45 train / 11 validation / 8 test). This is a preliminary result from a very small
+          sample, not a validated or general finding about landmark localization, CLAHE's effect on it, or
+          fairness — none of those are established here.
+        </p>
+      </div>
+    </section>
+
     <!-- 12. LIMITATIONS -->
     <section id="limitations">
       <h2>Limitations</h2>
@@ -1001,5 +1281,8 @@
 <script src="data.js"></script>
 <script src="dashboard.js"></script>
 <script src="realtime_demo.js"></script>
+<script src="realtime_landmark_demo.js"></script>
+<script src="appearance_simulation.js"></script>
+<script src="landmark_expression_classifier.js"></script>
 </body>
 </html>

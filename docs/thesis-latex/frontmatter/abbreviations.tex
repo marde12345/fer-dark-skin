@@ -1,0 +1,29 @@
+% Daftar Singkatan dan Lambang (List of Abbreviations and Symbols)
+% — Juknis p.11-12. Page numbers (first use) cannot be determined
+% without an actual compile in this environment; left as TODO
+% rather than guessed. No mathematical symbols (LAMBANG) beyond
+% the statistical notation already defined inline in Chapter 3
+% (e.g. p, N) are used densely enough in this thesis to warrant a
+% separate symbol table — only the abbreviation table is populated.
+\chapter*{Daftar Singkatan dan Lambang}
+\addcontentsline{toc}{chapter}{Daftar Singkatan dan Lambang}
+
+% Column widths kept within the 14cm text block (21cm A4 minus the
+% 4cm/3cm margins): l (~1.5cm) + p{7cm} + p{3cm} = ~11.5cm, with
+% headroom. A prior revision used p{9cm}+r (unwrapped), which
+% overflowed the margin by ~83pt (~2.9cm) under the new 4cm/3cm
+% geometry — found by an actual compile, fixed here.
+\begin{center}
+\begin{tabular}{lp{7cm}p{3cm}}
+\toprule
+\textbf{Singkatan} & \textbf{Nama} & \textbf{Halaman Pemakaian Pertama} \\
+\midrule
+FER & \textit{Facial Expression Recognition} & \TODO{p.} \\
+CLAHE & \textit{Contrast Limited Adaptive Histogram Equalization} & \TODO{p.} \\
+CVAT & \textit{Computer Vision Annotation Tool} & \TODO{p.} \\
+LR & Logistic Regression & \TODO{p.} \\
+RQ & Research Question / Pertanyaan Penelitian & \TODO{p.} \\
+LAB & \textit{L*a*b* color space} & \TODO{p.} \\
+\bottomrule
+\end{tabular}
+\end{center}

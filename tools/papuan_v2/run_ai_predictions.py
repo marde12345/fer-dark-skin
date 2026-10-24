@@ -100,7 +100,11 @@ def softmax(logits: np.ndarray) -> np.ndarray:
     return exp / exp.sum()
 
 
-def run_hsemotion_clahe(image_paths: list[Path]) -> list[dict]:
+def run_hsemotion_clahe(image_paths: list[Path], ai_model: str = "hsemotion_clahe") -> list[dict]:
+    """ai_model is parameterized (default unchanged: "hsemotion_clahe") so this
+    same function can be reused for a different input image set (e.g. Original,
+    non-CLAHE crops) without mislabeling the output rows' provenance. Existing
+    callers that don't pass ai_model get byte-identical behavior to before."""
     model = HSEmotionRecognizer(model_name=HSEMOTION_MODEL_NAME)
     now = datetime.now(timezone.utc).isoformat()
     rows = []
@@ -110,7 +114,7 @@ def run_hsemotion_clahe(image_paths: list[Path]) -> list[dict]:
             rows.append(
                 {
                     "image_id": path.stem,
-                    "ai_model": "hsemotion_clahe",
+                    "ai_model": ai_model,
                     "ai_prediction": "",
                     "ai_confidence": "",
                     "status": "invalid_image",
@@ -124,7 +128,7 @@ def run_hsemotion_clahe(image_paths: list[Path]) -> list[dict]:
             rows.append(
                 {
                     "image_id": path.stem,
-                    "ai_model": "hsemotion_clahe",
+                    "ai_model": ai_model,
                     "ai_prediction": emotion,
                     "ai_confidence": confidence,
                     "status": "ok",
@@ -135,7 +139,7 @@ def run_hsemotion_clahe(image_paths: list[Path]) -> list[dict]:
             rows.append(
                 {
                     "image_id": path.stem,
-                    "ai_model": "hsemotion_clahe",
+                    "ai_model": ai_model,
                     "ai_prediction": "",
                     "ai_confidence": "",
                     "status": f"error:{exc}",
@@ -269,6 +273,33 @@ def run(pilot_images_dir: Path, output_path: Path) -> int:
 
     print(f"Wrote {len(rows_a) + len(rows_b)} predictions ({len(rows_a)} + {len(rows_b)}) to {output_path}")
     return len(rows_a) + len(rows_b)
+
+
+def run_hsemotion_original(manifest_path: Path, output_path: Path) -> int:
+    """HSEmotion on the Original (non-CLAHE) counterpart of each pilot image,
+    using pilot_manifest.csv's existing source_face_path column -- no new
+    cropping/sampling. Writes ONLY to output_path (never ai_predictions.csv)
+    in "w" mode on a caller-supplied path, so this can never collide with or
+    overwrite the existing CLAHE predictions file. image_id is taken the same
+    way run_hsemotion_clahe() does (Path.stem), preserving identity."""
+    with manifest_path.open() as f:
+        rows = list(csv.DictReader(f))
+    image_paths = [Path(row["source_face_path"]) for row in rows]
+    missing = [p for p in image_paths if not p.exists()]
+    if missing:
+        raise RuntimeError(f"{len(missing)} source_face_path file(s) missing, e.g. {missing[:3]} -- aborting.")
+
+    print(f"Running HSEmotion (Original, non-CLAHE) on {len(image_paths)} pilot images...")
+    rows_out = run_hsemotion_clahe(image_paths, ai_model="hsemotion_original")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+        writer.writeheader()
+        writer.writerows(rows_out)
+
+    print(f"Wrote {len(rows_out)} predictions to {output_path}")
+    return len(rows_out)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

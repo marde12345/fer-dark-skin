@@ -1,0 +1,4 @@
+image_id,annotation_id,annotator_identity,expression,confidence,created_at
+fixture_task_01,1,annotator-a@phase1-validation.test,Happy / Senang,High / Tinggi,2026-09-24T08:30:44.823695Z
+fixture_task_01,2,annotator-b@phase1-validation.test,Sad / Sedih,Medium / Sedang,2026-09-24T08:31:31.510722Z
+fixture_task_01,3,annotator-c@phase1-validation.test,Fear / Takut,Low / Rendah,2026-09-24T08:31:31.586582Z

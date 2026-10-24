@@ -1,0 +1,25 @@
+% ABSTRACT page — Juknis p.3: heading, title repeated (italic),
+% "By / Name / NIM / Program", then body (italic, not bold, 12pt),
+% keywords (max. 7) separated by two blank lines from the body.
+\chapter*{\textit{Abstract}}
+\addcontentsline{toc}{chapter}{Abstract}
+
+% Metadata from config.tex — edit that file, not this one.
+\begin{center}
+{\bfseries\itshape\fontsize{14}{14}\selectfont \ThesisTitleEN}
+
+\vspace{1\baselineskip}
+\textit{By}\\
+\textbf{\ThesisAuthor}\\
+NIM: \ThesisNIM\\
+\textit{(\ThesisProgramEN)}
+\end{center}
+
+\vspace{1\baselineskip}
+
+\itshape
+Facial Expression Recognition (FER) systems are commonly developed and evaluated on benchmark datasets in which certain facial characteristics and skin tones are underrepresented, raising questions about how such systems generalize to populations outside the training distribution. This thesis investigates that question using a film-derived dataset of Papuan faces, structured around three research questions (RQ1--RQ3; see Chapter 1). A pretrained FER model (HSEmotion) evaluated on 227 manually labeled face crops reaches an overall accuracy of 22.47\% (RQ1); on the 85 of those 227 crops for which a skin-tone value exists (a luminance-derived proxy, not a validated demographic measure), a 29.71-percentage-point accuracy gap was found between the two characterized skin-tone-proxy subgroups, alongside a pronounced tendency to misclassify Neutral expressions as Angry. The one tested adaptive CLAHE configuration was found to reduce, rather than improve, classification accuracy on the full 227-crop sample, in a single exploratory run without a computed significance test (RQ2). A retrospective comparison on a derived 135-sample, five-class common evaluation subset, between HSEmotion and a Logistic Regression classifier trained on frozen ArcFace face-recognition embeddings, found no statistically significant difference in overall accuracy (McNemar's test, $p = 0.46$), although the two models' error patterns differed qualitatively (RQ3). In parallel, this thesis documents an ongoing, supporting effort to construct a facial-landmark-annotated dataset extension (Papuan V2); this annotation effort has reached only the automatic-proposal stage, has not been human-reviewed, and is not used as evidence for RQ1--RQ3.
+
+\vspace{2\baselineskip}
+\upshape
+Keywords: facial expression recognition, HSEmotion, ArcFace, CLAHE, skin-tone proxy.

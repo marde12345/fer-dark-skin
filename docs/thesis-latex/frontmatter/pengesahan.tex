@@ -1,0 +1,43 @@
+% Halaman Pengesahan (Approval Page) — Juknis p.3, restructured to
+% match the single-supervisor layout of the reference thesis
+% "23524315_Yogi Putra_PT Pos.pdf" (same pembimbing as this thesis,
+% confirmed by the author): title (14pt bold, centered), author/
+% NIM/program, "Tesis ini telah disetujui dan disahkan / di
+% Bandung, pada tanggal ... / Pembimbing", then a single signature
+% line. This supersedes the earlier Ketua+2-Anggota layout (kept
+% in git history) which was modeled on the .docx template's generic
+% three-supervisor example rather than this thesis's actual
+% committee.
+% All metadata below comes from config.tex — edit that file, not
+% this one, to fill in the real title/author/NIM/date/supervisor.
+\thispagestyle{empty}
+\begin{center}
+{\bfseries LEMBAR PENGESAHAN}
+
+\vspace{2\baselineskip}
+{\bfseries\fontsize{14}{16}\selectfont \ThesisTitleID}
+
+\vspace{2\baselineskip}
+TESIS
+
+\vspace{2\baselineskip}
+Oleh\\
+\textbf{\ThesisAuthor}\\
+\ThesisNIM
+
+\vspace{2\baselineskip}
+\ThesisProgramID\\
+\ThesisInstitution
+
+\vspace{3\baselineskip}
+Tesis ini telah disetujui dan disahkan\\
+di Bandung, pada tanggal \ThesisApprovalDate
+
+\vspace{3\baselineskip}
+Pembimbing
+
+\vspace{4\baselineskip}
+\rule{6cm}{0.4pt}\\
+\SupervisorOne\\
+\SupervisorOneNIP
+\end{center}

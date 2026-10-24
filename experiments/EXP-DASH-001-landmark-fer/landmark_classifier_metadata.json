@@ -1,0 +1,303 @@
+{
+  "experiment_id": "EXP-DASH-001",
+  "description": "Dashboard-demo landmark-based expression classifier. NOT a formal thesis experiment/result.",
+  "dataset_source": "data/1408-1010-intermediate/manual_labels_export.csv (gt_label column)",
+  "pseudo_label_warning": "manual_labels_export.csv's model_label column (HSEmotion's own prediction) was NEVER used as a training target -- gt_label (human-assigned) only.",
+  "landmark_source": "InsightFace landmark_3d_68 (buffalo_l), extracted by extract_landmark_features.py",
+  "scheme_compatibility_assumption": "InsightFace landmark_3d_68 and face-api.js's 68-point faceLandmark68Net are assumed to share the same ibug-300W point ordering; not independently verified pixel-for-pixel. See extract_landmark_features.py docstring.",
+  "class_order": [
+    "Fear",
+    "Happy",
+    "Neutral",
+    "Sad",
+    "Surprise"
+  ],
+  "min_class_count_threshold": 5,
+  "excluded_rare_classes": {
+    "excluded_rare_class_Disgust": 2,
+    "excluded_rare_class_Angry": 1
+  },
+  "n_usable_samples": 141,
+  "class_distribution": {
+    "Neutral": 80,
+    "Happy": 34,
+    "Sad": 12,
+    "Fear": 7,
+    "Surprise": 8
+  },
+  "split_strategy": "StratifiedGroupKFold, n_splits=5, groups=consecutive-frame-index blocks of size 3 (no person-ID field exists in this repository; matches tools/train_arcface_classifier.py's own documented approach)",
+  "cv_results": {
+    "LogisticRegression": {
+      "classification_report": {
+        "Fear": {
+          "precision": 0.045454545454545456,
+          "recall": 0.14285714285714285,
+          "f1-score": 0.06896551724137931,
+          "support": 7.0
+        },
+        "Happy": {
+          "precision": 0.45161290322580644,
+          "recall": 0.4117647058823529,
+          "f1-score": 0.4307692307692308,
+          "support": 34.0
+        },
+        "Neutral": {
+          "precision": 0.6296296296296297,
+          "recall": 0.2125,
+          "f1-score": 0.3177570093457944,
+          "support": 80.0
+        },
+        "Sad": {
+          "precision": 0.09523809523809523,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.14814814814814814,
+          "support": 12.0
+        },
+        "Surprise": {
+          "precision": 0.10526315789473684,
+          "recall": 0.25,
+          "f1-score": 0.14814814814814814,
+          "support": 8.0
+        },
+        "accuracy": 0.2695035460992908,
+        "macro avg": {
+          "precision": 0.26543966628856275,
+          "recall": 0.27009103641456583,
+          "f1-score": 0.22275761073054015,
+          "support": 141.0
+        },
+        "weighted avg": {
+          "precision": 0.4824705908102456,
+          "recall": 0.2695035460992908,
+          "f1-score": 0.3085988381380852,
+          "support": 141.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          1,
+          0,
+          2,
+          4,
+          0
+        ],
+        [
+          3,
+          14,
+          4,
+          8,
+          5
+        ],
+        [
+          14,
+          12,
+          17,
+          25,
+          12
+        ],
+        [
+          4,
+          3,
+          1,
+          4,
+          0
+        ],
+        [
+          0,
+          2,
+          3,
+          1,
+          2
+        ]
+      ],
+      "macro_f1": 0.22275761073054015
+    },
+    "RandomForest": {
+      "classification_report": {
+        "Fear": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 7.0
+        },
+        "Happy": {
+          "precision": 0.34375,
+          "recall": 0.3235294117647059,
+          "f1-score": 0.3333333333333333,
+          "support": 34.0
+        },
+        "Neutral": {
+          "precision": 0.603448275862069,
+          "recall": 0.4375,
+          "f1-score": 0.5072463768115942,
+          "support": 80.0
+        },
+        "Sad": {
+          "precision": 0.06666666666666667,
+          "recall": 0.16666666666666666,
+          "f1-score": 0.09523809523809523,
+          "support": 12.0
+        },
+        "Surprise": {
+          "precision": 0.1,
+          "recall": 0.125,
+          "f1-score": 0.1111111111111111,
+          "support": 8.0
+        },
+        "accuracy": 0.3475177304964539,
+        "macro avg": {
+          "precision": 0.22277298850574714,
+          "recall": 0.2105392156862745,
+          "f1-score": 0.20938578329882676,
+          "support": 141.0
+        },
+        "weighted avg": {
+          "precision": 0.4366195891415994,
+          "recall": 0.3475177304964539,
+          "f1-score": 0.38258715964543905,
+          "support": 141.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          3,
+          4,
+          0
+        ],
+        [
+          2,
+          11,
+          11,
+          6,
+          4
+        ],
+        [
+          5,
+          17,
+          35,
+          18,
+          5
+        ],
+        [
+          3,
+          2,
+          5,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          4,
+          0,
+          1
+        ]
+      ],
+      "macro_f1": 0.20938578329882676
+    },
+    "SVM_RBF": {
+      "classification_report": {
+        "Fear": {
+          "precision": 0.05660377358490566,
+          "recall": 0.42857142857142855,
+          "f1-score": 0.1,
+          "support": 7.0
+        },
+        "Happy": {
+          "precision": 0.4090909090909091,
+          "recall": 0.2647058823529412,
+          "f1-score": 0.32142857142857145,
+          "support": 34.0
+        },
+        "Neutral": {
+          "precision": 0.75,
+          "recall": 0.225,
+          "f1-score": 0.34615384615384615,
+          "support": 80.0
+        },
+        "Sad": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 12.0
+        },
+        "Surprise": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 8.0
+        },
+        "accuracy": 0.2127659574468085,
+        "macro avg": {
+          "precision": 0.24313893653516297,
+          "recall": 0.18365546218487394,
+          "f1-score": 0.15351648351648353,
+          "support": 141.0
+        },
+        "weighted avg": {
+          "precision": 0.5269880661289734,
+          "recall": 0.2127659574468085,
+          "f1-score": 0.27887148312680227,
+          "support": 141.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          3,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          10,
+          9,
+          3,
+          7,
+          5
+        ],
+        [
+          28,
+          9,
+          18,
+          20,
+          5
+        ],
+        [
+          10,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          3,
+          1,
+          0
+        ]
+      ],
+      "macro_f1": 0.15351648351648353
+    }
+  },
+  "deployed_model": "LogisticRegression (fit on all usable data; chosen for pure-JS browser portability, see train_landmark_classifier.py docstring)",
+  "feature_names": [
+    "ear_mean",
+    "mouth_openness",
+    "mouth_width_ratio",
+    "lip_corner_angle",
+    "brow_eye_dist_mean",
+    "inner_brow_distance",
+    "jaw_drop"
+  ],
+  "limitations": [
+    "Only 141 labeled samples across 5 classes after excluding Ambiguous and rare classes (<5 samples) -- Angry and Disgust were excluded entirely (1 and 2 samples respectively, pre-filtering).",
+    "Severe class imbalance remains even after filtering (Neutral=80, Happy=34, Sad=12, Surprise=8, Fear=7) -- per-class metrics for Surprise/Fear/Sad are based on very few out-of-fold predictions and should not be read as statistically reliable.",
+    "This is an illustrative dashboard demo classifier, not a validated research result. It has not been compared against image-based FER on a shared test set with matched sampling (see Phase 4 in the dashboard for the live, non-quantitative comparison only).",
+    "Geometric features derived from only 68 points cannot capture texture-based cues (e.g. nose wrinkling for Disgust); this is a structural limitation of the landmark-only approach, independent of sample size.",
+    "No automated cross-language check exists between this Python feature extractor and the browser JS port (dashboard/landmark_expression_classifier.js) -- no JS runtime was available in this environment to verify numerically. Formulas were written to match by inspection only."
+  ]
+}

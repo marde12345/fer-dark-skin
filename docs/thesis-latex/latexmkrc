@@ -1,0 +1,19 @@
+# itb-thesis.sty loads fontspec + Times New Roman under XeLaTeX/
+# LuaLaTeX for literal font compliance with the supplied ITB guide;
+# under pdfLaTeX it falls back to mathptmx (a Times-metric clone).
+# xelatex is set as the default engine here for exact compliance —
+# switch $pdf_mode to 1 (plain pdflatex) if Times New Roman is not
+# installed on the compiling machine. See FORMAT_COMPLIANCE.md.
+$pdf_mode = 5;       # 5 = xelatex -> pdf
+$pdflatex = 'xelatex %O %S';
+$bibtex_use = 2;
+@default_files = ('main.tex');
+$clean_ext = 'bbl synctex.gz run.xml bcf';
+
+# Output filename convention: "<NIM>_<nama depan>_<topik>.pdf",
+# matching the reference thesis's own file
+# ("23524315_Yogi Putra_PT Pos.pdf"). Every latexmk run (and so
+# every `main.pdf` build) is named this way instead of the default
+# "main.pdf" -- keep this in sync with config.tex's \ThesisNIM and
+# \ThesisAuthor if either ever changes.
+$jobname = '23524301_Marde Fasma_FER';

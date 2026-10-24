@@ -1,0 +1,20 @@
+{
+  "experiment_id": "EXP-PAP-005",
+  "cvat_task_id": 1,
+  "cvat_label_id": 1,
+  "cvat_url": "http://localhost:8070",
+  "landmark_schema": "insightface_landmark_3d_68",
+  "num_points": 68,
+  "pilot_size": 24,
+  "sampling_seed": 200,
+  "sampling_source": "experiments/EXP-PAP-004/pilot_manifest.csv (150-image pilot)",
+  "annotation_target": "original face crops only (data/papuan_v2/faces/)",
+  "clahe_handling": "reuse Original coordinates unchanged, no independent CLAHE annotation (verified identity geometry)",
+  "provenance_terminology": "InsightFace-initialized, human-reviewed landmark annotations",
+  "source": "insightface",
+  "review_status": "human_reviewed_all_24_confirmed_by_reviewer_2026-10-19",
+  "review_status_note": "2026-10-19: reviewer (user) confirmed directly that all 24 images were visually reviewed; some images already had correct proposals (no change needed), some had insufficient image quality/resolution to reliably localize features, and 5 images required manual correction (already made in CVAT, matching the 5 identified from coordinate comparison: frame_000009_face04, frame_000010_face05, frame_000022_face11, frame_000049_face04, frame_000226_face03). This confirms review occurred on all 24 images. It does NOT establish, and this field does not claim, which of the 19 unchanged images were accepted because the proposal was verified correct vs. because low image quality made correction impractical -- no per-image quality flag was recorded at review time. CVAT job (task 1, job 1) stage was still 'in progress' as of the 2026-10-19 QC export; not independently re-checked after this confirmation. See docs/reports/PAPUAN_V2_CVAT_PILOT_REVIEW_QC.md Section 20 for the full image-quality-limitation analysis, including a crop-size table and a proposed (not yet approved) quality-control rule for future scale-up.",
+  "reviewed_export_path": "experiments/EXP-PAP-005/cvat_reviewed_landmarks.json",
+  "comparison_stats_path": "experiments/EXP-PAP-005/proposal_vs_reviewed_comparison.json",
+  "image_quality_limitation_note": "No per-image quality flag exists in any artifact. Objective evidence available: crop pixel dimensions (already present in cvat_reviewed_landmarks.json's image_width/image_height fields) range from 22x28px to 351x434px across this 24-image pilot. The 3 smallest crops (616, 1248, 1628 px^2) all show 0 corrections -- consistent with, but not proof of, those images being too small to confidently correct rather than genuinely accurate. See PAPUAN_V2_CVAT_PILOT_REVIEW_QC.md Section 20 for the full table and reasoning."
+}

@@ -1,0 +1,78 @@
+{
+  "tolerance_px": 0.5,
+  "images_matched": 24,
+  "points_matched": 1632,
+  "points_changed": 220,
+  "points_unchanged": 1412,
+  "per_image_corrections": {
+    "frame_000009_face04": 19,
+    "frame_000010_face05": 23,
+    "frame_000012_face10": 0,
+    "frame_000015_face04": 0,
+    "frame_000022_face11": 66,
+    "frame_000041_face03": 0,
+    "frame_000049_face04": 51,
+    "frame_000054_face05": 0,
+    "frame_000069_face02": 0,
+    "frame_000078_face01": 0,
+    "frame_000120_face01": 0,
+    "frame_000123_face02": 0,
+    "frame_000136_face04": 0,
+    "frame_000139_face04": 0,
+    "frame_000172_face02": 0,
+    "frame_000184_face02": 0,
+    "frame_000186_face01": 0,
+    "frame_000199_face01": 0,
+    "frame_000226_face03": 61,
+    "frame_000227_face04": 0,
+    "frame_000242_face02": 0,
+    "frame_000242_face06": 0,
+    "frame_000248_face13": 0,
+    "frame_000249_face07": 0
+  },
+  "per_region_corrections": {
+    "jaw": {
+      "changed": 43,
+      "total": 408
+    },
+    "right_eyebrow": {
+      "changed": 25,
+      "total": 120
+    },
+    "left_eyebrow": {
+      "changed": 15,
+      "total": 120
+    },
+    "nose_bridge": {
+      "changed": 16,
+      "total": 96
+    },
+    "nose_base": {
+      "changed": 15,
+      "total": 120
+    },
+    "right_eye": {
+      "changed": 30,
+      "total": 144
+    },
+    "left_eye": {
+      "changed": 18,
+      "total": 144
+    },
+    "mouth_outer": {
+      "changed": 36,
+      "total": 288
+    },
+    "mouth_inner": {
+      "changed": 22,
+      "total": 192
+    }
+  },
+  "displacement_stats_px": {
+    "mean": 10.34323882103984,
+    "median": 8.349825419185377,
+    "max": 38.968342197436414,
+    "count": 220
+  },
+  "errors": []
+}

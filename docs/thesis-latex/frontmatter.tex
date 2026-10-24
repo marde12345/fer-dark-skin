@@ -1,0 +1,33 @@
+% =============================================================
+% frontmatter.tex — Preliminary pages only
+% =============================================================
+% Juknis p.3: Roman numerals i, ii, iii, ... for every page in
+% this file. Title page itself is unnumbered, preceding page i.
+% Edit THIS file to reorder frontmatter pages, add a new one, or
+% drop one (e.g. Halaman Peruntukan, currently omitted). Do not
+% put chapter content here — see chapters.tex.
+% =============================================================
+
+\input{frontmatter/title-page}
+
+\itbFrontMatter
+\input{frontmatter/pengesahan}              % i
+% Order from here follows the reference thesis "23524315_Yogi
+% Putra_PT Pos.pdf" (same pembimbing): Pengesahan, Pernyataan
+% Orisinalitas, Pernyataan Penggunaan AI, then Abstrak/Abstract.
+\input{frontmatter/pernyataan-orisinalitas} % ii
+\input{frontmatter/pernyataan-ai}           % iii
+\input{frontmatter/abstract-id}             % iv
+\input{frontmatter/abstract-en}             % v
+\input{frontmatter/pedoman-penggunaan-tesis} % vi
+% Halaman Peruntukan (dedication) is explicitly optional per the
+% guide ("bukan halaman yang diharuskan") and is omitted here --
+% no dedication text was supplied; see FORMAT_COMPLIANCE.md.
+\input{frontmatter/acknowledgements}   % vii -- Kata Pengantar
+
+\tableofcontents                       % viii -- Daftar Isi
+% Daftar Lampiran omitted: this revision adds no appendices
+% (see FORMAT_COMPLIANCE.md "Appendices" for the rationale).
+\listoffigures                        % ix -- Daftar Gambar
+\listoftables                         % x -- Daftar Tabel
+\input{frontmatter/abbreviations}      % xi -- Daftar Singkatan dan Lambang

@@ -91,6 +91,7 @@ class DemoRequestHandler(BaseHTTPRequestHandler):
                 {
                     "status": "ok",
                     "face_detection_available": engine.face_app is not None,
+                    "landmark_available": engine.landmark_model is not None,
                     "hsemotion_available": engine.hsemotion_model is not None,
                     "arcface_available": engine.arcface_classifier is not None,
                     "load_errors": engine.load_errors,

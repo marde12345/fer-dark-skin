@@ -574,3 +574,39 @@ Once human labeling is complete, running
 annotation-assistant selection decision itself must then be written here as
 a follow-up entry, referencing that report — it is not automatically chosen
 by the script.
+
+## EXP-PAP-004 (extension) — Multi-annotator overlap for human-human agreement
+
+**Status:** Infrastructure complete and live-verified; Annotator B has not yet labeled (server ready, 0/75 completed).
+
+**What was done:** Extended the single-annotator pilot to support two independent human annotators:
+
+- **Deterministic overlap assignment**: `experiments/EXP-PAP-004/annotator_assignment.csv` — Annotator A assigned all 150 pilot images (unchanged), Annotator B assigned a reproducible 75-image subset (`random.Random(100).sample()` over the sorted `pilot_manifest.csv` image_id list — a seed distinct from the pilot-sampling seed). Task 1's image (`frame_000008_face01`, already labeled by A) was not special-cased in or out of the sample and happened to land in the overlap set by the deterministic draw.
+- **Task 1 preserved**: `tools/papuan_v2/apply_task_overlap.py` PATCHes only the integer `overlap` field on Project A's tasks (2 for the 75 overlap tasks, 1 for the rest) via the REST API, never touching the `annotations` table. Live-verified: Task 1's single existing annotation (`Neutral`/`Medium`, submitted by `mardefasma123up@gmail.com`) was byte-identical before and after the PATCH, confirmed by the script's own before/after diff check.
+- **Annotator B isolation investigated and resolved**: the installed Label Studio (Community 1.23.0) has no role-based Data Manager restriction (`OrganizationMember` has no `role` field — confirmed by reading `organizations/models.py`), so any org member can browse any project's annotations. A second project in the same organization would not have isolated B from A. Instead, Annotator B runs on a **fully separate Label Studio server process** (`tools/papuan_v2/setup_label_studio_annotator_b.py`, separate port/`--data-dir`/SQLite DB/organization), live-verified to have zero knowledge of Project A: its own `/api/projects` lists only its own project. The same pilot image files are served read-only to both servers (no copies).
+- **Real annotator identity**: `export_label_studio_labels.py` now resolves each annotation's `completed_by` field to that user's actual email via `client.get_users()` (live-verified: Task 1's export correctly shows `mardefasma123up@gmail.com`, not a placeholder string).
+- **Human-human agreement**: `tools/papuan_v2/human_agreement_report.py` (raw agreement, Cohen's kappa, confusion matrix, per-class agreement, disagreement list) is implemented and unit-tested but has NOT been run against real data — it refuses to run until both annotators have labeled all 75 overlap images, and it never adjudicates disagreements automatically.
+- **Dashboard-readiness**: `tools/papuan_v2/annotator_progress.py` writes `experiments/EXP-PAP-004/annotator_progress.json` (assigned/completed counts per annotator, overlap size, current agreement summary) by querying both servers live; B's server is optional/best-effort.
+
+**Live verification performed this session:**
+- Project A (id=2): 75/150 tasks now at `overlap=2`, 75 at `overlap=1`; `show_collab_predictions=False`, `show_annotation_history=False`.
+- Project B (id=1, separate server on port 8081): 75/75 tasks imported, isolated (own org, own DB), local file serving verified (`HTTP 200`), idempotent on rerun (0 duplicate tasks/storage connections on a second run).
+- `annotator_progress.json` generated live: `annotator_A_completed: 1`, `annotator_B_completed: 0`, `human_human_agreement: null` (correctly pending).
+
+**Code:** `tools/papuan_v2/{apply_task_overlap,setup_label_studio_annotator_b,human_agreement_report,annotator_progress}.py`; extensions to `label_studio_config.py` and `export_label_studio_labels.py`.
+
+**Explicitly not done (per scope):** no agreement computed (Annotator B hasn't labeled yet), no adjudication, no model-vs-human comparison, no full-scale annotation, no splits, no fine-tuning, no legacy data touched.
+
+---
+
+# Papuan V2 Full Workflow — Phase 1 Architecture Validation
+
+**Status:** Complete. Empirical validation only, no real annotation performed. See `docs/proposal/EXP-PAP-FULL_ANNOTATION_PLAN.md` ("Phase 1 Validation Results" section) for full detail.
+
+**Summary:** Stood up a fully isolated, throwaway Label Studio server (port 8090, separate data-dir/DB/organization, never connected to the pilot's ports 8080/8081) with 4 users (1 owner/inspector + Annotators A/B/C), a bilingual (English/Indonesian) label config, 3 synthetic fixture images, and `maximum_annotations=3` set at project-creation time (which automatically gave every imported task `overlap=3`, with no post-hoc PATCH needed — a lower-friction finding versus the pilot's Task-1 retrofit). Empirically confirmed, via each annotator's own API token against the actual labeling-stream endpoint (`GET /api/projects/<id>/next`), that Annotator B's and C's task view carries zero content from a co-annotator's already-submitted annotation (only a non-content `total_annotations` count is visible) — validating that the shared-instance architecture (one project, `overlap=N`) is safe for independent initial human judgments in Label Studio Community 1.23.0, under this project configuration (`show_collab_predictions=False`, `show_annotation_history=False`, annotators added only as plain organization members, never Manager/reviewer). All 3 annotators then submitted deliberately distinct annotations on the same task; exported with real resolved identities (never faked/ordering-based), and a pure majority-vote consensus function was validated against all three of the brief's worked examples plus the real fixture data.
+
+Pilot preservation verified before and after via checksum/state comparison: Task 1's annotation, `pilot_manifest.csv`, `human_labels.csv`, `ai_predictions.csv`, and all four legacy data directories were confirmed byte-for-byte/count-for-count unchanged.
+
+**Code:** `tools/papuan_v2/validation/{fixture_config,export_fixture_annotations,consensus_fixture}.py` (all new, isolated from pilot production code). Tests: `tests/test_phase1_validation_fixture.py` (20 tests).
+
+**Open items carried forward:** a real-browser visual confirmation of the API-level visibility finding (recommended, not blocking); the AI-visibility-to-annotators methodology choice (still yours to make); dataset-size scope for the full dataset; EXP-PAP-004's own assistant selection (unaffected by this phase); whether annotators need explicit per-project `ProjectMember` records for the real rollout (not exercised in this fixture, since all calls addressed the project by known ID).

@@ -1,0 +1,58 @@
+% =============================================================
+% Master's Thesis — Institut Teknologi Bandung, Smart System
+% =============================================================
+% STATUS: revised draft manuscript, not a final/defensible thesis.
+% Distinct from docs/proposal-latex/ (the research PROPOSAL
+% skeleton) — do not confuse the two. See README.md for status,
+% and FORMAT_COMPLIANCE.md for the page-by-page mapping of this
+% preamble's formatting choices to the supplied ITB guide
+% (fc0779-juknis_tesis_Mei2019_rev.pdf, "Petunjuk Teknis Penulisan
+% Tesis Magister," ITB Sekolah Pascasarjana, Juni 2017) and the
+% matching template-tesis_Mei2019.docx.
+%
+% TEMPLATE STATUS: no official ITB/program-specific .cls or .sty
+% file was found anywhere in this repository (searched for *.cls,
+% *.sty, *itb*, *smart-system*). itb-thesis.sty (this directory)
+% is an UNOFFICIAL formatting layer derived directly from the two
+% supplied sources above — see that file's header comment and
+% FORMAT_COMPLIANCE.md for exactly which rule came from which
+% source, and the compile-verified status of each rule (see
+% README.md "Compilation Status").
+%
+% THIS FILE IS DELIBERATELY THIN. It is the compiled entry point
+% (TeX requires one file with \documentclass + \begin{document}),
+% but everything that changes day-to-day lives elsewhere:
+%   - config.tex      — title, author, NIM, supervisors, dates.
+%                        Edit THIS, not main.tex, to fill in your
+%                        own thesis's metadata.
+%   - itb-thesis.sty   — margins, fonts, heading/numbering rules.
+%                        Edit THIS to change formatting.
+%   - structure.tex    — the actual document body: frontmatter and
+%                        chapter \input order. Edit THIS to add,
+%                        remove, or reorder chapters/frontmatter
+%                        pages — not main.tex.
+% See README.md "Project Layout" for the full file map.
+% =============================================================
+
+\documentclass[12pt,a4paper]{report}
+\usepackage{itb-thesis}
+
+\input{config}
+
+\title{\ThesisTitleID}
+\author{\ThesisAuthor}
+\date{\today}
+
+% NOTE: pdftitle/pdfauthor use the *Plain companions from config.tex,
+% not \ThesisTitleID/\ThesisAuthor directly — those contain \TODO{}'s
+% \textbf/\textcolor markup, which is not valid inside a PDF metadata
+% string. Update the *Plain macros in config.tex once the real title
+% and author name are known.
+\hypersetup{
+  pdftitle={\ThesisTitlePlain},
+  pdfauthor={\ThesisAuthorPlain},
+  pdfsubject={Facial Expression Recognition},
+  pdfcreator={LaTeX}
+}
+
+\input{structure}

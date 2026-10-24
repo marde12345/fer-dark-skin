@@ -1,10 +1,128 @@
 # Papuan V2 — Current State (Master Report)
 
-**Audit date:** 2026-10-01 (original audit below, preserved unchanged). **Pivot update appended:** 2026-10-02 — see the dated section immediately below; everything after it is the original 2026-10-01 audit, kept as a historical record per the project's standing instruction not to overwrite prior reports. **Scope:** repository state, not documentation claims. Where documentation and repository state disagreed, repository state (file contents, row counts, test results) is reported as authoritative, and the discrepancy is noted explicitly.
+**Audit date:** 2026-10-01 (original audit below, preserved unchanged). **Pivot update appended:** 2026-10-02. **Landmark schema/method update appended:** 2026-10-02 (same day, later task). **CVAT pilot implementation appended:** 2026-10-02 (same day, third task). **Landmark label schema appended:** 2026-10-02 (same day, fourth task). **Labels abbreviated:** 2026-10-18 (fifth task, during active human review). **Abbreviations clarified:** 2026-10-18 (sixth task, same review session). **Review exported and QC'd:** 2026-10-19 (seventh task). **Review confirmed + quality limitation documented:** 2026-10-19 (eighth task). **Dataset-wide quality audit:** 2026-10-19 (ninth task). **Calibration batch plan:** 2026-10-19 (tenth task). **Calibration task implemented:** 2026-10-19 (eleventh task, superseded by a same-day bugfix — see Update 12). **Calibration review exported/QC'd:** 2026-10-19 (thirteenth task). **Heavy-correction audit:** 2026-10-19 (fourteenth task). **Task 4 (original-proposal comparison) created:** 2026-10-19 (fifteenth task). **First landmark training baseline run:** 2026-10-19 (sixteenth task) — see the sixteen dated sections immediately below; everything after them is the original 2026-10-01 audit, kept as a historical record per the project's standing instruction not to overwrite prior reports. **Scope:** repository state, not documentation claims. Where documentation and repository state disagreed, repository state (file contents, row counts, test results) is reported as authoritative, and the discrepancy is noted explicitly.
 
 ---
 
-## [2026-10-02 UPDATE] Research Direction Pivot: Facial Landmarks Supersede Emotion Labels as the Primary Target
+## [2026-10-19 UPDATE 16] First Landmark Training Baseline — Mean-Shape, 64-Image Train/Val/Test Split
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §22. Pooled all currently-reviewed landmark data (24-image pilot + 40-image calibration batch, 0 overlap, 64 images / 4,352 points total) into the project's first train/val/test split (45/11/8, seed=400), grouped by frame-number adjacency to mitigate the still-unresolved subject-ID leakage gap (no identity column exists anywhere in the manifests — disclosed, not assumed away).
+
+Trained a **mean-shape baseline** (per-landmark mean position, content-blind — no deep-learning code exists anywhere in the repo, so this is the honestly-smallest supportable baseline, not a placeholder). Val normalized error (by diagonal) 0.090, test 0.101 — stable despite raw pixel error varying widely (9.2px vs. 40.1px) due to crop-size differences between splits. **Original vs. CLAHE confirmed identical by construction** for this baseline (it doesn't read pixel content, and the two conditions share identical coordinates/dimensions) — a real image-conditioned model is required to answer that question, which this dataset size doesn't yet support training reliably.
+
+---
+
+## [2026-10-19 UPDATE 15] CVAT Task 4 Created — Original-Proposal Counterpart to Task 3
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §20. Created **Task 4** (`http://localhost:8070/tasks/4`, "EXP-PAP-005 Calibration — 40 Images (Original Proposals)") holding the same 40 images in the same order as **Task 3** (`http://localhost:8070/tasks/3`), but populated only with the original, unreviewed InsightFace proposals from `calibration_batch_40_predictions.json` — never Task 3's corrected coordinates. 2,720/2,720 points verified matching the raw proposal file exactly; 0 tags (no invented review status). **Task 3 confirmed byte-for-byte unchanged** before/after (direct full-annotation dict equality). Task 4's SVG was freshly generated (not copied from Task 3) to avoid repeating the earlier Task-2 rendering bug.
+
+---
+
+## [2026-10-19 UPDATE 14] Audit of the 11 Heavily-Corrected Calibration Images — No Issue Found, Two Correction Patterns Identified
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §19. Audited the 11 images with near-complete (46–68/68) point corrections. **No evidence of annotation/export corruption or detection failure** — all 68 landmark indices/names verified intact on every image. **Key finding:** the 11 split into two distinct patterns — **6 images show a mathematically exact, bit-identical displacement across all 68 points** (e.g. `frame_000198_face02`: every point shifted by precisely `(5.253249, 5.828802)`), the signature of a whole-skeleton drag/translate in CVAT, not 68 independent point judgments; **5 images show genuine point-by-point variance**, consistent with individual correction (same pattern as the 24-image pilot). This refines, without invalidating, the earlier "714/2,720 points changed" statistic — its granularity is uneven across images. 10 of these 11 are tagged `review_status: ok` (only 1 `low_quality`), suggesting the tag reflects post-correction confidence, not pre-correction proposal quality.
+
+---
+
+## [2026-10-19 UPDATE 13] Calibration Batch (Task 3) Reviewed, Exported, QC'd
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §18. The user completed human review of all 40 Task 3 images (confirmed real: `updated_date` advanced 7 hours past creation, 40/40 `review_status` tags present — **30 `ok`, 10 `low_quality`, 0 `needs_review`**).
+
+Exported (`experiments/EXP-PAP-005/calibration_batch_40_reviewed.json`, 2,720 records) and QC'd clean (0 errors). Comparison vs. the original InsightFace proposals: **714/2,720 points changed (26.2%)**, concentrated in **11 of 40 images** — notably, most corrected images show **all or nearly all 68 points changed** (verified as genuine per-point correction, not a uniform-shift artifact), a different pattern than the 24-image pilot's partial corrections. **0 points flagged `occluded`** — the point-level uncertainty mechanism was not exercised in this batch, flagged as an open question for the design, not an error. Original↔CLAHE pairing re-verified for all 40 (0 mismatches). Not yet checked: whether the 11 corrected images overlap with the 10 `low_quality`-tagged ones — flagged as a natural next step, not computed here.
+
+---
+
+## [2026-10-19 UPDATE 12] Bug Found and Fixed — Correct Task ID Is 3, Not 2
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §17. **Task ID 2 (Update 11) crashed the CVAT UI** on open — root cause confirmed: its skeleton SVG was copied verbatim from Task 1, carrying hardcoded `data-label-id` references to Task 1's specific sublabel database IDs, which don't exist in Task 2. Task 2 was deleted (0 review progress existed on it) and **recreated as Task ID 3** (`http://localhost:8070/tasks/3`), this time generating a fresh, self-consistent SVG rather than reusing another task's saved one. Re-verified: 40/40 images, 2,720/2,720 points, 0 mismatches — identical data integrity to the original import, just without the broken SVG. Task 1 reconfirmed unaffected throughout. **Use Task 3 going forward — Task 2 no longer exists.**
+
+---
+
+## [2026-10-19 UPDATE 11] Calibration Task Implemented — CVAT Task 2, Ready for Human Review
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md` §16. The 40-image calibration batch designed in Update 10 was actually implemented: InsightFace predictions generated for all 40 (0 failures, reusing the same tight-crop fix as EXP-PAP-005), a **new** CVAT task created (**Task ID 2**, `http://localhost:8070/tasks/2`) reusing Task 1's exact 68-point skeleton label plus one new `review_status` tag (ok/needs_review/low_quality), 40 images + 2,720 skeleton points imported and verified via API with **0 coordinate mismatches** against the raw prediction artifact. Point-level uncertainty uses the skeleton's existing native `occluded` field — no new per-point schema added. **Task 1 confirmed unchanged** (still 24 shapes, job state still `in progress`). **Human review has not started** — Task 2 is populated and ready.
+
+---
+
+## [2026-10-19 UPDATE 10] Next Calibration Batch Designed (Not Executed)
+
+Full detail: `docs/reports/PAPUAN_V2_ANNOTATION_CALIBRATION_PLAN.md`. Designed the next annotation batch: 40 images (seed=300, 4 per area-decile stratum, drawn from the 621 images not already in EXP-PAP-005), plus a minimal uncertainty-capture mechanism — confirmed from CVAT's live schema and source that labels/sublabels already support an `attributes` array (checkbox/radio/number/text/select types) and that every skeleton point already has a native, unused `occluded`/`outside` boolean. Recommended mechanism: reuse `occluded` for point-level "can't confidently judge" (zero schema change), one new `review_status` tag label for image-level status (on a new task only — Task 1 untouched), and an external manifest for uncertainty reasons — deliberately the least disruptive combination, not a new multi-attribute skeleton schema. Full reviewer protocol and acceptance criteria defined. **Nothing executed:** no predictions generated for the 40 images, no new CVAT task created, Task 1 unmodified.
+
+---
+
+## [2026-10-19 UPDATE 9] Dataset-Wide Quality Audit (645 Images) — No Threshold Set
+
+Full detail: `docs/reports/PAPUAN_V2_DATASET_QUALITY_AUDIT.md`. Audited all 645 Original/CLAHE crop pairs for inventory integrity and quality-relevant distributions before any scale-up decision.
+
+**Verified clean:** 645/645 Original↔CLAHE pairs present, 0 missing/duplicate/mismatched, 0 dimension mismatches between Original and CLAHE (full-dataset re-confirmation of the geometric-identity property), 0 aspect-ratio outliers (truncation indicator), 645/645 images open successfully, all RGB. Dimension range: 22×25px to 697×966px (median 67×91px, area median 6,097px²). Blur-variance (Laplacian, a standard no-new-dependency heuristic) computed for all 645; weak correlation with crop area (Pearson r=−0.209, reported neutrally, not interpreted causally given known scale-sensitivity of the metric). No pre-existing quality/confidence metadata found anywhere in the project for any image — every signal in this audit was newly computed.
+
+**No numeric quality threshold was set — explicitly, per instruction.** The audit characterizes the dataset's distribution but found no existing reviewer-grounded data (beyond the 24-image pilot) to calibrate a threshold against. Recommended minimal policy: add a CVAT "uncertain" flag for the *next* annotation batch (not retroactive) to generate that missing reviewer-judgment data, deferring any dimensional-threshold decision until real data supports one. CVAT job 1 re-confirmed still `"in progress"` (read-only check, not modified).
+
+---
+
+## [2026-10-19 UPDATE 8] Reviewer Confirms Full Review; Image-Quality Limitation Documented
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_PILOT_REVIEW_QC.md` §20. The reviewer confirmed directly that all 24 images were visually reviewed, that some needed no correction, that some had image-quality/resolution limitations making confident localization difficult, and that the 5 images already identified from coordinate comparison (Update 7) were the ones manually corrected. This resolves the "was review performed at all" question from Update 7.
+
+**Still unresolved, explicitly flagged, not guessed at:** which of the 19 unchanged images were accepted because the AI proposal was verified correct, versus accepted because low resolution made correction impractical — no per-image quality flag exists in any artifact. A new objective finding: the pilot's 3 smallest crops (616–1,628 px²) all show zero corrections, a pattern *consistent with* (not proof of) the quality-limitation explanation, alongside two of the most heavily-corrected images being comparatively large — i.e., **no simple size-correlates-with-correction relationship exists in this data**. `experiments/EXP-PAP-005/metadata.json` updated accordingly: `review_status` now reflects confirmed full review, plus a new `image_quality_limitation_note` field. A quality-control rule (minimum-resolution flagging before full-scale annotation) is proposed but **not implemented or approved** — pending decision.
+
+---
+
+## [2026-10-19 UPDATE 7] Pilot Review Exported and QC'd — Review Coverage Ambiguity Found
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_PILOT_REVIEW_QC.md`. Exported CVAT task 1's current annotations (`experiments/EXP-PAP-005/cvat_reviewed_landmarks.json`, 1,632 points, 24/24 images, structural QC PASS) and compared against the original InsightFace proposals.
+
+**Key verified-but-unresolved finding:** only 5 of 24 images show any point correction beyond a 0.5px tolerance (19–66 of 68 points changed each); the other 19 images are coordinate-identical to the original AI proposal. CVAT's own job metadata (task 1, job 1) still reads stage=`"annotation"`, state=`"in progress"` — not `"completed"` — despite the user reporting all 24 images reviewed. **This report does not resolve whether the 19 zero-change images were genuinely accurate proposals or not actually reviewed** — flagged explicitly for the user to clarify before any scale-up decision. `experiments/EXP-PAP-005/metadata.json`'s `review_status` was updated to reflect this ambiguity rather than asserting full completion.
+
+Overall correction rate across all 1,632 points: 13.5% (220 points), median displacement 8.27px among corrected points. Original↔CLAHE pairing re-verified for all 24 images (identical dimensions, confirming the existing coordinate-reuse design remains valid).
+
+---
+
+## [2026-10-18 UPDATE 6] CVAT Abbreviations Clarified (Side/Detail-Encoded)
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_LANDMARK_LABEL_SCHEMA.md` §14. The plain region+index abbreviations from Update 5 (`ns0`...`ns4`) lost left/right and inner/outer information. Replaced with side/detail-encoded names (e.g. `nsli` = nose, left, inner — the reviewer's own example) while keeping the same 68 indices. Validated the same way as Update 5: snapshot-before vs. after showed 1,622/1,632 points unchanged by the rename itself; the remaining 10 (a complete eyebrow region on one frame) were the reviewer's own in-progress correction, made concurrently and preserved correctly, not lost — confirmed via the task's advancing `updated_date` and the coherent (non-random) shape of the difference.
+
+---
+
+## [2026-10-18 UPDATE 5] CVAT Labels Abbreviated During Active Human Review
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_LANDMARK_LABEL_SCHEMA.md` §13. While reviewing the pilot, the reviewer found the full anatomical label names (`right_eye_outer_corner`, etc.) too visually crowded on the canvas. Renamed to short region+index form (e.g. `j0`...`j16` for jaw, `re0`...`re5` for right eye) via the same validated-safe PATCH mechanism — same 68 point indices/semantics, only the display name changed. **Validated against a snapshot of the live task taken immediately before the rename** (not just the original AI predictions), since human review was already in progress at the time: all 1,632 points and all occlusion/outside flags were confirmed identical before and after, so no review progress was lost. This is now the naming convention in effect for ongoing review.
+
+---
+
+## [2026-10-02 UPDATE 4] CVAT Skeleton Labels Renamed to Anatomical Names
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_LANDMARK_LABEL_SCHEMA.md`. The pilot's CVAT skeleton originally used generic `pt0`...`pt67` labels, which a human reviewer could not map to anatomical features. All 68 labels were renamed (e.g. `pt36` → `right_eye_outer_corner`, `pt33` → `nose_tip`) via CVAT's label-PATCH API, verified safe (no task recreation needed — CVAT references annotations by label `id`, not `name`). Full before/after validation on all 24×68=1,632 points confirmed **zero coordinate drift** and exact index-identity preservation. The verified index→anatomical mapping (confirmed via mean-shape geometry, empirical pixel checks across 5 real images, and the model's exact structural match to the ibug-300W convention) is documented in the linked report, including an explicit "right"/"left" = subject-anatomical (not image-space) convention with its one disclosed caveat (unverified assumption that source frames aren't mirror-flipped). A CVAT API pitfall was found and documented: the annotations endpoint's `elements` array is not ordered by point index — joins must always use `label_id`.
+
+---
+
+## [2026-10-02 UPDATE 3] EXP-PAP-005 CVAT Landmark Pilot — Implemented (24-image pilot, human review pending)
+
+Full detail: `docs/reports/PAPUAN_V2_CVAT_LANDMARK_PILOT.md`. Following the three methodology decisions confirmed by the user/supervisor (68-point InsightFace schema; Original-only annotation; InsightFace predictions as initial CVAT proposals), a working pilot was implemented end-to-end through the import step:
+
+- **CVAT deployed locally** (self-hosted, Docker Compose, now running at `http://localhost:8070` — remapped from the default 8080 after discovering a port collision with the still-running Annotator A Label Studio server; Label Studio itself was not touched).
+- **24-image pilot subset** selected deterministically (seed=200, distinct from the project's existing seeds 42/100) from the existing 150-image EXP-PAP-004 pilot set.
+- **InsightFace `landmark_3d_68` predictions generated** for all 24 Original crops (after fixing a SCRFD re-detection failure on tight crops — the same bug/fix pattern already documented for this project's ArcFace pipeline). QC validation: 0 errors, 5 minor non-fatal out-of-bounds warnings (jaw/ear points near one tight crop's edge).
+- **CVAT task created** with a 68-point skeleton label, 24 images imported, 24 InsightFace-generated skeletons imported as initial proposals — verified via API (24/24 frames, 68/68 points each, no gaps).
+- **Human review has not yet been performed** — the pilot is ready and waiting for the single human reviewer's pass.
+- New in-repo artifacts: `experiments/EXP-PAP-005/` (metadata, predictions, QC script).
+
+---
+
+## [2026-10-02 UPDATE 2] Landmark Schema & AI-Proposal Methodology Gates — Investigated
+
+Full detail: `docs/reports/PAPUAN_V2_LANDMARK_SCHEMA_AND_ANNOTATION_METHOD.md`. Branch used for this and all subsequent work: **`main`** (per explicit instruction; the audit branch `worktree-papuan-v2-audit` is preserved untouched as the historical archive, not merged/cherry-picked — its content was ported to `main` as a plain file copy, see commit `de3c238`).
+
+**Resolved by direct evidence in this investigation:**
+- **CLAHE does not change pixel geometry** in this codebase's implementation (pure L-channel intensity transform, no resize/crop/warp — confirmed by code inspection and direct pixel-dimension measurement). Consequence: **independent CLAHE-branch annotation is not scientifically required** — Original-branch landmark coordinates can be reused as-is (identity-mapped) for the CLAHE branch's training target. Recommended against independent re-annotation, pending supervisor confirmation of this simplified design.
+- A 68-point landmark schema is obtainable from an already-installed dependency (InsightFace's `landmark_3d_68` sub-model, currently excluded via `allowed_modules`) — no new package required.
+- The 10 MediaPipe iris points (of its 478-point output) are unused by any code in this repository today and add annotation cost without a realized use case.
+
+**Still requiring supervisor confirmation (not decided by this audit):** final landmark schema (68-point recommended over 468/478-point, with stated assumptions); whether AI-generated proposals are shown to annotators at all, and if so from which source (InsightFace preferred over MediaPipe on circularity grounds — MediaPipe risks the same self-referential-evaluation pattern already flagged for the superseded HSEmotion/ArcFace emotion track); confirmation of the Original-only-annotation-with-coordinate-reuse design as a substitute for the originally-envisioned two-independent-branch design.
+
+---
+
+## [2026-10-02 UPDATE 1] Research Direction Pivot: Facial Landmarks Supersede Emotion Labels as the Primary Target
 
 **The primary annotation target has changed from facial expression labels to facial landmarks, following a supervisor clarification (Pak Fadhil) on 2026-10-02.** Full detail, audit evidence, and risk analysis: `docs/reports/PAPUAN_V2_METHODOLOGY_PIVOT_2026-10-02.md`. Chronological detail: `docs/reports/PAPUAN_V2_RESEARCH_TIMELINE.md`.
 
@@ -52,9 +170,9 @@ Original vs. CLAHE landmark model comparison
 | Dataset foundation | DONE | Existing 645-crop face extraction pipeline (original + CLAHE), reused as-is for the landmark track. |
 | Landmark annotation design | IN PROGRESS (planning) | This pivot audit; schema/auto-proposal/CVAT-deployment questions open, not yet decided. |
 | Pre-existing landmark extraction (MediaPipe) | PARTIAL / DISCOVERED | `src/fer_dataset/pipeline/landmark_analyzer.py` already exists and already covers 85/645 face crops (20/150 pilot images) — predates this pivot, built for a different purpose, not yet run at full scale. |
-| Original landmark annotation | NOT STARTED | Depends on CVAT setup. |
+| Original landmark annotation | IN PROGRESS (pilot) | 24-image pilot subset selected and InsightFace-initialized in CVAT; awaiting human review. Full 645-image scale-up not started. |
 | CLAHE landmark annotation | NOT STARTED | Depends on CVAT setup. |
-| CVAT review (both branches) | NOT STARTED | CVAT is fully absent from this environment — confirmed by repo-wide search, zero references, no docker-compose file anywhere. |
+| CVAT review (both branches) | IN PROGRESS (pilot) | CVAT now deployed locally (`http://localhost:8070`), EXP-PAP-005 pilot task populated with 24 images + InsightFace-initialized 68pt proposals; human review pass not yet performed. See `PAPUAN_V2_CVAT_LANDMARK_PILOT.md`. |
 | Original landmark training | NOT STARTED | No landmark training code or model architecture exists in the repo yet; architecture choice explicitly deferred pending evidence/design discussion. |
 | CLAHE landmark training | NOT STARTED | Same as above. |
 | Model comparison (Original vs. CLAHE) | NOT STARTED | Depends on both training phases. |

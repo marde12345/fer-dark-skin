@@ -75,6 +75,7 @@ class DemoInferenceEngine:
     def __init__(self) -> None:
         self.face_app = None
         self.recognition_model = None  # app.models["recognition"], reused directly for the CLAHE re-embed
+        self.landmark_model = None  # app.models["landmark_3d_68"], reused directly for the CLAHE-crop landmark pass
         self.hsemotion_model = None
         self.arcface_classifier = None
         self.load_errors: dict[str, str] = {}
@@ -82,11 +83,12 @@ class DemoInferenceEngine:
         try:
             self.face_app = insightface.app.FaceAnalysis(
                 name="buffalo_l",
-                allowed_modules=["detection", "recognition"],
+                allowed_modules=["detection", "recognition", "landmark_3d_68"],
                 providers=["CPUExecutionProvider"],
             )
             self.face_app.prepare(ctx_id=0)
             self.recognition_model = self.face_app.models.get("recognition")
+            self.landmark_model = self.face_app.models.get("landmark_3d_68")
         except Exception as exc:  # noqa: BLE001 -- startup diagnostics, reported not swallowed
             self.load_errors["face_detection"] = str(exc)
 
@@ -166,7 +168,7 @@ class DemoInferenceEngine:
         x2i, y2i = min(w, int(x2)), min(h, int(y2))
         original_crop = frame_bgr[y1i:y2i, x1i:x2i]
 
-        record = {"face_id": face_id, "bbox": bbox_norm, "original": {}, "clahe": {}}
+        record = {"face_id": face_id, "bbox": bbox_norm, "original": {}, "clahe": {}, "landmarks": {"original": None, "clahe": None}}
 
         if original_crop.size == 0:
             unavailable = {"available": False, "error": "empty face crop"}
@@ -190,6 +192,26 @@ class DemoInferenceEngine:
         except Exception:  # noqa: BLE001
             original_embedding = None
         record["original"]["arcface"] = self._run_arcface_from_embedding(original_embedding)
+
+        # --- Original path: 68-point landmarks ---
+        # face.landmark_3d_68 was already computed by the single
+        # face_app.get() call in process_frame() (FaceAnalysis runs every
+        # loaded sub-model, including landmark_3d_68, on every detected
+        # face automatically) -- reused here, never a second detection
+        # pass. Coordinates are in full-frame pixel space; normalized to
+        # [0,1] by frame width/height, same convention as `bbox` above,
+        # so the dashboard can scale them to whatever size it displays
+        # the frame at without needing to know the frame's true
+        # resolution.
+        try:
+            lmk = getattr(face, "landmark_3d_68", None)
+            if lmk is not None:
+                xy = np.asarray(lmk, dtype=np.float64)[:, :2]
+                record["landmarks"]["original"] = [
+                    [float(px / w), float(py / h)] for px, py in xy.tolist()
+                ]
+        except Exception:  # noqa: BLE001 -- landmark failure must not affect FER predictions
+            record["landmarks"]["original"] = None
 
         # --- CLAHE preprocessing of this face's crop (EXP-006's transform, verbatim) ---
         try:
@@ -231,6 +253,33 @@ class DemoInferenceEngine:
             except Exception:  # noqa: BLE001
                 clahe_embedding = None
         record["clahe"]["arcface"] = self._run_arcface_from_embedding(clahe_embedding)
+
+        # --- CLAHE path: 68-point landmarks ---
+        # Runs ONLY the landmark regressor directly (self.landmark_model.get),
+        # never FaceAnalysis's detector, on the already-computed CLAHE crop
+        # -- the exact same "synthetic full-crop bbox, skip re-detection"
+        # technique already used and documented in
+        # experiments/EXP-PAP-005/gen_batch3_predictions.py and
+        # experiments/EXP-DASH-001-landmark-fer/extract_landmark_features.py,
+        # needed because SCRFD-style re-detection is known to fail on
+        # already-tightly-cropped face images this small (documented
+        # repeatedly elsewhere in this repository). Normalized to [0,1] by
+        # this CLAHE crop's own width/height (not the 96x96 preview
+        # thumbnail's size), so the dashboard can scale to whatever size
+        # it actually displays that crop at.
+        if self.landmark_model is not None:
+            try:
+                ch, cw = clahe_crop.shape[:2]
+                clahe_lmk_face = insightface.app.common.Face(
+                    bbox=np.array([0, 0, cw, ch], dtype=np.float32), kps=None, det_score=1.0
+                )
+                self.landmark_model.get(clahe_crop, clahe_lmk_face)
+                clahe_xy = np.asarray(clahe_lmk_face.landmark_3d_68, dtype=np.float64)[:, :2]
+                record["landmarks"]["clahe"] = [
+                    [float(px / cw), float(py / ch)] for px, py in clahe_xy.tolist()
+                ]
+            except Exception:  # noqa: BLE001 -- landmark failure must not affect FER predictions
+                record["landmarks"]["clahe"] = None
 
         # --- Live CLAHE before/after preview thumbnails, same crops used above ---
         if include_preview:

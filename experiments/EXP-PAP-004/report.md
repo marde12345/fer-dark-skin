@@ -101,3 +101,444 @@ before agreement analysis can run.`).
 No code changes are needed for step 2 — the pipeline is complete and tested
 (see `tests/test_pilot_agreement_metrics.py`,
 `tests/test_pilot_independence.py`); it is only waiting on real human input.
+
+---
+
+## [Audit Update, 2026-10-19] Current State Audit — Annotation Recovery, Not Re-Collection
+
+This section records a point-in-time audit of the actual Label Studio and repository state, performed because the project's primary annotation direction has since moved to the facial-landmark pivot (see `docs/reports/PAPUAN_V2_CURRENT_STATE.md`). EXP-PAP-004 is preserved as exploratory/superseded, not deleted. This audit recovers and assesses existing work; no new annotation was requested or performed.
+
+### Annotator A — complete, valid, exported
+
+Verified live via Label Studio's API (`http://localhost:8080`, project id 2): **150/150 tasks have exactly 1 submitted annotation each** (`total_annotations: 1` for all 150, 0 cancelled). `is_labeled` splits 75/75 — expected, since the 75 overlap-designated tasks require 2 annotations (from both A and B) to count as fully labeled by Label Studio's own definition, while A's single annotation already satisfies the other 75.
+
+`experiments/EXP-PAP-004/label_studio_export.csv` is confirmed **current** (its `exported_at` timestamp, 2026-10-01T21:40:09Z, postdates the latest task update, 2026-10-01T21:26:21Z — no annotation activity has occurred since this export was taken, so it was reused rather than regenerated). Validated: 150 rows, 150 unique `image_id`s (0 duplicates), all 150 `human_label` values within the valid 7-class set (0 invalid), single real annotator identity (`mardefasma123up@gmail.com`), label distribution Neutral 93 / Happy 31 / Sad 13 / Surprise 8 / Angry 4 / Fear 1 (sums to 150), 100% of `image_id`s match `pilot_manifest.csv` with no unexpected or missing entries.
+
+### Annotator B — infrastructure present, 0 completions (verified two ways)
+
+Annotator B's Label Studio server (`http://localhost:8081`) **was not running** at audit time, so its live state could not be queried via API. Instead, its SQLite database (`.label-studio-annotator-b/label_studio.sqlite3`) was read directly, read-only: **75 tasks loaded, 0 completions** (`task_completion` table empty). This matches the separately-recorded, but otherwise stale, `annotator_progress.json` (generated 2026-09-19, before Annotator A even finished — so its `annotator_A_completed: 1` value is also now out of date and should not be read as current). **No B-specific export file (e.g. `label_studio_export_annotator_b.csv`) exists anywhere in the repository**, consistent with zero completions.
+
+### Overlap and inter-annotator agreement
+
+The planned 75-image deterministic overlap (`annotator_assignment.csv`, `overlap=true` for exactly 75 of 150 rows, verified) was **not completed** — 0 of those 75 have a second annotation from Annotator B. **Inter-annotator agreement cannot be calculated**: it requires overlapping annotations from two independent annotators on the same images, and only one annotator (A) has any data. HSEmotion/ArcFace predictions in `ai_predictions.csv` exist for all 150 images but are explicitly not treated as human ground truth or as a substitute for the missing second annotator, per this audit's scope.
+
+### `human_labels.csv` — still a blank template, not yet populated
+
+Confirmed: all 150 rows have an empty `gt_label` (0/150 filled), despite valid, complete human labels existing in `label_studio_export.csv`. The project's own existing export script supports populating this file (`export_label_studio_labels.py --write-human-labels`), but **this audit did not run it** — writing to `human_labels.csv` is a deliberate, consequential step (the pipeline's canonical ground-truth file) outside this audit's read-only recovery/assessment scope, left for the user to decide when to perform.
+
+### Data-quality issues found
+
+None beyond what's already documented above (B's incompleteness, `human_labels.csv`'s blank state, and the staleness of `annotator_progress.json`) — no duplicate annotations, no invalid class values, no image_id inconsistencies, no missing labels on any of Annotator A's 150 submitted annotations.
+
+### Blockers
+
+1. Annotator B's Label Studio server is not currently running — if its live state ever needs re-verification beyond this audit's direct SQLite read, it would need to be started first (not done here, per the constraint against creating/modifying Label Studio state).
+2. No further audit action can increase B's completion count — that requires actual human annotation, explicitly out of scope for this task.
+
+---
+
+## [Population Update, 2026-10-19] human_labels.csv Populated from Annotator A's Validated Export
+
+Following the prior audit (confirming Annotator A's 150/150 complete, valid Label Studio export, with `human_labels.csv` still blank), the canonical ground-truth file was populated using the project's own existing tooling — `tools/papuan_v2/export_label_studio_labels.py --write-human-labels` — rather than a new or reimplemented mapping, per the instruction to use existing conventions and not guess.
+
+### Schema mapping (existing, unmodified convention)
+
+`human_labels.csv` columns: `image_id, gt_label, labeled_by, labeled_at, notes`. Mapping applied by the existing script (not altered): `human_label` → `gt_label`; `annotator_source` → `labeled_by`; `exported_at` → `labeled_at`; `human_confidence` → folded into `notes` as `confidence=<value>` (e.g. `confidence=High`), **never written into `gt_label`** — preserving this project's established "confidence must not become part of the expression ground truth" principle.
+
+### Validation results
+
+| Check | Result |
+|---|---|
+| Total rows | 150 |
+| Rows with non-empty `gt_label` | **150 / 150** |
+| Unique `image_id`s | 150 (0 duplicates) |
+| Invalid `gt_label` values (outside the 7-class set) | 0 |
+| Rows with missing label | 0 |
+| `image_id` set matches `pilot_manifest.csv` exactly | Yes — 0 unexpected extras, 0 missing |
+| Cross-mapping errors vs. `label_studio_export.csv` (`gt_label`, `labeled_by`, `notes` all independently re-derived and compared) | **0** |
+
+No labels or confidence values were invented — every field was copied directly from the already-verified Label Studio export.
+
+### Original Label Studio export — side effect disclosed
+
+The `export_label_studio_labels.py --write-human-labels` invocation re-exports **both** files as a single operation (this is the existing script's own design, not something this task added) — `label_studio_export.csv` was therefore rewritten with a new `exported_at` timestamp (`2026-10-19T01:51:24Z`). **Substantive content is unchanged**: re-verified 150 rows, same label distribution (Neutral 93 / Happy 31 / Sad 13 / Surprise 8 / Angry 4 / Fear 1), same single annotator identity, same 150 `image_id`s — only the timestamp byte differs, confirmed by direct re-comparison against the values recorded in the prior audit. This was unavoidable while using the existing tool as instructed rather than hand-rolling a separate reader.
+
+### Blockers
+
+None. `human_labels.csv` is now a complete, valid 150/150 ground-truth file for Annotator A. Annotator B's 0/75 overlap status (and the resulting inability to compute inter-annotator agreement) is unchanged from the prior audit — not addressed here, per scope.
+
+---
+
+## [Evaluation Update, 2026-10-19] HSEmotion vs. Human Labels — Label-Vocabulary Mismatch Found, Both Raw and Normalized Results Reported
+
+### Scope and tooling note
+
+This evaluation reuses the existing `ai_predictions.csv` (no regeneration) and the newly-populated `human_labels.csv`. The existing `tools/papuan_v2/pilot_agreement_report.py` was inspected as the project's designated tool for exactly this comparison, but **was not invoked directly**: it unconditionally overwrites this `report.md` file in full (`report_out.write_text(...)`), which would have destroyed every historical audit section appended above. Its core comparison logic was reused conceptually (matching by `image_id`, `status == "ok"` filtering) rather than its file-writing path, to honor this task's explicit "append, do not overwrite" instruction.
+
+### Coverage
+
+- Human labels: 150 (all of `human_labels.csv`, now populated).
+- HSEmotion (`hsemotion_clahe`) predictions with `status == "ok"`: 150.
+- **Matched (image_id present in both, by exact join): 150 / 150 — full coverage, 0 unmatched.**
+
+### Human label distribution (reference, all 150)
+
+Angry 4, Disgust 0, Fear 1, Happy 31, Sad 13, Surprise 8, Neutral 93. (Identical to the distribution already recorded in the earlier audit section — reconfirmed here from the now-populated `human_labels.csv`.)
+
+### Blocker found and resolved by disclosure, not by silent assumption: label-vocabulary mismatch
+
+**HSEmotion's native output vocabulary does not match the human-annotation 7-class convention.** Confirmed directly from the loaded model (`HSEmotionRecognizer(model_name="enet_b0_8_best_vgaf").idx_to_class`): `{0: 'Anger', 1: 'Contempt', 2: 'Disgust', 3: 'Fear', 4: 'Happiness', 5: 'Neutral', 6: 'Sadness', 7: 'Surprise'}` — an 8-class set, differing from the human convention (`Angry/Disgust/Fear/Happy/Sad/Surprise/Neutral`) in exactly three names (`Anger`≠`Angry`, `Happiness`≠`Happy`, `Sadness`≠`Sad`) plus one extra class (`Contempt`) with no human-label counterpart. **No normalization mapping between these two vocabularies exists anywhere in this repository's tooling** (`pilot_agreement_report.py` does not normalize either — it would compute metrics over the raw, unmapped label union, silently treating `Angry` and `Anger` as unrelated classes). One precedent was found for treating `Anger`≡`Angry` as equivalent (`src/fer_dataset/analysis/landmark_comparison.py:61`, an unrelated analysis script), but it is not a codified, repo-wide mapping and does not address `Happiness`/`Sadness`.
+
+**Per this task's explicit instruction ("if prediction mapping is ambiguous, stop and report the issue instead of guessing"), both interpretations are reported below, clearly separated — neither is presented as the unilaterally-decided final answer.**
+
+### RAW (literal label strings, no normalization applied)
+
+```
+Observed HSEmotion predictions (matched 150): Neutral 76, Fear 45, Anger 19, Sadness 6, Happiness 3, Surprise 1
+(0 Contempt, 0 Disgust predicted on this set)
+
+Accuracy: 0.3267
+Macro-F1 (over the literal union of true/predicted label strings): 0.0878
+```
+
+This is technically correct against the raw artifact but almost certainly understates real agreement, since every `Anger`, `Happiness`, and `Sadness` prediction is automatically wrong by this literal comparison regardless of whether the underlying judgment matched — not a meaningful accuracy figure to report as HSEmotion's "real" performance.
+
+### NORMALIZED (explicit, disclosed mapping: Anger→Angry, Happiness→Happy, Sadness→Sad; Contempt kept distinct, has no human-label counterpart and was not predicted on this set)
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.3600 |
+| Balanced accuracy | 0.1849 |
+| Macro-F1 | 0.1722 |
+| Cohen's kappa | 0.0484 |
+
+**Per-class (normalized, 7-class):**
+
+| Class | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| Angry | 0.053 | 0.250 | 0.087 | 4 |
+| Disgust | 0.000 | 0.000 | 0.000 | 0 |
+| Fear | 0.000 | 0.000 | 0.000 | 1 |
+| Happy | 0.667 | 0.065 | 0.118 | 31 |
+| Sad | 0.333 | 0.154 | 0.211 | 13 |
+| Surprise | 1.000 | 0.125 | 0.222 | 8 |
+| Neutral | 0.632 | 0.516 | 0.568 | 93 |
+
+**Confusion matrix (rows = human ground truth, columns = HSEmotion prediction, normalized labels):**
+
+| True \ Pred | Angry | Disgust | Fear | Happy | Sad | Surprise | Neutral |
+|---|---|---|---|---|---|---|---|
+| Angry | 1 | 0 | 0 | 0 | 0 | 0 | 3 |
+| Disgust | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Fear | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Happy | 6 | 0 | 7 | 2 | 2 | 0 | 14 |
+| Sad | 3 | 0 | 2 | 0 | 2 | 0 | 6 |
+| Surprise | 0 | 0 | 2 | 0 | 0 | 1 | 5 |
+| Neutral | 8 | 0 | 34 | 1 | 2 | 0 | 48 |
+
+### Interpretation — deliberately cautious, per instruction
+
+- **One annotator, not inter-annotator-verified ground truth.** These human labels come from a single annotator (Annotator A); no second annotator's data exists for this pilot (confirmed in the prior audit — Annotator B 0/75). The "human label" reference therefore carries unknown, unmeasured annotator-specific bias/error, and these results should not be read as evaluation against a validated gold standard.
+- **150 images, with severe per-class imbalance (Neutral=93, Disgust=0, Fear=1, Angry=4), make per-class metrics for rare expressions statistically fragile** — the `Angry` row (support=4) and `Fear` row (support=1) in particular should not be over-interpreted; a single misclassified image swings those numbers substantially.
+- **HSEmotion's strongest class is Neutral** (recall 0.516, the majority class) and it struggles most on `Fear` (0 recall, 1 support — likely noise given support=1) and `Happy` (recall 0.065 despite being the second-most-frequent true class — a genuine, if small-sample, signal that HSEmotion frequently predicts something else, often `Neutral` or raw-`Fear`, when the human labeled `Happy`).
+- **The normalization choice itself is a judgment call this report deliberately does not finalize** — presenting both raw and normalized numbers is intended to let the user (or supervisor) confirm the mapping explicitly, rather than this audit silently committing the project to one interpretation.
+
+### Original vs. CLAHE comparison — not possible, reported as missing rather than fabricated
+
+**Only CLAHE-preprocessed predictions exist for EXP-PAP-004.** `ai_predictions.csv`'s `ai_model` column contains exactly two values: `hsemotion_clahe` (150 rows) and `arcface_lr_clahe` (150 rows, not evaluated here — out of this task's HSEmotion-focused scope) — **no `hsemotion_original` (or any non-CLAHE) prediction exists anywhere in the repository for this pilot's 150 images**, confirmed by direct inspection of `ai_predictions.csv`'s full `ai_model` value set, and the pilot's own image directory (`data/papuan_v2/pilot/images/`) is itself CLAHE-only (per `docs/EXPERIMENT.md`/EXP-PAP-002). **No Original-vs-CLAHE comparison is reported, per instruction not to fabricate one.** This is a real gap in this experiment's coverage, not an oversight in this evaluation — the Original/CLAHE comparison for this project's FER pipeline was conducted separately, earlier, on the different 227/135-image population (EXP-005/006/007, documented in the thesis methodology chapter), not on this 150-image Papuan V2 pilot.
+
+### Artifacts
+
+No new files created (per instruction to avoid unnecessary tooling/artifacts) — this evaluation was computed inline and recorded directly in this report section; `human_labels.csv` and `ai_predictions.csv` were both read-only throughout.
+
+### Blockers requiring a decision (not resolved here)
+
+1. **Confirm the label-normalization mapping** (Anger→Angry, Happiness→Happy, Sadness→Sad, Contempt→no mapping) before this becomes the project's canonical comparison methodology — or confirm a different mapping is intended.
+2. Whether this normalization should be codified into `pilot_agreement_report.py` (or a similar reusable location) so future runs don't require re-deriving it ad hoc.
+
+---
+
+## [Canonical Mapping Update, 2026-10-19] Confirmed Label Normalization for EXP-PAP-004 Evaluation
+
+This section confirms and codifies the label mapping left as an open decision in the prior evaluation update. **No metrics change as a result of this update** (explained below) — this section documents the now-confirmed policy for this and future runs.
+
+### Confirmed canonical mapping
+
+| HSEmotion native class | Maps to (human 7-class schema) |
+|---|---|
+| `Anger` | `Angry` |
+| `Happiness` | `Happy` |
+| `Sadness` | `Sad` |
+| `Disgust` | `Disgust` (unchanged) |
+| `Fear` | `Fear` (unchanged) |
+| `Neutral` | `Neutral` (unchanged) |
+| `Surprise` | `Surprise` (unchanged) |
+| `Contempt` | **No mapping — explicitly unsupported by the 7-class human schema** |
+
+This is exactly the mapping already used (and labeled "proposed/illustrative") in the prior evaluation update's "NORMALIZED" results — it is now confirmed as the project's canonical mapping for HSEmotion-vs-human-label comparisons on this pilot, not merely illustrative.
+
+### `Contempt` handling policy (confirmed)
+
+**Policy: `Contempt` predictions are retained in the evaluated sample and counted as incorrect against whatever the true human label is — they are never excluded from the denominator and never mapped to another class.** Rationale: excluding them would silently shrink the evaluated sample and inflate accuracy/F1 by discarding exactly the cases where the model produced an answer outside the usable label space for this 7-class task — that is a real failure mode of using an 8-class model for a 7-class comparison, not missing data, and should be reflected in the metrics rather than hidden from them. This matches standard practice for out-of-schema predictions in a fixed-label-set evaluation (treat as wrong, don't drop), and avoids the opposite failure mode of inventing a same-is-different mapping (e.g. `Contempt`→`Neutral`), which the task explicitly disallowed.
+
+### Observed `Contempt` count and effect on this run
+
+**0 of 150** `hsemotion_clahe` predictions are `Contempt` (confirmed by re-counting the full `ai_model == "hsemotion_clahe"` subset of `ai_predictions.csv`, not just the previously-matched 150 — same result either way, since coverage was already 150/150). **Because the count is zero, this policy has no numerical effect on the metrics already reported in the prior evaluation update** — the "NORMALIZED" accuracy (0.3600), balanced accuracy (0.1849), macro-F1 (0.1722), Cohen's kappa (0.0484), per-class table, and confusion matrix reported there **remain unchanged and are not recomputed**, since recomputing under this now-confirmed policy with zero `Contempt` predictions present produces identical output to what was already computed. This is stated explicitly, per instruction, rather than silently assumed: the previously reported "NORMALIZED" block already reflects this exact policy's outcome for this dataset, by coincidence of zero occurrence, not because the policy was applied differently before.
+
+**If `Contempt` is ever predicted in a future, larger run** (e.g. when evaluating the remaining ~495 non-pilot images), this policy requires it be kept as a distinct, always-incorrect prediction in the confusion matrix / accuracy calculation, not silently folded into any of the 7 human classes or dropped from the sample.
+
+### What was and was not changed
+
+- **Raw labels preserved:** `ai_predictions.csv` was only read, never modified — the raw `Anger`/`Happiness`/`Sadness`/`Contempt` strings remain exactly as HSEmotion produced them.
+- **Human annotations preserved:** `human_labels.csv` was only read, not modified.
+- **No retraining, no new predictions generated.**
+- **Metrics not silently changed:** the previously reported normalized metrics stand as-is, with the reasoning above for why no recomputation was triggered.
+
+---
+
+## [Pipeline Investigation, 2026-10-19] Generating HSEmotion Predictions on Original (Non-CLAHE) Images — Not Yet Run
+
+This section inspects (does not execute) the simplest existing path to close the Original-vs-CLAHE gap identified in the prior evaluation update, since only CLAHE predictions currently exist for this pilot's 150 images.
+
+### Required input
+
+`experiments/EXP-PAP-004/pilot_manifest.csv`'s existing `source_face_path` column already gives the exact Original (non-CLAHE) image path for all 150 pilot images, e.g. `data/papuan_v2/faces/frame_000008_face01.jpg` — **verified all 150 of these files exist on disk** (0 missing), so no new data generation or re-cropping is needed; the Original images this evaluation would need are already present.
+
+### Simplest existing code path
+
+`tools/papuan_v2/run_ai_predictions.py`'s `run_hsemotion_clahe(image_paths: list[Path]) -> list[dict]` function already contains exactly the needed logic: loads `HSEmotionRecognizer(model_name="enet_b0_8_best_vgaf")` once, reads each image via `cv2.imread`, calls `model.predict_emotions(image)`, and returns rows in the same schema as `ai_predictions.csv`. This function takes a plain list of image paths as its only input — it is not coupled to the CLAHE directory structurally, only by the caller's choice of input directory and by two hardcoded details noted below.
+
+### Expected output path (recommended, not created)
+
+A **new** file, e.g. `experiments/EXP-PAP-004/ai_predictions_original.csv`, keeping the existing `ai_predictions.csv` (CLAHE predictions for both candidates) completely untouched — consistent with the "preserve existing artifacts" constraint repeated across this project's prior tasks.
+
+### Blockers found (not fixed — reported per instruction not to start additional work)
+
+1. **Hardcoded `ai_model` label.** `run_hsemotion_clahe()` unconditionally writes `"ai_model": "hsemotion_clahe"` into every output row, regardless of which directory the input images actually came from. Reusing this function as-is on Original images would silently mislabel the output rows as CLAHE predictions — a real provenance bug if run unmodified. A small, scoped parameterization (passing the `ai_model` string as an argument, e.g. `"hsemotion_original"`) would be needed first; this is a minor, well-contained code change, not a new pipeline.
+2. **Destructive default output mode.** The script's `run()` function always opens its output path in `"w"` (overwrite) mode, never append — `main()`'s default `--output` is the existing `ai_predictions.csv`. **Running this script unmodified at its default settings would destroy the existing 300 rows of CLAHE predictions for both candidates.** Any future run must explicitly pass a different `--output` path (e.g. the one recommended above) — this is not optional, it is a correctness requirement to avoid data loss.
+
+### Not a blocker
+
+- Model/dependency availability: `hsemotion-onnx` and the `enet_b0_8_best_vgaf` model weights are already installed and working (confirmed — this exact model was already used to produce the existing CLAHE predictions in this same session's evaluation).
+- No new annotation, experiment, or CVAT/Label Studio work is implied by this — this is purely a second, parallel prediction-generation run on already-existing images, read-only with respect to every other artifact.
+
+**Nothing in this section was executed.** No predictions were generated, no files were created, and `run_ai_predictions.py` was not modified or run.
+
+---
+
+## [Prediction Generation, 2026-10-19] HSEmotion Run on the 150 Original Images
+
+### Code change (minimal, backward-compatible)
+
+`tools/papuan_v2/run_ai_predictions.py`:
+1. `run_hsemotion_clahe()` gained an `ai_model: str = "hsemotion_clahe"` parameter (default preserves exact prior behavior — all 3 internal occurrences of the hardcoded string, in the `invalid_image`, `ok`, and `error` branches, now reference this parameter instead).
+2. A new function, `run_hsemotion_original(manifest_path, output_path)`, was added after `run()` — reads `pilot_manifest.csv`'s existing `source_face_path` column, verifies all files exist before running anything, calls the now-parameterized `run_hsemotion_clahe(image_paths, ai_model="hsemotion_original")`, and writes **only** to its caller-supplied `output_path`.
+3. **`run()`, `main()`, and `parse_args()` were not modified** — the existing CLAHE CLI path (`python run_ai_predictions.py`) behaves identically to before; no new CLI flag was added, since this was a one-off generation run, not a recurring workflow, per "keep the implementation minimal."
+
+Verified before running anything: `python -m py_compile` succeeds, and the existing `tests/test_pilot_independence.py` (7 tests, including the one specifically checking this module never references `human_labels.csv`) **still passes, unchanged, after the edit**.
+
+### Run
+
+```
+run_hsemotion_original(
+    Path("experiments/EXP-PAP-004/pilot_manifest.csv"),
+    Path("experiments/EXP-PAP-004/ai_predictions_original.csv"),
+)
+```
+
+Output: **`experiments/EXP-PAP-004/ai_predictions_original.csv`** (new file) — 150 predictions written, all `ai_model == "hsemotion_original"`.
+
+### Validation results
+
+| Check | Result |
+|---|---|
+| Rows | 150 |
+| Unique `image_id`s | 150 (0 duplicates) |
+| Matches `pilot_manifest.csv` exactly | Yes (0 missing, 0 unexpected) |
+| `ai_model` value | `hsemotion_original` for all 150 rows |
+| `status` | `ok` for all 150 (0 `invalid_image`, 0 `error`) |
+| Invalid class values | 0 |
+| Non-finite/unparseable confidence scores | 0 |
+
+**Prediction distribution:** Neutral 81, Fear 47, Anger 20, Contempt 1, Happiness 1 (0 Disgust, 0 Sadness, 0 Surprise).
+
+**Note relevant to the just-confirmed Contempt policy:** unlike the CLAHE run (0/150 `Contempt`), this Original-image run produced **1 `Contempt` prediction**. Per the canonical mapping/policy confirmed in the prior update, this prediction would be retained and counted as incorrect (not excluded, not remapped) in any future 7-class evaluation against human labels — not evaluated here, since this task's scope was prediction generation only, not evaluation.
+
+### Confirmation: existing artifacts unchanged
+
+- **`ai_predictions.csv` (CLAHE): byte-for-byte unchanged** — MD5 `0b8a56623ab7353e5dfc878f9312ecc1`, identical before and after this task.
+- **`human_labels.csv`: unchanged** (not referenced anywhere in this task's code path).
+- **`label_studio_export.csv` (original Label Studio export): unchanged.**
+- No model was trained or fine-tuned — the same pre-existing `enet_b0_8_best_vgaf` HSEmotion weights used for the CLAHE run were reused as-is.
+
+---
+
+## [Comparison Update, 2026-10-19] Original vs. CLAHE HSEmotion Evaluation on the Same 150 Human-Labeled Images
+
+### Scope and tooling note
+
+Computed inline, reusing the confirmed canonical mapping and `Contempt` policy from the prior updates (not re-invoked via `pilot_agreement_report.py`, for the same reason noted earlier — that script overwrites this report file in full). No prediction, label, or mapping files were modified.
+
+### Identity verification
+
+`human_labels.csv`, `ai_predictions.csv` (`hsemotion_clahe`, `status == "ok"`), and `ai_predictions_original.csv` (`status == "ok"`) all cover the **exact same 150 `image_id`s** — verified by direct set equality across all three (0 images present in one but not another). All 150 are evaluated in both conditions.
+
+### Canonical mapping applied (confirmed, unchanged from the prior update)
+
+`Anger`→`Angry`, `Happiness`→`Happy`, `Sadness`→`Sad`; `Disgust`/`Fear`/`Neutral`/`Surprise` unchanged; `Contempt` left unmapped and counted as incorrect wherever it appears, never excluded.
+
+### Results — CLAHE
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.3600 |
+| Balanced accuracy | 0.1849 |
+| Macro-F1 | 0.1722 |
+| Cohen's kappa | 0.0484 |
+| Contempt predictions | 0 |
+
+| Class | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| Angry | 0.053 | 0.250 | 0.087 | 4 |
+| Disgust | 0.000 | 0.000 | 0.000 | 0 |
+| Fear | 0.000 | 0.000 | 0.000 | 1 |
+| Happy | 0.667 | 0.065 | 0.118 | 31 |
+| Sad | 0.333 | 0.154 | 0.211 | 13 |
+| Surprise | 1.000 | 0.125 | 0.222 | 8 |
+| Neutral | 0.632 | 0.516 | 0.568 | 93 |
+
+Confusion matrix (rows = true, cols = predicted): identical to the one already recorded in the earlier evaluation update (reproduced here for direct side-by-side comparison with Original, below).
+
+### Results — Original
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.3933 |
+| Balanced accuracy | 0.1492 |
+| Macro-F1 | 0.1144 |
+| Cohen's kappa | 0.0809 |
+| Contempt predictions | **1** |
+
+| Class | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| Angry | 0.050 | 0.250 | 0.083 | 4 |
+| Disgust | 0.000 | 0.000 | 0.000 | 0 |
+| Fear | 0.000 | 0.000 | 0.000 | 1 |
+| Happy | 1.000 | 0.032 | 0.062 | 31 |
+| Sad | 0.000 | 0.000 | 0.000 | 13 |
+| Surprise | 0.000 | 0.000 | 0.000 | 8 |
+| Neutral | 0.704 | 0.613 | 0.655 | 93 |
+
+### Confusion matrices (rows = true human label, columns = predicted, normalized classes)
+
+**CLAHE:**
+
+| True \ Pred | Angry | Disgust | Fear | Happy | Sad | Surprise | Neutral |
+|---|---|---|---|---|---|---|---|
+| Angry | 1 | 0 | 0 | 0 | 0 | 0 | 3 |
+| Disgust | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Fear | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Happy | 6 | 0 | 7 | 2 | 2 | 0 | 14 |
+| Sad | 3 | 0 | 2 | 0 | 2 | 0 | 6 |
+| Surprise | 0 | 0 | 2 | 0 | 0 | 1 | 5 |
+| Neutral | 8 | 0 | 34 | 1 | 2 | 0 | 48 |
+
+**Original:**
+
+| True \ Pred | Angry | Disgust | Fear | Happy | Sad | Surprise | Neutral |
+|---|---|---|---|---|---|---|---|
+| Angry | 1 | 0 | 1 | 0 | 0 | 0 | 2 |
+| Disgust | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Fear | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Happy | 6 | 0 | 12 | 1 | 0 | 0 | 12 |
+| Sad | 5 | 0 | 3 | 0 | 0 | 0 | 5 |
+| Surprise | 1 | 0 | 2 | 0 | 0 | 0 | 5 |
+| Neutral | 6 | 0 | 29 | 0 | 0 | 0 | 57 |
+
+(Note: the `Contempt` column is omitted from both tables for brevity since every true class's `Contempt` count is 0 in both conditions except `Sad`→`Contempt`=1 in the Original condition — see "prediction change analysis" below for this specific case.)
+
+### Metric differences (Original − CLAHE)
+
+| Metric | CLAHE | Original | Difference |
+|---|---|---|---|
+| Accuracy | 0.3600 | 0.3933 | **+0.0333** |
+| Balanced accuracy | 0.1849 | 0.1492 | **−0.0357** |
+| Macro-F1 | 0.1722 | 0.1144 | **−0.0578** |
+| Cohen's kappa | 0.0484 | 0.0809 | **+0.0326** |
+
+**Accuracy and Cohen's kappa are both (slightly) higher for Original; balanced accuracy and macro-F1 are both lower for Original.** This divergence is a real, reportable pattern, not a contradiction: accuracy is dominated by the majority class (Neutral, support=93/150=62%), and Original's Neutral recall (0.613) is indeed higher than CLAHE's (0.516) — but Original's performance on several minority classes (`Sad`, `Surprise`: both drop to 0 recall) is worse than CLAHE's, which balanced accuracy and macro-F1 (both unweighted across classes) penalize more heavily than plain accuracy does.
+
+### Changed predictions
+
+**36 / 150 images (24.0%)** have a different predicted class between CLAHE and Original. The dominant changes are `Fear ↔ Neutral` (12 one direction, 10 the other — the single largest source of instability between conditions) and a small cluster of `Sad`/`Angry`/`Happy` relabelings to `Fear` or `Neutral`. One image's prediction changed `Sad → Contempt` (CLAHE → Original) — this is the one `Contempt` prediction noted above.
+
+**Correctness breakdown across the 150 paired images:**
+
+| | Count |
+|---|---|
+| Correct in both conditions | 46 |
+| Wrong in both conditions | 83 |
+| Correct only under CLAHE | 8 |
+| Correct only under Original | 13 |
+
+More images flip from wrong-under-CLAHE to correct-under-Original (13) than the reverse (8) — consistent with Original's higher raw accuracy, but the majority of images (83/150, 55%) are wrong under both conditions regardless of preprocessing, and the per-class metrics above show this "improvement" is concentrated in the majority Neutral class, not spread across classes.
+
+### Contempt predictions — explicit count, both conditions
+
+- **CLAHE: 0 / 150.**
+- **Original: 1 / 150** — verified directly: `frame_000168_face04`, true human label `Neutral`, predicted `Sadness` (normalized `Sad`) under CLAHE and `Contempt` under Original. Both predictions are wrong either way, but the Original prediction is additionally a class entirely outside the human 7-class schema. Per the confirmed policy, this is retained and counted as incorrect in both the raw per-image comparison and the aggregate metrics above — not excluded, not remapped.
+
+### Interpretation — deliberately cautious, per instruction
+
+- **Single annotator.** As stated in every prior evaluation section in this report: these human labels come from one annotator (Annotator A), with no second annotator's data to establish inter-annotator reliability. Both the CLAHE and Original comparisons inherit this same limitation equally — the Original-vs-CLAHE *difference* is not affected by this (both are compared against the identical label set), but the absolute accuracy/F1 numbers for either condition should not be read as validated against a reliable ground truth.
+- **Rare classes have very low support in both conditions** (`Disgust`=0, `Fear`=1, `Angry`=4) — the `Fear` row's 0/1 recall in both conditions, and `Angry`'s identical 0.25 recall in both, are each driven by a single or a handful of images; small sample noise, not a stable signal, and should not be used to claim one preprocessing condition is systematically better or worse on these classes.
+- **The accuracy-vs-macro-F1 divergence itself is the most robust finding here**, precisely because it does not depend on any single rare class — it reflects the real class-imbalance structure of this 150-image pilot (62% Neutral) interacting differently with each preprocessing condition's majority-class behavior. This is worth noting in any downstream write-up, but a 150-image, single-annotator pilot is not a sufficient basis for a general claim about which preprocessing condition is "better" for Papuan-face FER — only that they behave measurably differently on this specific sample.
+
+### Output / report paths
+
+No new files created — all results computed inline and recorded directly in this section, consistent with the "no unnecessary tooling" constraint. Source files (`human_labels.csv`, `ai_predictions.csv`, `ai_predictions_original.csv`) were read-only throughout.
+
+### Blockers
+
+None. All three input files matched exactly on `image_id`; no mismatch was encountered.
+
+---
+
+## [Paired Significance Test, 2026-10-19] Original vs. CLAHE — McNemar's Test on Matched Correctness
+
+### Method
+
+Reused the exact comparison already computed and reported in the prior "Comparison Update" section (150/150 matched images, canonical mapping applied: `Anger→Angry`, `Happiness→Happy`, `Sadness→Sad`, `Contempt` unmapped and counted incorrect). Added one new, focused step: a paired significance test on the correct/incorrect outcome per image under each condition.
+
+**Test: McNemar's exact test (binomial)** on the 2×2 paired-correctness table, applied to the discordant cells only (images where the two conditions disagree on correctness) — the same test this project's own thesis methodology chapter already uses for an analogous two-classifier paired comparison (EXP-007/RQ3, "uji McNemar ... menguji apakah ketidaksepakatan di antara keduanya simetris"), reused here for consistency rather than introducing a different method. The exact binomial form (not the chi-square approximation) was used because the discordant count (21) is small enough that the exact test is more appropriate, matching the same caution already applied in that earlier chapter.
+
+### Paired correctness counts (restated from the prior comparison update, not recomputed differently)
+
+| | Original correct | Original wrong |
+|---|---|---|
+| **CLAHE correct** | 46 (both correct) | 8 (CLAHE-only-correct) |
+| **CLAHE wrong** | 13 (Original-only-correct) | 83 (both wrong) |
+
+### Result
+
+- Discordant pairs: 21 (8 + 13).
+- **McNemar's exact binomial test: p = 0.383.**
+- **Not statistically significant at any conventional threshold (α = 0.05).** The observed 13-vs-8 split among discordant images is consistent with chance given only 21 discordant pairs to begin with.
+
+### Limitations (stated explicitly, not glossed over)
+
+- **Small discordant-pair count (n=21)** limits statistical power substantially — this test can only detect a fairly large asymmetry between the two conditions at this sample size; a true, smaller effect could exist and go undetected.
+- **Single-annotator human labels** (restated from every prior evaluation in this report) — the "correctness" being tested is correctness against one person's judgment, not a validated ground truth, so even a significant result would describe agreement-with-one-annotator, not an evaluation-quality-independent effect.
+- McNemar's test asks only whether the two conditions' *error rates* differ — it does not test whether *which* images each condition gets right/wrong is otherwise related, and does not account for per-class imbalance (addressed separately below).
+
+### Where the differences concentrate (per-class)
+
+**17 of the 21 discordant images (81%) have a true human label of `Neutral`** (the remaining 4: `Sad`×2, `Happy`×1, `Surprise`×1). Inspecting the discordant pairs directly: **the overwhelming majority of the Neutral-class discordances are a `Fear ↔ Neutral` confusion that flips direction between conditions** — in most of these, Original correctly predicts `Neutral` where CLAHE predicts `Fear` (14 of the 17 Neutral discordances go this direction; the remaining 3 go the opposite way, or involve `Angry`). This is consistent with, and does not contradict, the already-reported finding (prior "Comparison Update" section) that Original's higher raw accuracy is concentrated in the majority `Neutral` class.
+
+### What this does and does not support about the effect of CLAHE
+
+**Does not support a conclusion that CLAHE preprocessing significantly changes HSEmotion's correctness on this pilot** — the paired test found no significant difference (p=0.383), and the accuracy/kappa-vs-macro-F1/balanced-accuracy divergence already reported earlier is fully attributable to a concentrated, non-significant shift within one majority class (`Neutral`/`Fear` confusion), not a broad or statistically supported effect across the pilot.
+
+**Does support** the already-documented observation that where a difference exists at all, it is narrowly concentrated (`Neutral` true class, `Fear`-vs-`Neutral` prediction flips) rather than spread across classes — a descriptive fact about this specific 150-image, single-annotator pilot, not independently validated evidence that CLAHE helps or hurts Papuan-face FER in general.
+
+No new report file created; this analysis was computed inline from already-existing artifacts (`human_labels.csv`, `ai_predictions.csv`, `ai_predictions_original.csv`), all read-only, no modification. No model trained, no new annotation performed.

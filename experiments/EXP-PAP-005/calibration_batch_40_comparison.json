@@ -1,0 +1,101 @@
+{
+  "tolerance_px": 0.5,
+  "images": 40,
+  "points_matched": 2720,
+  "points_changed": 714,
+  "points_unchanged": 2006,
+  "images_with_corrections": 11,
+  "occluded_points": 0,
+  "per_image_corrections": {
+    "frame_000011_face07": 57,
+    "frame_000012_face09": 0,
+    "frame_000015_face05": 0,
+    "frame_000019_face02": 0,
+    "frame_000022_face04": 0,
+    "frame_000034_face02": 0,
+    "frame_000037_face01": 0,
+    "frame_000038_face02": 0,
+    "frame_000043_face05": 0,
+    "frame_000047_face03": 0,
+    "frame_000060_face01": 0,
+    "frame_000102_face02": 0,
+    "frame_000127_face02": 0,
+    "frame_000133_face01": 0,
+    "frame_000134_face04": 0,
+    "frame_000142_face03": 0,
+    "frame_000168_face01": 0,
+    "frame_000169_face02": 0,
+    "frame_000170_face04": 68,
+    "frame_000173_face06": 68,
+    "frame_000175_face01": 0,
+    "frame_000178_face01": 0,
+    "frame_000185_face01": 0,
+    "frame_000187_face05": 0,
+    "frame_000188_face01": 0,
+    "frame_000188_face02": 0,
+    "frame_000190_face07": 67,
+    "frame_000191_face03": 0,
+    "frame_000192_face02": 68,
+    "frame_000192_face05": 0,
+    "frame_000198_face02": 68,
+    "frame_000199_face02": 68,
+    "frame_000215_face03": 0,
+    "frame_000227_face03": 46,
+    "frame_000243_face01": 68,
+    "frame_000244_face05": 68,
+    "frame_000245_face10": 0,
+    "frame_000246_face02": 68,
+    "frame_000248_face11": 0,
+    "frame_000249_face18": 0
+  },
+  "per_region_corrections": {
+    "mouth_inner": {
+      "changed": 80,
+      "total": 320
+    },
+    "left_eye": {
+      "changed": 66,
+      "total": 240
+    },
+    "mouth_outer": {
+      "changed": 120,
+      "total": 480
+    },
+    "jaw": {
+      "changed": 183,
+      "total": 680
+    },
+    "right_eye": {
+      "changed": 61,
+      "total": 240
+    },
+    "nose_base": {
+      "changed": 54,
+      "total": 200
+    },
+    "nose_bridge": {
+      "changed": 40,
+      "total": 160
+    },
+    "left_eyebrow": {
+      "changed": 55,
+      "total": 200
+    },
+    "right_eyebrow": {
+      "changed": 55,
+      "total": 200
+    }
+  },
+  "review_status_distribution": {
+    "ok": 30,
+    "low_quality": 10
+  },
+  "displacement_stats_px": {
+    "mean": 5.66432356034391,
+    "median": 5.107144723242862,
+    "max": 38.122669985295744,
+    "count": 714
+  },
+  "qc_errors": [],
+  "out_of_bounds_points": 5
+}

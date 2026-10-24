@@ -1,0 +1,13 @@
+{
+  "experiment_id": "EXP-PAP-004",
+  "dataset_version": "papuan_v2",
+  "pilot_size": 150,
+  "project_id": 2,
+  "project_title": "EXP-PAP-004 Papuan V2 Pilot (Blind)",
+  "label_studio_url": "http://localhost:8080",
+  "annotation_status": "not_started",
+  "labeled_count": 0,
+  "remaining_count": 150,
+  "labeling_config_version": "v1",
+  "generated_at": "2026-09-19T08:09:48.004061+00:00"
+}

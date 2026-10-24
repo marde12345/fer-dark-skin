@@ -1,0 +1,21 @@
+% =============================================================
+% structure.tex — Document body, split by concern
+% =============================================================
+% This is the actual \begin{document}...\end{document} wrapper.
+% It is deliberately thin and does not hold any \input list of
+% its own -- it delegates to three focused files, one per concern:
+%   - frontmatter.tex  -- title page through Daftar Singkatan
+%   - chapters.tex     -- Bab I through Bab V
+%   - bibliography.tex -- Daftar Pustaka
+% To reorder frontmatter pages or add a chapter, edit the relevant
+% file above, not this one or main.tex. See README.md "Project
+% Layout" for the full file map.
+% =============================================================
+
+\begin{document}
+
+\input{frontmatter}
+\input{chapters}
+\input{bibliography}
+
+\end{document}
