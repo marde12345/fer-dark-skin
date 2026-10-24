@@ -91,6 +91,7 @@ Summarize findings.
 | EXP-008 | ArcFace/HSEmotion Error & Skin-Tone Analysis (R8, descriptive-only, reuses R7's common evaluation artifact) | Completed — see `docs/EXP-008_ERROR_AND_SKIN_TONE_ANALYSIS.md` |
 | EXP-009 | Final Statistical Validation & Research Findings Synthesis (R9, consolidates EXP-005–EXP-008; no new experiment) | Completed — see `docs/RESEARCH_FINDINGS.md` and `docs/R9_FINAL_STATISTICAL_VALIDATION.md` |
 | EXP-010 | Skin-Brightness Group Fairness Analysis on the 135-crop subset (re-analysis of EXP-007 predictions; no new training) | Completed — see `docs/EXP-010_FAIRNESS_135.md` |
+| EXP-011 | Original vs. CLAHE Skin-Brightness Group Analysis on the 135-crop subset (re-analysis of saved EXP-006 predictions; no inference) | Completed — see `docs/EXP-011_CLAHE_FAIRNESS_135.md` |
 
 ---
 
