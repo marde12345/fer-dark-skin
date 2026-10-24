@@ -90,6 +90,7 @@ Summarize findings.
 | EXP-007 | Frozen ArcFace Feature Extraction + Logistic Regression, formally evaluated vs. HSEmotion (R5/R6/R7) | Completed — see `docs/EXP-007_ARCFACE_EVALUATION.md` for the formal R7 evaluation |
 | EXP-008 | ArcFace/HSEmotion Error & Skin-Tone Analysis (R8, descriptive-only, reuses R7's common evaluation artifact) | Completed — see `docs/EXP-008_ERROR_AND_SKIN_TONE_ANALYSIS.md` |
 | EXP-009 | Final Statistical Validation & Research Findings Synthesis (R9, consolidates EXP-005–EXP-008; no new experiment) | Completed — see `docs/RESEARCH_FINDINGS.md` and `docs/R9_FINAL_STATISTICAL_VALIDATION.md` |
+| EXP-010 | Skin-Brightness Group Fairness Analysis on the 135-crop subset (re-analysis of EXP-007 predictions; no new training) | Completed — see `docs/EXP-010_FAIRNESS_135.md` |
 
 ---
 

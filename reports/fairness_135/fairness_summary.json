@@ -1,0 +1,219 @@
+{
+  "n": 135,
+  "overall": {
+    "HSEmotion": {
+      "accuracy": 0.362962962962963,
+      "macro_f1": 0.24891015417331203
+    },
+    "ArcFace+LR": {
+      "accuracy": 0.4074074074074074,
+      "macro_f1": 0.27174636721406253
+    }
+  },
+  "regroup_agreement_with_validated": "78/78",
+  "skin_tone_all_counts": {
+    "Dark": 89,
+    "Medium-Dark": 46
+  },
+  "full_regroup_n135": {
+    "groups": {
+      "Dark": {
+        "n": 89,
+        "class_counts": {
+          "Neutral": 55,
+          "Happy": 18,
+          "Surprise": 6,
+          "Fear": 5,
+          "Sad": 5
+        },
+        "mcnemar": {
+          "b_hsemotion_only": 18,
+          "c_arcface_only": 15,
+          "p_value": 0.7283324808813632
+        },
+        "HSEmotion": {
+          "accuracy": 0.48314606741573035,
+          "macro_f1_present_classes": 0.27785852981969483
+        },
+        "ArcFace+LR": {
+          "accuracy": 0.449438202247191,
+          "macro_f1_present_classes": 0.270792759051186
+        }
+      },
+      "Medium-Dark": {
+        "n": 46,
+        "class_counts": {
+          "Neutral": 21,
+          "Happy": 14,
+          "Sad": 7,
+          "Surprise": 2,
+          "Fear": 2
+        },
+        "mcnemar": {
+          "b_hsemotion_only": 2,
+          "c_arcface_only": 11,
+          "p_value": 0.0224609375
+        },
+        "HSEmotion": {
+          "accuracy": 0.13043478260869565,
+          "macro_f1_present_classes": 0.11820271682340647
+        },
+        "ArcFace+LR": {
+          "accuracy": 0.32608695652173914,
+          "macro_f1_present_classes": 0.2642578232414893
+        }
+      }
+    },
+    "models": {
+      "HSEmotion": {
+        "gap_dark_minus_medium_dark": 0.35271128480703473,
+        "gap_ci95": [
+          0.1817800184790905,
+          0.540269321485382
+        ],
+        "worst_group_accuracy": 0.13043478260869565,
+        "worst_group_ci95": [
+          0.0285515873015873,
+          0.25
+        ]
+      },
+      "ArcFace+LR": {
+        "gap_dark_minus_medium_dark": 0.12335124572545186,
+        "gap_ci95": [
+          -0.038289149281060864,
+          0.28205128205128205
+        ],
+        "worst_group_accuracy": 0.32608695652173914,
+        "worst_group_ci95": [
+          0.17946428571428572,
+          0.44192506459948283
+        ]
+      }
+    },
+    "gap_difference_hsemotion_minus_arcface": 0.22936003908158287,
+    "gap_difference_ci95": [
+      0.05417404024546885,
+      0.4424487071080802
+    ]
+  },
+  "validated_grouping_n78": {
+    "groups": {
+      "Dark": {
+        "n": 46,
+        "class_counts": {
+          "Neutral": 25,
+          "Happy": 15,
+          "Fear": 2,
+          "Sad": 2,
+          "Surprise": 2
+        },
+        "mcnemar": {
+          "b_hsemotion_only": 9,
+          "c_arcface_only": 9,
+          "p_value": 1.0
+        },
+        "HSEmotion": {
+          "accuracy": 0.45652173913043476,
+          "macro_f1_present_classes": 0.3416666666666667
+        },
+        "ArcFace+LR": {
+          "accuracy": 0.45652173913043476,
+          "macro_f1_present_classes": 0.2682821423059114
+        }
+      },
+      "Medium-Dark": {
+        "n": 32,
+        "class_counts": {
+          "Neutral": 13,
+          "Happy": 11,
+          "Sad": 6,
+          "Surprise": 1,
+          "Fear": 1
+        },
+        "mcnemar": {
+          "b_hsemotion_only": 2,
+          "c_arcface_only": 8,
+          "p_value": 0.109375
+        },
+        "HSEmotion": {
+          "accuracy": 0.125,
+          "macro_f1_present_classes": 0.12777777777777777
+        },
+        "ArcFace+LR": {
+          "accuracy": 0.3125,
+          "macro_f1_present_classes": 0.2600731775963975
+        }
+      }
+    },
+    "models": {
+      "HSEmotion": {
+        "gap_dark_minus_medium_dark": 0.33152173913043476,
+        "gap_ci95": [
+          0.13534792863002465,
+          0.5136274181081039
+        ],
+        "worst_group_accuracy": 0.125,
+        "worst_group_ci95": [
+          0.0,
+          0.22730519480519462
+        ]
+      },
+      "ArcFace+LR": {
+        "gap_dark_minus_medium_dark": 0.14402173913043476,
+        "gap_ci95": [
+          -0.08571726190476188,
+          0.40996264367816093
+        ],
+        "worst_group_accuracy": 0.3125,
+        "worst_group_ci95": [
+          0.12490530303030303,
+          0.45
+        ]
+      }
+    },
+    "gap_difference_hsemotion_minus_arcface": 0.1875,
+    "gap_difference_ci95": [
+      -0.08337705615428248,
+      0.4773721590909085
+    ]
+  },
+  "within_class_full_regroup": [
+    {
+      "class": "Neutral",
+      "group": "Dark",
+      "n": 55,
+      "hsemotion_recall": 0.6909090909090909,
+      "arcface_recall": 0.4909090909090909,
+      "hsemotion_to_angry": 6
+    },
+    {
+      "class": "Neutral",
+      "group": "Medium-Dark",
+      "n": 21,
+      "hsemotion_recall": 0.19047619047619047,
+      "arcface_recall": 0.2857142857142857,
+      "hsemotion_to_angry": 12
+    },
+    {
+      "class": "Happy",
+      "group": "Dark",
+      "n": 18,
+      "hsemotion_recall": 0.16666666666666666,
+      "arcface_recall": 0.6111111111111112,
+      "hsemotion_to_angry": 4
+    },
+    {
+      "class": "Happy",
+      "group": "Medium-Dark",
+      "n": 14,
+      "hsemotion_recall": 0.07142857142857142,
+      "arcface_recall": 0.42857142857142855,
+      "hsemotion_to_angry": 4
+    }
+  ],
+  "bootstrap": {
+    "seed": 42,
+    "n": 2000,
+    "unit": "temporal block (frame_index // 3)"
+  }
+}
