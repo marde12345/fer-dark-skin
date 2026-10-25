@@ -30,10 +30,10 @@ def main(argv: list[str] | None = None) -> None:
     if args.out.exists() and not args.force:
         raise SystemExit(f"{args.out} exists; pass --force to overwrite it.")
 
-    from label_studio_sdk import Client
+    from ls_client import make_client
 
-    client = Client(url=os.environ.get("LABEL_STUDIO_URL", "http://localhost:8080"),
-                    api_key=os.environ["LABEL_STUDIO_API_KEY"])
+    client = make_client(os.environ.get("LABEL_STUDIO_URL", "http://localhost:8080"),
+                         os.environ["LABEL_STUDIO_API_KEY"])
     project = next((p for p in client.get_projects() if p.get_params().get("title") == args.project_title), None)
     if project is None:
         raise SystemExit(f"project {args.project_title!r} not found")

@@ -1,0 +1,11 @@
+{
+  "experiment_id": "EXP-012",
+  "label_round": 2,
+  "mode": "sample",
+  "project_id": 3,
+  "project_title": "EXP-012 SAMPLE VERIFY (do not label)",
+  "label_studio_url": "http://localhost:8080",
+  "n_tasks": 6,
+  "labeling_config_version": "v1",
+  "updated_at": "2026-10-25T13:57:13.706583+00:00"
+}

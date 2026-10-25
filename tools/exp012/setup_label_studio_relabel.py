@@ -59,7 +59,7 @@ def main(argv: list[str] | None = None) -> None:
                         default=Path(os.environ.get("LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT", cfg.REPO_ROOT)))
     args = parser.parse_args(argv)
 
-    from label_studio_sdk import Client  # imported here so the config module stays server-free
+    from ls_client import make_client  # imported here so the config module stays server-free
 
     api_key = os.environ.get("LABEL_STUDIO_API_KEY")
     if not api_key:
@@ -77,7 +77,7 @@ def main(argv: list[str] | None = None) -> None:
     if missing:
         raise SystemExit(f"{len(missing)} overlay(s) missing in {overlay_dir}; run render_overlays.py first.")
 
-    client = Client(url=url, api_key=api_key)
+    client = make_client(url, api_key)
     project = find_or_create_project(client, cfg.SAMPLE_PROJECT_TITLE if args.sample else cfg.PROJECT_TITLE)
     ensure_storage(project, args.data_root / cfg.LEGACY_FACES_REL, "EXP-012 legacy crops")
     ensure_storage(project, overlay_dir, "EXP-012 landmark overlays")
