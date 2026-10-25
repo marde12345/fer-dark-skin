@@ -92,6 +92,7 @@ Summarize findings.
 | EXP-009 | Final Statistical Validation & Research Findings Synthesis (R9, consolidates EXP-005–EXP-008; no new experiment) | Completed — see `docs/RESEARCH_FINDINGS.md` and `docs/R9_FINAL_STATISTICAL_VALIDATION.md` |
 | EXP-010 | Skin-Brightness Group Fairness Analysis on the 135-crop subset (re-analysis of EXP-007 predictions; no new training) | Completed — see `docs/EXP-010_FAIRNESS_135.md` |
 | EXP-011 | Original vs. CLAHE Skin-Brightness Group Analysis on the 135-crop subset (re-analysis of saved EXP-006 predictions; no inference) | Completed — see `docs/EXP-011_CLAHE_FAIRNESS_135.md` |
+| EXP-012 | Manual relabeling (round 2) of the 227 legacy crops in a separate Label Studio project, with 42-point landmark overlays as a visual aid | Prepared; sample verified; full annotation not started — see `experiments/EXP-012-relabel/README.md` |
 
 ---
 
