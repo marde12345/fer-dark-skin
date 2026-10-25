@@ -1,73 +1,182 @@
-% Sumber: reports/audit_summary_metrics.csv, reports/audit_per_skin_tone_accuracy.csv,
-% reports/preprocessing_experiment_summary.csv (melalui docs/EXPERIMENT.md EXP-006),
-% reports/arcface_evaluation/{comparison_metrics,statistical_tests,skin_tone_analysis}.csv,
-% reports/arcface_error_analysis/neutral_error_analysis.csv, docs/EXPERIMENT.md,
-% docs/EXP-007_ARCFACE_EVALUATION.md, research-audit/DATA_DISCREPANCIES.md (D-8).
+% Sumber: docs/EXP-010_FAIRNESS_135.md dan reports/fairness_135/fairness_summary.json (RQ1, RQ3);
+% docs/EXP-011_CLAHE_FAIRNESS_135.md dan reports/clahe_fairness_135/clahe_fairness_summary.json (RQ2);
+% reports/arcface_evaluation/{comparison_metrics,statistical_tests}.csv dan docs/EXP-007_ARCFACE_EVALUATION.md (EXP-007);
+% reports/arcface_error_analysis/neutral_error_analysis.csv (EXP-008); reports/audit_summary_metrics.csv (EXP-005);
+% reports/preprocessing_experiment_summary.csv (EXP-006); docs/R9_FINAL_STATISTICAL_VALIDATION.md;
+% research-audit/D8_SKIN_TONE_DISCREPANCY_INVESTIGATION.md (D-8).
 \chapter{Hasil dan Pembahasan}
 \label{chap:results}
 
-Bab ini menjawab RQ1, RQ2, dan RQ3 secara berurutan. Setiap bagian tetap berada dalam populasinya sendiri: 227 potongan, tujuh-kelas, untuk RQ1 dan RQ2; subset 135 potongan, lima-kelas, untuk RQ3. Tidak satu pun menggabungkan angka dari satu populasi dengan angka dari populasi lain tanpa menyatakannya secara eksplisit.
+Bab ini menjawab tiga pertanyaan penelitian tentang kesenjangan kinerja antar-kelompok kecerahan kulit. Setiap bagian dipisah menjadi tiga lapis: \textbf{temuan} (angka yang diukur, dikutip langsung dari laporan eksperimen yang sudah tersimpan), \textbf{interpretasi} (apa yang bisa dan tidak bisa dibaca dari angka tersebut), dan \textbf{keterbatasan} (apa yang membatasi bacaan itu). Populasi utama adalah subset 135 potongan lima-kelas; hasil pada sampel 227 potongan dipakai hanya sebagai bukti pendukung dan selalu disebut populasinya.
 
-\section{RQ1: Karakteristik Kesalahan Garis Dasar HSEmotion pada Sampel 227 Potongan}
+\section{Populasi Evaluasi dan Definisi Kelompok}
+\label{sec:results-setup}
+
+Subset 135 potongan terdiri atas Netral 76, Senang 32, Sedih 12, Terkejut 8, dan Takut 7, diturunkan dari sampel 227 potongan seperti dijelaskan pada Bab~\ref{chap:methodology} \S\ref{sec:dataset-overview}. Subset ini dipilih sebagai populasi utama karena hanya pada subset inilah kedua klasifier (HSEmotion dan ArcFace + Regresi Logistik) dievaluasi pada potongan yang sama, sehingga ketiga RQ dijawab dengan sampel dan definisi kelompok yang identik.
+
+Kelompok kecerahan kulit dihitung dengan fungsi yang sama untuk seluruh eksperimen (\texttt{LandmarkAnalyzer.\_compute\_skin\_tone}) pada potongan \textbf{asli}, bukan potongan hasil CLAHE, sehingga CLAHE tidak memindahkan potongan antar-kelompok. Pada EXP-007 dan EXP-008, kelompok hanya tersedia untuk 78 dari 135 potongan, karena berkas fitur titik-fitur wajah yang menjadi sumbernya hanya mencakup 85 potongan. EXP-010 menerapkan fungsi yang sama pada seluruh 135 potongan; hasilnya mereproduksi ke-78 kelompok yang sudah ada tanpa satu pun perbedaan (78/78) dan menghasilkan \textbf{Gelap 89 dan Gelap-Sedang 46}. Tidak ada potongan Gelap-Terang (\textit{Medium-Light}) atau Terang (\textit{Light}) pada subset ini. Karena itu, seluruh analisis kesenjangan dalam bab ini adalah perbandingan antara dua kelompok yang sama-sama gelap, bukan perbandingan kulit terang dan gelap.
+
+Label HSEmotion dipetakan ke penamaan kelas tesis ini (\textit{Anger}$\to$Marah, \textit{Happiness}$\to$Senang, \textit{Sadness}$\to$Sedih). Prediksi Marah dari HSEmotion dihitung sebagai salah, karena Marah berada di luar lima kelas evaluasi. Metrik yang dilaporkan adalah akurasi, F1 makro, akurasi per kelompok, \textbf{kesenjangan} (akurasi Gelap dikurangi akurasi Gelap-Sedang), dan akurasi kelompok terburuk. Selang kepercayaan (SK) 95\% dihitung dengan \textit{bootstrap} berkelompok yang sama dengan EXP-007: blok waktu (indeks \textit{frame} dibagi 3) diambil ulang dengan pengembalian, 2.000 kali, \textit{seed} 42. Uji McNemar eksak dipakai untuk perbandingan berpasangan; uji per kelompok tidak dikoreksi untuk perbandingan berganda dan dibaca sebagai eksploratif.
+
+\section{RQ1: Kesenjangan Kinerja Garis Dasar HSEmotion}
 \label{sec:rq1-results}
 
-Keluaran HSEmotion (model terlatih, dipakai apa adanya) pada 227 potongan tanpa modifikasi mencapai akurasi keseluruhan 22,47\% terhadap kebenaran lapangan satu-anotator, dengan 17,62\% dari seluruh 227 prediksi berupa panggilan ``Marah'' yang salah (Marah diprediksi padahal label aslinya bukan itu). Memecah tingkat salah-Marah ini berdasarkan label asli menunjukkan di mana ia terkonsentrasi: 18 dari 76 potongan berlabel-asli Netral (23,7\%) diprediksi Marah, yang merupakan pola kesalahan tunggal terbesar yang bisa diidentifikasi pada sampel ini, lebih besar, dalam hitungan mutlak, dibanding pasangan kebingungan (\textit{confusion}) lain mana pun.
+\subsection*{Temuan}
 
-Dua kelompok proksi warna kulit yang dikarakterisasi pada sampel ini menunjukkan akurasi yang mencolok bedanya: 44,0\% untuk potongan Gelap berbanding 14,3\% untuk potongan Gelap-Sedang, selisih 29,7 poin persentase (dihitung sebagai selisih maksimum-dikurangi-minimum sederhana antara dua kelompok ini, bukan ukuran efek yang dinormalisasi atau metrik keadilan tingkat-populasi). Uji eksak Fisher pada data yang sama menghasilkan rasio odds 5,88 ($p = 0,0027$), yang mendukung bahwa kelompok ini dan hasil klasifikasi berasosiasi secara statistik pada sampel ini. Hasil ini tidak mendukung pembacaan sebab-akibat. Kedua kelompok ini adalah statistik kecerahan yang dihitung per potongan, bukan ukuran demografis yang tervalidasi (Bab~\ref{chap:methodology} \S\ref{sec:dataset-overview}), dan tidak ada apa pun dalam rancangan sampel ini (satu film sumber, satu kamera, satu tata pencahayaan, tanpa pengacakan dalam bentuk apa pun) yang memisahkan variabel proksi ini dari faktor-faktor yang berkorelasi, seperti adegan mana yang kebetulan menjadi sumber potongan tiap kelompok. Asosiasi sekuat ini layak dilaporkan secara presisi; asosiasi ini, dengan sendirinya, bukanlah penjelasan.
+Pada subset 135 potongan, HSEmotion mencapai akurasi 0,363 (SK 95\% [0,269; 0,467]) dan F1 makro 0,249. Tabel~\ref{tab:rq1-groups} merinci kinerja per kelompok.
 
-Ada satu catatan yang lebih pantas ditulis di sini daripada di catatan kaki. \textit{Notebook} ablasi-CLAHE milik proyek ini sendiri (EXP-006) memuat perhitungan per-kelompok-warna-kulit kedua yang dihitung secara independen, dan angka ``sebelum''-nya, yaitu pada potongan tanpa modifikasi, untuk dua kelompok yang sama adalah 27,7\% (Gelap) dan 10,8\% (Gelap-Sedang), bukan 44,0\% dan 14,3\%, meskipun kedua \textit{notebook} melaporkan akurasi keseluruhan yang identik, 22,47\%, untuk kondisi yang seharusnya sama. Perbedaan ini dicatat lengkap pada \texttt{research-audit/DATA\_DISCREPANCIES.md} (butir D-8) dan belum terselesaikan pada revisi ini. Logika pengelompokan per-baris pada kedua \textit{notebook} tersebut belum diperiksa langsung, karena berkas CSV mentah dari keduanya tidak tersedia untuk diturunkan ulang dalam repositori ini. Tesis ini melaporkan angka EXP-005 di atas sebagai nilai acuan, karena EXP-005 adalah audit warna kulit yang memang dirancang khusus untuk itu, sedangkan perhitungan pada EXP-006 adalah keluaran sampingan dari ablasi yang tujuannya berbeda; tesis ini tidak mengklaim bahwa kedua \textit{notebook} ini saling mengonfirmasi, karena pada perhitungan spesifik ini keduanya jelas-jelas tidak sama.
+\begin{table}[htbp]
+\centering
+\caption[Kinerja HSEmotion per kelompok kecerahan]{Kinerja HSEmotion per kelompok kecerahan, subset 135 potongan. SK 95\% \textit{bootstrap} berkelompok. Sumber: EXP-010.}
+\label{tab:rq1-groups}
+\begin{tabular}{lrrr}
+\toprule
+Kelompok & $n$ & Akurasi [SK 95\%] & F1 makro$^{a}$ \\
+\midrule
+Gelap & 89 & 0,483 & 0,278 \\
+Gelap-Sedang & 46 & 0,130 & 0,118 \\
+\midrule
+Kesenjangan (Gelap $-$ Gelap-Sedang) & & 0,353 [0,182; 0,540] & \\
+Akurasi kelompok terburuk & & 0,130 [0,029; 0,250] & \\
+\bottomrule
+\end{tabular}
 
-Apa yang terbukti dan apa yang tidak terbukti, dinyatakan secara gamblang: terbukti bahwa model ini, pada sampel ini, berkinerja jauh di bawah yang biasa dilaporkan pada benchmark-nya sendiri, dengan satu kesalahan yang spesifik dan cukup besar, terkonsentrasi pada satu kelas ekspresi dan satu arah kebingungan. Tidak terbukti mengapa, baik untuk akurasi agregat yang rendah, maupun untuk selisih proksi warna kulit, dan tidak terbukti apa pun tentang perilaku model ini terhadap wajah masyarakat Papua sebagai sebuah populasi, karena 227 potongan dari satu film bukanlah sampel yang dirancang untuk mendukung generalisasi semacam itu.
+\vspace{2pt}
+{\footnotesize $^{a}$Dirata-ratakan atas kelas yang ada pada kelompok tersebut.}
+\end{table}
 
-\section{RQ2: Pengaruh Konfigurasi CLAHE yang Diuji}
+Dengan pengelompokan 78 potongan yang sudah tervalidasi sebelumnya, kesenjangannya 0,332 (SK 95\% [0,135; 0,514]), dan uji eksak Fisher pada potongan benar/salah HSEmotion menghasilkan rasio odds 5,88 ($p = 0,0027$; EXP-007).
+
+Kesenjangan ini tetap terlihat di dalam kelas yang sama. Untuk kelas Netral, \textit{recall} HSEmotion adalah 0,691 pada Gelap ($n = 55$) berbanding 0,190 pada Gelap-Sedang ($n = 21$); untuk kelas Senang, 0,167 ($n = 18$) berbanding 0,071 ($n = 14$). Potongan Netral yang diprediksi Marah berjumlah 12 dari 21 pada Gelap-Sedang, berbanding 6 dari 55 pada Gelap. Secara keseluruhan, laju prediksi Marah adalah 0,478 pada Gelap-Sedang dan 0,169 pada Gelap.
+
+\textbf{Bukti pendukung (227 potongan).} Pada sampel penuh 227 potongan, akurasi HSEmotion adalah 22,47\%, dan 18 dari 76 potongan Netral (23,7\%) diprediksi Marah, pola yang sama persis dengan yang teramati pada subset 135 potongan (EXP-005, EXP-008). Dengan pengelompokan yang mencakup seluruh 227 potongan (EXP-006), akurasi Gelap adalah 27,67\% ($n = 159$) dan Gelap-Sedang 10,77\% ($n = 65$). Angka 44,0\% dan 14,3\% yang dilaporkan EXP-005 dihitung hanya pada 85 potongan yang memiliki fitur titik-fitur wajah; perbedaan kedua pasang angka ini sudah dijelaskan oleh perbedaan populasi, bukan kesalahan hitung (\texttt{research-audit/D8\_SKIN\_TONE\_DISCREPANCY\_INVESTIGATION.md}).
+
+\subsection*{Interpretasi}
+
+Pada sampel ini, akurasi HSEmotion pada potongan Gelap-Sedang sekitar 35 poin persentase lebih rendah daripada pada potongan Gelap, dan SK kesenjangan ini tidak memuat nol pada kedua pengelompokan. Arah yang sama juga teramati pada sampel 227 potongan. Karena kesenjangan tetap ada di dalam kelas Netral dan Senang, perbedaan komposisi ekspresi antar-kelompok saja tidak cukup untuk menjelaskannya. Pola yang paling menonjol di balik kesenjangan ini adalah potongan Netral pada kelompok Gelap-Sedang yang diprediksi Marah: lebih dari separuh potongan Netral Gelap-Sedang mengalami kesalahan ini.
+
+Temuan ini adalah asosiasi yang terukur pada satu sampel. Temuan ini tidak menunjukkan bahwa warna kulit menyebabkan kesenjangan tersebut. Kelompok kecerahan dihitung dari piksel dan bercampur dengan pencahayaan, sudut kamera, dan adegan asal tiap potongan; rancangan sampel ini tidak memisahkan faktor-faktor tersebut.
+
+\subsection*{Keterbatasan}
+
+Kelompok Gelap-Sedang hanya berisi 46 potongan, dengan masing-masing 2 potongan Takut dan Terkejut, sehingga \textit{recall} per kelas hanya bermakna untuk Netral dan Senang. Lebar SK kesenjangan (0,182 sampai 0,540) menunjukkan bahwa besarnya kesenjangan belum terukur dengan presisi tinggi, meskipun arahnya konsisten.
+
+\section{RQ2: Pengaruh CLAHE terhadap Kesenjangan}
 \label{sec:rq2-results}
 
-Menerapkan varian CLAHE adaptif yang dijelaskan pada Bab~\ref{chap:methodology} \S\ref{sec:clahe-config} pada 227 potongan yang sama, lalu menjalankan ulang model HSEmotion beku yang sama, mengubah akurasi keseluruhan dari 22,47\% menjadi 19,82\% dan tingkat salah-Marah dari 17,62\% menjadi 18,06\%. Kedua angka ini bergerak ke arah yang berlawanan dengan dugaan hipotesis eksperimen itu sendiri: judul \textit{notebook} sumbernya sendiri menyatakan bahwa uji ini dimaksudkan untuk melihat apakah CLAHE akan mengurangi prediksi salah-Marah dan memperbaiki kesetaraan antar-proksi warna kulit, dan pada jalan uji ini CLAHE tidak melakukan keduanya.
+\subsection*{Temuan}
+
+Konfigurasi CLAHE adaptif yang diuji (Bab~\ref{chap:methodology} \S\ref{sec:clahe-config}) mengubah 32 dari 135 prediksi HSEmotion. Tabel~\ref{tab:rq2-clahe} membandingkan kedua kondisi pada subset 135 potongan, memakai prediksi EXP-006 yang sudah tersimpan tanpa inferensi ulang.
+
+\begin{table}[htbp]
+\centering
+\caption[Perbandingan HSEmotion asli dan CLAHE per kelompok]{HSEmotion pada potongan asli berbanding CLAHE, subset 135 potongan. SK 95\% \textit{bootstrap} berkelompok. Sumber: EXP-011.}
+\label{tab:rq2-clahe}
+\small
+\begin{tabular}{lrrr}
+\toprule
+Metrik & Asli & CLAHE & CLAHE $-$ Asli \\
+\midrule
+Akurasi & 0,363 & 0,326 & $-$0,037 [$-$0,109; 0,020] \\
+F1 makro & 0,249 & 0,199 & $-$0,050$^{a}$ \\
+Akurasi Gelap ($n = 89$) & 0,483 & 0,438 & $-$0,045 [$-$0,143; 0,028] \\
+Akurasi Gelap-Sedang ($n = 46$) & 0,130 & 0,109 & $-$0,022 [$-$0,098; 0,061] \\
+Kesenjangan & 0,353 & 0,330 & $-$0,023 [$-$0,136; 0,073] \\
+Laju prediksi Marah, Gelap-Sedang & 0,478 & 0,478 & 0 \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+{\footnotesize $^{a}$Tanpa SK.}
+\end{table}
+
+SK kesenjangan masing-masing kondisi adalah [0,182; 0,540] untuk potongan asli dan [0,217; 0,447] untuk CLAHE. Uji McNemar (potongan yang hanya benar pada kondisi asli berbanding yang hanya benar pada CLAHE) menghasilkan 11 berbanding 6 ($p = 0,332$) untuk seluruh potongan, 9 berbanding 5 ($p = 0,424$) untuk Gelap, dan 2 berbanding 1 ($p = 1,000$) untuk Gelap-Sedang. Dengan pengelompokan 78 potongan, kesenjangan berubah dari 0,332 menjadi 0,319 (perubahan $-$0,012; SK 95\% [$-$0,098; 0,102]). Potongan Netral Gelap-Sedang yang diprediksi Marah berubah dari 12 menjadi 11 dari 21.
+
+\textbf{Bukti pendukung (227 potongan).} EXP-006 melaporkan akurasi keseluruhan 22,47\% menjadi 19,82\%, akurasi Gelap 27,67\% menjadi 25,16\%, dan akurasi Gelap-Sedang 10,77\% menjadi 7,69\%, tanpa SK dan tanpa uji signifikansi.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.35\textwidth]{figures/perbandingan-clahe-sebelum-sesudah}
-\caption[Contoh kualitatif potongan wajah sebelum dan sesudah CLAHE]{Contoh kualitatif perbandingan potongan wajah asli (kiri) dan hasil olahan CLAHE (kanan), dengan label kebenaran lapangan (GT), prediksi HSEmotion, dan nilai batas klip (\textit{clip limit}) adaptif yang dipakai untuk tiap potongan. Batas klip terlihat bervariasi antar-potongan (2,88 hingga 3,50), sesuai mekanisme yang dijelaskan pada \S\ref{sec:clahe-config}: batas klip menyesuaikan estimasi kecerahan tiap potongan secara individual, bukan nilai tetap untuk seluruh sampel. Gambar ini untuk ilustrasi mekanisme saja; angka akurasi agregat 22,47\%$\to$19,82\% di atas dihitung atas seluruh 227 potongan, bukan hanya lima contoh yang ditampilkan di sini.}
+\caption[Contoh kualitatif potongan wajah sebelum dan sesudah CLAHE]{Contoh kualitatif perbandingan potongan wajah asli (kiri) dan hasil olahan CLAHE (kanan), dengan label kebenaran lapangan (GT), prediksi HSEmotion, dan nilai batas klip (\textit{clip limit}) adaptif yang dipakai untuk tiap potongan. Batas klip bervariasi antar-potongan (2,88 hingga 3,50), sesuai mekanisme pada \S\ref{sec:clahe-config}. Gambar ini hanya ilustrasi mekanisme; angka pada Tabel~\ref{tab:rq2-clahe} dihitung atas seluruh 135 potongan.}
 \label{fig:clahe-contoh}
 \end{figure}
 
-Gambar~\ref{fig:clahe-contoh} menunjukkan efek visual CLAHE pada beberapa contoh potongan: kontras memang berubah, dan pada beberapa contoh prediksi model ikut berubah (misalnya dari ``Angry'' menjadi ``Neutral'' atau ``Fear''), tetapi perubahan tersebut tidak konsisten ke satu arah, sejalan dengan angka agregat di atas yang menunjukkan hasil bersihnya justru sedikit memburuk, bukan membaik.
+\subsection*{Interpretasi}
 
-Ini adalah satu kali eksekusi tanpa pengulangan, dan tanpa selang kepercayaan atau uji signifikansi yang dihitung untuk kedua selisih tersebut (Bab~\ref{chap:methodology} \S\ref{sec:clahe-config}). Penurunan akurasi 2,65 poin persentase dan kenaikan salah-Marah 0,44 poin, yang teramati satu kali saja, tidak membuktikan bahwa konfigurasi CLAHE tertentu ini merugikan dengan keyakinan statistik apa pun, apalagi bahwa CLAHE sebagai teknik praproses pada umumnya merugikan. Rentang batas klip yang berbeda, pemetaan kecerahan yang berbeda, atau sekadar variasi acak dari pengulangan sampel, semuanya bisa saja, pada prinsipnya, menggeser hasil ini. Yang didukung oleh pengamatan ini, pada lingkup yang benar-benar diukur, lebih sempit dan tetap layak dinyatakan secara langsung: untuk konfigurasi CLAHE adaptif ini, model ini, dan sampel ini, langkah praproses tersebut tidak memberikan perbaikan yang menjadi tujuan pengujiannya, dan seorang peneliti yang harus memilih antara memakai konfigurasi ini atau tidak, tidak akan menemukan bukti di sini yang membenarkan pemakaiannya.
+Pengaruh CLAHE terhadap kesenjangan \textbf{tidak dapat disimpulkan} dari data ini: perubahan kesenjangan ($-$0,023) kecil dibanding lebar SK-nya, dan SK tersebut memuat nol pada kedua pengelompokan. Kesenjangan tetap besar, dan SK-nya tidak memuat nol, baik dengan maupun tanpa CLAHE. Akurasi turun sedikit, tetapi tidak satu pun SK perubahan akurasi yang tidak memuat nol, dan seluruh nilai $p$ McNemar $\geq 0,33$. Satu hal yang terlihat jelas adalah laju prediksi Marah pada Gelap-Sedang tidak berubah (0,478), sehingga konfigurasi ini tidak menyentuh pola kesalahan utama di balik kesenjangan pada RQ1. Arah hasil ini sejalan dengan hasil deskriptif EXP-006 pada 227 potongan.
 
-\section{RQ3: HSEmotion Berbanding Regresi Logistik Berbasis ArcFace pada Subset 135 Potongan}
+Hasil ini \textbf{tidak} membuktikan bahwa CLAHE tidak berpengaruh. Hasil tidak signifikan pada sampel sekecil ini berarti pengaruhnya tidak terdeteksi, bukan berarti pengaruhnya nol.
+
+\subsection*{Keterbatasan}
+
+Yang diuji hanyalah satu konfigurasi CLAHE adaptif, dari \textit{notebook} eksploratif di luar \textit{pipeline} produksi, dalam satu kali jalan. Pada kelompok Gelap-Sedang hanya 3 prediksi yang berubah ke arah benar atau salah, sehingga daya uji per kelompok hampir tidak ada. Hasil ini tidak berlaku untuk konfigurasi CLAHE lain atau untuk CLAHE sebagai teknik secara umum.
+
+\section{RQ3: ArcFace + Regresi Logistik Berbanding HSEmotion}
 \label{sec:rq3-results}
 
-\textbf{Perbandingan ini dijalankan sebelum versi apa pun dari pertanyaan penelitian tesis ini ditulis.} Hasil ini dilaporkan di sini sebagai analisis retrospektif atas bukti yang sudah ada sebelumnya, menjawab RQ3 belakangan, bukan sebagai uji konfirmatif yang memang dirancang di muka untuk menghasilkan RQ3 (Bab~\ref{chap:introduction} \S\ref{sec:rq}). Perbedaan ini memengaruhi seberapa besar bobot yang semestinya diberikan pada hasil di bawah ini: hasil yang diperoleh dengan cara ini tetaplah bukti yang sah, tetapi bobot konfirmatifnya lebih kecil dibanding perbandingan yang dirancang di muka khusus untuk menjawab pertanyaan tersebut.
+\textbf{Perbandingan ini dijalankan sebelum pertanyaan penelitian tesis ini dirumuskan.} Hasilnya dilaporkan sebagai analisis retrospektif atas bukti yang sudah ada, bukan uji konfirmatif yang dirancang di muka (Bab~\ref{chap:introduction} \S\ref{sec:rq}).
 
-\begin{table}[h]
+\subsection*{Temuan}
+
+\begin{table}[htbp]
 \centering
-\caption[Perbandingan HSEmotion dan ArcFace+Regresi Logistik]{HSEmotion berbanding ArcFace+Regresi Logistik, subset 135 potongan, lima kelas. Sumber: berkas hasil evaluasi ArcFace (metrik perbandingan dan uji statistik) pada proyek ini.}
+\caption[Perbandingan HSEmotion dan ArcFace+Regresi Logistik]{HSEmotion berbanding ArcFace + Regresi Logistik, subset 135 potongan, lima kelas. Sumber: EXP-007 (keseluruhan) dan EXP-010 (per kelompok).}
 \label{tab:rq3-comparison}
 \begin{tabular}{lrr}
 \toprule
 Metrik & HSEmotion & ArcFace + LR \\
 \midrule
-Akurasi & 36,30\% & 40,74\% \\
-Presisi makro & 0,590 & 0,280 \\
-\textit{Recall} makro & 0,206 & 0,293 \\
+Akurasi & 0,363 & 0,407 \\
+SK 95\% akurasi & [0,269; 0,467] & [0,338; 0,481] \\
 F1 makro & 0,249 & 0,272 \\
-SK 95\% \textit{bootstrap} (akurasi, sadar-kelompok) & [0,269, 0,467] & [0,338, 0,481] \\
+\midrule
+Akurasi Gelap ($n = 89$) & 0,483 & 0,449 \\
+Akurasi Gelap-Sedang ($n = 46$) & 0,130 & 0,326 \\
+Kesenjangan & 0,353 & 0,123 \\
+SK 95\% kesenjangan & [0,182; 0,540] & [$-$0,038; 0,282] \\
+Akurasi kelompok terburuk & 0,130 & 0,326 \\
+SK 95\% kelompok terburuk & [0,029; 0,250] & [0,179; 0,442] \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Akurasi titik ArcFace+LR (40,74\%) secara angka lebih tinggi dari HSEmotion (36,30\%) pada subset ini, tetapi uji McNemar pada 46 prediksi yang tidak sepakat (20 berpihak pada ArcFace+LR, 26 berpihak pada HSEmotion) menghasilkan $p = 0,4614$: tidak ada perbedaan yang terdeteksi pada tingkat signifikansi yang lazim. Inilah seluruh klaim dari hasil ini: uji McNemar yang tidak signifikan pada ukuran sampel ini berarti perbedaannya tidak terdeteksi, bukan berarti kedua klasifier setara. Dengan hanya 46 pasangan yang tidak sepakat sebagai bahan uji, perbedaan nyata yang ukurannya sedang-sedang saja bisa dengan mudah luput terdeteksi di sini; tesis ini tidak membaca hasil nihil ini sebagai temuan bahwa kedua pendekatan berkinerja sama.
+Secara keseluruhan, uji McNemar pada 46 prediksi yang tidak sepakat (20 hanya benar pada HSEmotion, 26 hanya benar pada ArcFace + LR) menghasilkan $p = 0,4614$. Per kelompok, uji McNemar menghasilkan 18 berbanding 15 ($p = 0,728$) pada Gelap dan 2 berbanding 11 ($p = 0,022$) pada Gelap-Sedang. Selisih kesenjangan kedua model (kesenjangan HSEmotion dikurangi kesenjangan ArcFace + LR) adalah 0,229 (SK 95\% [0,054; 0,442]) dengan pengelompokan 135 potongan, tetapi 0,188 (SK 95\% [$-$0,083; 0,477]) dengan pengelompokan 78 potongan. Pada pengelompokan 78 potongan, kesenjangan ArcFace + LR adalah 0,144 (SK 95\% [$-$0,086; 0,410]).
 
-Angka presisi/\textit{recall}/F1 makro tidak menunjukkan satu klasifier yang unggul di segala aspek: presisi makro HSEmotion lebih tinggi, sementara \textit{recall} dan F1 makro ArcFace+LR lebih tinggi. Ini sejalan dengan dugaan bahwa kedua klasifier membuat jenis kesalahan yang berbeda, bukan satu klasifier yang sekadar membuat lebih sedikit kesalahan dibanding yang lain. Perbedaan ini terlihat langsung pada bagaimana masing-masing model menangani kelas Netral, kelas terbesar dalam subset ini (76 dari 135 potongan): HSEmotion salah mengklasifikasi 34 dari 76 potongan Netral, dan kesalahan tersebut terkonsentrasi kuat ke satu arah, 18 di antaranya berlabel Marah. ArcFace+LR salah mengklasifikasi lebih banyak potongan Netral (43 dari 76) tetapi menyebarkannya ke empat kelas lain (Senang 15, Sedih 14, Takut 8, Terkejut 6) tanpa satu target kebingungan yang dominan. Klasifier yang membuat lebih banyak kesalahan total tetapi menghindari satu pola kegagalan yang timpang tidak serta-merta lebih buruk untuk semua keperluan, dan tesis ini tidak mengurutkan kedua pendekatan hanya berdasarkan akurasi semata.
+Di dalam kelas, \textit{recall} Netral ArcFace + LR adalah 0,491 pada Gelap dan 0,286 pada Gelap-Sedang; \textit{recall} Senang adalah 0,611 dan 0,429. Karena label ArcFace + LR hanya lima kelas, model ini secara struktural tidak bisa memprediksi Marah. Kesalahan Netral-nya tersebar ke beberapa kelas (43 dari 76 potongan Netral salah; Senang 15, Sedih 14, Takut 8, Terkejut 6), sedangkan 18 dari 34 kesalahan Netral HSEmotion terkonsentrasi pada Marah (EXP-008).
 
-Pada perhitungan proksi warna kulit dalam subset 135 potongan yang sama ini, kedua klasifier mencapai akurasi 45,65\% pada kelompok Gelap ($n=46$); pada kelompok Gelap-Sedang ($n=32$), ArcFace+LR mencapai 31,25\% berbanding 12,50\% milik HSEmotion, selisih antar-kelompok proksi yang lebih kecil untuk ArcFace+LR (14,4 poin) dibanding HSEmotion (33,2 poin) pada subset ini. Ini adalah satu pengamatan tunggal yang belum direplikasi pada satu kelompok berisi 32 potongan, bukan perbaikan keadilan yang sudah terbukti, dan tesis ini tidak memakainya sebagai bukti perbaikan keadilan. Hasil ini dilaporkan karena memang bagian dari apa yang ditunjukkan data, dengan bobot yang persis sebesar itu saja.
+\subsection*{Interpretasi}
 
-\section{Papuan V2: Status, Bukan Hasil}
+Kesenjangan ArcFace + LR lebih kecil, dan SK-nya memuat nol. Pengecilan ini berasal dari akurasi Gelap-Sedang yang lebih tinggi (0,326 berbanding 0,130), bukan dari akurasi Gelap yang lebih baik (0,449 berbanding 0,483). Namun, bahwa ArcFace + LR mengurangi kesenjangan \textbf{masih bersifat indikatif, belum terbukti}: SK selisih kesenjangan tidak memuat nol dengan pengelompokan 135 potongan, tetapi memuat nol dengan pengelompokan 78 potongan. Uji McNemar Gelap-Sedang ($p = 0,022$) adalah satu dari beberapa uji per kelompok yang tidak dikoreksi, sehingga juga dibaca sebagai eksploratif. Secara keseluruhan, akurasi kedua model tidak berbeda secara signifikan, dan keduanya berkinerja rendah secara absolut (F1 makro di bawah 0,28).
+
+Sebagian keunggulan ArcFace + LR pada Gelap-Sedang dapat berkaitan dengan ketidakmampuannya memprediksi Marah: kesalahan Netral$\to$Marah, yang dominan pada HSEmotion di kelompok ini, tidak mungkin terjadi pada ArcFace + LR. Data ini tidak memisahkan kontribusi faktor tersebut dari kontribusi representasi \textit{embedding} itu sendiri.
+
+\subsection*{Keterbatasan}
+
+Selain sifat retrospektifnya, kedua model tidak dievaluasi dengan protokol yang sama: HSEmotion dipakai apa adanya, sedangkan prediksi ArcFace + LR berasal dari validasi silang berkelompok lima-lipatan. Kelompok Gelap-Sedang hanya berisi 46 potongan.
+
+\section{Pembahasan Lintas Pertanyaan Penelitian}
+\label{sec:results-synthesis}
+
+Jika dibaca bersama, ketiga hasil menunjukkan pola berikut pada sampel ini. Kesenjangan antara potongan Gelap dan Gelap-Sedang pada HSEmotion besar dan konsisten (RQ1). Mengubah citra masukan dengan konfigurasi CLAHE yang diuji tidak menghasilkan perubahan kesenjangan yang dapat disimpulkan (RQ2). Mengganti klasifier dengan ArcFace + LR menghasilkan kesenjangan yang lebih kecil, tetapi dengan bukti yang belum cukup kuat untuk dinyatakan terbukti (RQ3). Pola kesalahan Netral$\to$Marah pada kelompok Gelap-Sedang muncul sebagai benang merah: pola ini menjelaskan sebagian besar kesenjangan HSEmotion, tidak berubah oleh CLAHE, dan tidak dapat terjadi pada ArcFace + LR.
+
+Pembacaan ini sejalan dengan literatur evaluasi bertingkat-subkelompok yang dibahas pada Bab~\ref{chap:literature-review}, yang menekankan pelaporan kinerja per kelompok, bukan hanya akurasi agregat: akurasi keseluruhan kedua model tidak berbeda secara signifikan, tetapi perilaku per kelompoknya berbeda. Variabel kelompok dalam tesis ini adalah kecerahan piksel, sehingga sebagian kesenjangan mungkin mencerminkan kondisi pencahayaan, bukan warna kulit.
+
+Tesis ini \textbf{tidak} mengklaim: kesenjangan antara kulit terang dan gelap (tidak ada potongan terang dalam data); hubungan sebab-akibat antara warna kulit dan kinerja model; berlakunya hasil ini di luar satu film sumber, atau bagi masyarakat Papua secara umum; maupun bahwa salah satu model ``adil''.
+
+\section{Keterbatasan Hasil}
+\label{sec:results-limitations}
+
+Keterbatasan berikut berlaku untuk seluruh bab ini dan dinyatakan sekali di sini.
+\begin{itemize}
+  \item \textbf{Proksi kelompok.} Kelompok adalah ember kecerahan luminans LAB yang dihitung dari piksel, bercampur dengan pencahayaan, dan bukan ukuran pigmentasi atau etnis yang tervalidasi. Hanya dua kelompok, keduanya gelap, yang tersedia.
+  \item \textbf{Ukuran kelompok.} Gelap-Sedang berisi 46 potongan; kelas Takut dan Terkejut masing-masing hanya 2 potongan pada kelompok ini.
+  \item \textbf{Satu sumber dan satu anotator.} Seluruh potongan berasal dari satu film; kebenaran lapangan dibuat oleh satu anotator tanpa ukuran kesepakatan.
+  \item \textbf{Tanpa identitas subjek.} \textit{Bootstrap} blok waktu hanya sebagian mengatasi kemunculan orang yang sama pada beberapa potongan.
+  \item \textbf{Analisis retrospektif dan uji berganda.} RQ3 dan prediksi CLAHE mendahului rumusan RQ; uji per kelompok tidak dikoreksi untuk perbandingan berganda.
+  \item \textbf{Persetujuan dan asal-usul data.} Dasar persetujuan penggunaan wajah dan asal-usul rekaman sumber belum terdokumentasi.
+\end{itemize}
+
+\section{Status Pekerjaan Pendukung: Papuan V2 dan Titik-Fitur Wajah}
 \label{sec:rq-papuanv2-status}
 
-Belum ada temuan kuantitatif dari jalur Papuan V2 yang layak masuk bab hasil, karena memang belum ada. Ekstraksi berskala uji-coba 645 potongan sudah selesai; uji coba anotasi label emosi belum (antrean anotator tumpang-tindih menunjukkan nol dari 75 tugas selesai pada status terakhir yang tercatat, dan klaim penyelesaian anotator utama belum diverifikasi ulang secara independen, \texttt{research-audit/DATA\_DISCREPANCIES.md} D-1); uji coba titik-fitur CVAT 24-gambar baru berisi usulan otomatis dan belum diperiksa manusia. Tidak satu pun dari RQ1 sampai RQ3 memakai jalur ini sebagai bukti, dan bagian ini ada semata agar pembaca tidak perlu menyimpulkan sendiri ketiadaannya dari keheningan. % TODO: isi dengan tabel hasil, berstruktur seperti Tabel~\ref{tab:rq3-comparison}, hanya setelah uji coba CVAT diperiksa dan dataset yang dihasilkan dievaluasi pada partisi uji yang disisihkan, bukan sebelum itu.
-
-\section{Sintesis}
-
-RQ1 dan RQ2 menjelaskan populasi 227 potongan yang sama di bawah dua kondisi praproses; RQ3 menjelaskan subset 135 potongan dari populasi yang sama di bawah dua klasifier. Jika dibaca bersama: akurasi HSEmotion pada sampel ini rendah dibanding kinerja yang biasa dilaporkan pada benchmark-nya, disertai selisih akurasi proksi warna kulit yang spesifik, besar, dan berasosiasi secara statistik (tidak terbukti sebab-akibat), serta pola kesalahan Netral-menjadi-Marah yang dominan dan tetap sama baik diukur pada 227 maupun 135 potongan; satu konfigurasi CLAHE yang diuji tidak membantu, dalam satu kali jalan uji yang tidak terkontrol; dan perbandingan retrospektif terhadap alternatif berbasis ArcFace tidak menemukan perbedaan akurasi keseluruhan yang signifikan secara statistik, disertai sebaran kesalahan yang secara kualitatif berbeda dan tidak setimpang untuk klasifier alternatif tersebut. Tidak satu pun dari ini berlaku umum melampaui satu film sumber sampel ini, dan tidak satu pun dari ini menjadi bukti tentang jalur Papuan V2, yang tetap merupakan pekerjaan terpisah dan belum selesai.
+Tidak ada hasil dari jalur Papuan V2 atau jalur titik-fitur wajah yang dipakai untuk menjawab RQ1 sampai RQ3. Pada jalur Papuan V2, 150 potongan dari kumpulan uji coba 645 potongan sudah diberi label emosi oleh satu anotator; anotator kedua belum menyelesaikan satu pun dari 75 potongan tumpang-tindih, dan kumpulan ini belum memiliki kelompok kecerahan yang diperiksa manusia. Pada jalur titik-fitur wajah, 64 gambar sudah diperiksa manusia, dan model regresi Ridge berbasis piksel belum menunjukkan perbaikan berarti dibanding model \textit{mean-shape} (\S\ref{sec:methodology-landmarks}). Keduanya diperlakukan sebagai pekerjaan pendukung dan kerja lanjutan (\S\ref{sec:future-work}).
