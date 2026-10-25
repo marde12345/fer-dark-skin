@@ -55,13 +55,28 @@ This supersedes the single-sentence RQ proposed in the prior revision. The new s
 
 **Disclosure preserved from the prior revision:** RQ3's comparison (EXP-007) was run before any version of the RQ existed in writing. The manuscript's Chapter 4 treats this explicitly as analysis of previously collected evidence, not as a confirmatory test designed prospectively around RQ3.
 
-**New discrepancy surfaced during this revision (D-8, `research-audit/DATA_DISCREPANCIES.md`):** EXP-006's own "before" per-skin-tone accuracy figures (Dark 27.67%, Medium-Dark 10.77%) do not match EXP-005's dedicated skin-tone audit (Dark 44.00%, Medium-Dark 14.29%) for what should be the same baseline condition, despite both reporting the same 22.47% overall accuracy. The manuscript now treats EXP-005's figures as the reference for the 29.71pp gap (RQ1) and EXP-006's before/after values as self-consistent only for the within-notebook CLAHE delta (RQ2), rather than implying the two notebooks cross-validate each other's absolute numbers.
+**Discrepancy surfaced during this revision (D-8), since resolved:** EXP-006's "before" per-skin-tone figures (Dark 27.67%, Medium-Dark 10.77%) differ from EXP-005's (Dark 44.00%, Medium-Dark 14.29%) because they cover different populations — all 227 crops vs. the 85 crops with landmark features — not because of a calculation error (`research-audit/D8_SKIN_TONE_DISCREPANCY_INVESTIGATION.md`). See `research-audit/DATA_DISCREPANCIES.md` D-8 for how the thesis now cites each.
+
+**Superseded by Decision 5:** the RQ wording above has been replaced in the manuscript by the fairness-focused RQs below.
+
+## Decision 5 — Fairness Evaluation as the Primary Direction (recorded 2026-10-25)
+
+**As relayed by the author:** Pak Fadhil approved fairness evaluation in FER as the thesis direction. No written record of that approval (email, meeting note, or signed form) exists in this repository; this entry records the author's report only.
+
+**Adopted in the manuscript (Chapters 1–5, title, abstracts):** the thesis evaluates the performance gap between two skin-brightness groups, Dark and Medium-Dark, on the 135-crop five-class subset (EXP-010, EXP-011), with 227-crop results as supporting evidence only. Light-skin evaluation is out of scope because the data contain no Light crops and only 3 Medium-Light crops.
+
+> **Primary RQ:** To what extent does a pretrained FER model's performance differ between skin-brightness groups (a proxy, not a measure of ethnicity or pigmentation) on face crops from one Papuan documentary film, and does contrast preprocessing (CLAHE) or an alternative classifier (ArcFace + Logistic Regression) change that difference on the evaluated sample?
+> **RQ1:** How large is HSEmotion's performance difference between the Dark and Medium-Dark groups, and which error patterns dominate in each?
+> **RQ2:** Does the tested CLAHE configuration change that between-group difference on the same sample?
+> **RQ3:** On the same five-class subset, do ArcFace + Logistic Regression and HSEmotion differ in the size of the between-group difference?
+
+**Still a proposal:** the exact RQ wording and the thesis title (`config.tex`) are the author's proposal; Pak Fadhil's approval of the wording, including naming "Papua" in the RQ and title, is pending.
 
 ## Open Items Still Requiring Author/Supervisor Input
 
-1. **Supervisor sign-off on the RQ1/RQ2/RQ3 structure** — approved by the author as of this revision (Decision 4 above); Pak Fadhil's approval is the remaining step.
-6. **D-8 (EXP-005 vs. EXP-006 per-skin-tone discrepancy)** — would require inspecting the two notebooks' raw row-level grouping logic to resolve; not performed in this pass.
+1. **Supervisor sign-off on the RQ wording and thesis title** (Decision 5) — the fairness direction is reported as approved; the exact wording is pending. Record the approval here, with its source, once given.
+6. **D-8** — resolved (population difference; see `research-audit/DATA_DISCREPANCIES.md`). No action remaining.
 2. **Whether the landmark track appears in the final thesis at all**, and if so, how much space it receives (a single "future work" paragraph vs. a full methodology subsection) — the current draft treats it as a modest, clearly-labeled supporting-track discussion; this allocation itself is an editorial judgment the author may want to revise.
 3. **Row-level re-verification of the 135-sample population** against the raw `classifier_predictions.csv`, if the author wants the derivation fully closed rather than documentarily resolved.
-4. **Annotator A completion status** (Papuan V2 Label Studio pilot) — still flagged as unverified (`DATA_DISCREPANCIES.md` D-1); unaffected by this round of clarifications.
+4. **Annotator A completion status** (Papuan V2 Label Studio pilot) — resolved 2026-10-25: 150/150 confirmed from the raw files (`DATA_DISCREPANCIES.md` D-1). Annotator B remains 0/75; whether to continue that track is still undecided.
 5. **Official ITB formatting template / friend's-thesis structural reference** — still not located in the repository.

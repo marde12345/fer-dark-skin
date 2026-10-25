@@ -28,7 +28,8 @@
 - **Resolvable?** Yes, in principle — directly from the two files named above — but not yet executed as an explicit row-count check in this audit.
 - **Resolution:** **Deferred, not assumed.** The thesis manuscript's methodology chapter (and `EXPERIMENT_REGISTRY.md` above) explicitly state this figure as unverified rather than repeating "150/150 complete" as fact.
 - **Remaining uncertainty / impact:** If Annotator A's labels are genuinely complete, a human-vs-pseudo-label agreement analysis becomes possible for the 150-image pilot (filling part of the Chapter 4 "Papuan V2" TODO). If they are not actually complete, this must be stated plainly rather than assumed.
-- **Status: UNRESOLVED** (resolvable with one direct file check not yet performed in this pass).
+- **Update 2026-10-25 — direct file check performed:** `experiments/EXP-PAP-004/human_labels.csv` has 150 rows with 150 non-empty labels (150 unique `image_id`s), and `label_studio_export.csv` has 150 rows with 150 non-empty `human_label` values from a single annotator, matching `human_labels.csv` on 150/150 images. `annotator_progress.json` still reports `annotator_A_completed: 1`, but it was generated on 2026-09-19 and is stale (also noted in `experiments/EXP-PAP-004/report.md`). Annotator B remains 0/75, so no inter-annotator agreement exists.
+- **Status: RESOLVED** (Annotator A 150/150 confirmed from the raw files; `annotator_progress.json` is stale, not authoritative).
 
 ### D-2 — Derivation of the $N=135$ Common Evaluation Subset from $N=227$
 
@@ -89,6 +90,7 @@
 - **Resolvable?** Yes — resolved in this pass by direct recomputation from files that were, in fact, available on disk.
 - **Resolution:** EXP-005's and EXP-006's skin-tone figures are both correct for the population each actually measures (85-crop subset vs. full 227-crop population respectively) and should not be read as corroborating or contradicting one another. The 29.71-percentage-point gap used for RQ1 should be labeled explicitly as computed over the 85-crop skin-tone-characterized subset, not the full 227-crop sample.
 - **Remaining uncertainty / impact:** None material to the numbers themselves — both are now fully traced to their exact source population. The only open item is the precise per-crop reason for the 142-crop gap in `landmark_features.csv`, which is a minor provenance question, not a correctness question.
+- **Update 2026-10-25 — how the thesis now uses these figures:** the 29.71pp (85-crop) gap is no longer the RQ1 headline. RQ1–RQ3 are answered on the 135-crop subset (EXP-010/011: Dark 89, Medium-Dark 46, groups recomputed with the same `_compute_skin_tone` function and matching the 78 previously grouped crops 78/78). The full 227-crop figures (Dark 27.67%, n=159; Medium-Dark 10.77%, n=65; Medium-Light 3) are cited only as supporting evidence, and the 85-crop figures (44.0% / 14.3%, 50/35 crops) are labeled as such wherever mentioned (Chapters 1, 3, 4).
 - **Status: RESOLVED.**
 
 ### D-7 — Sample-Count Units: "227 Samples" as Subjects vs. Face Crops vs. Frames
