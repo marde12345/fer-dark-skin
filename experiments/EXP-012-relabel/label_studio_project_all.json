@@ -1,0 +1,11 @@
+{
+  "experiment_id": "EXP-012",
+  "label_round": 2,
+  "mode": "all",
+  "project_id": 4,
+  "project_title": "EXP-012 Legacy 227 Relabel (Round 2)",
+  "label_studio_url": "http://localhost:8080",
+  "n_tasks": 227,
+  "labeling_config_version": "v1",
+  "updated_at": "2026-10-25T14:07:14.342668+00:00"
+}

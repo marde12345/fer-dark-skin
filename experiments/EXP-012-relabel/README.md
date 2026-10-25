@@ -1,6 +1,8 @@
 # EXP-012 — Manual Relabeling of the 227 Legacy Crops (Round 2)
 
-Status: **labeling project prepared and verified on a 6-crop sample; full annotation not started.** No model is retrained in this step.
+Status: **real project ready for manual annotation** — `EXP-012 Legacy 227 Relabel (Round 2)`, project id 4 on the local Label Studio (http://localhost:8080/projects/4/data), 227 unique tasks, 0 annotations (2026-10-25). The 6-crop sample project (id 3) is for checking only. No model is retrained in this step.
+
+Full-project check (2026-10-25): 227 tasks with 227 unique `image_id`s matching the legacy crop set exactly; every original and overlay URL returned HTTP 200 and is byte-identical to the file on disk; landmark status/source match `landmark_sources.csv` (reviewed 21, proposal 131, missing 75); label config identical to `relabel_config.LABEL_CONFIG`; task data contains only the allowed fields; EXP-PAP-004 (id 2) and the sample project (id 3) unchanged.
 
 ## Purpose
 
