@@ -1,0 +1,229 @@
+experiment_id,label_round,image_id,label,eval_class,confidence,overlay_quality,notes,annotator,labeled_at,landmark_status,landmark_source,annotation_id
+EXP-012,2,frame_000008_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:28:19.459460Z,missing,none,151
+EXP-012,2,frame_000008_face02,Neutral,Neutral,High,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:29:17.517109Z,proposal,delivery 42-pt initial (unstandardized),152
+EXP-012,2,frame_000008_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:29:30.392698Z,missing,none,153
+EXP-012,2,frame_000009_face01,Sad,Sad,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:29:59.944537Z,missing,none,154
+EXP-012,2,frame_000009_face02,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:30:25.895271Z,proposal,delivery 42-pt initial (unstandardized),155
+EXP-012,2,frame_000009_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:30:33.586643Z,missing,none,156
+EXP-012,2,frame_000009_face04,Neutral,Neutral,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:30:58.837139Z,reviewed,EXP-PAP-005 CVAT reviewed,157
+EXP-012,2,frame_000010_face01,Sad,Sad,Low,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:32:11.415337Z,proposal,delivery 42-pt initial (unstandardized),158
+EXP-012,2,frame_000010_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:32:25.916065Z,proposal,EXP-PAP-005 InsightFace proposal,159
+EXP-012,2,frame_000010_face03,Neutral,Neutral,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:33:41.419946Z,missing,none,160
+EXP-012,2,frame_000010_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:33:50.151008Z,missing,none,161
+EXP-012,2,frame_000010_face05,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:36:01.319621Z,reviewed,EXP-PAP-005 CVAT reviewed,162
+EXP-012,2,frame_000010_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:36:08.477945Z,missing,none,163
+EXP-012,2,frame_000010_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:36:14.916513Z,missing,none,164
+EXP-012,2,frame_000011_face01,Disgust,,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:36:50.651030Z,proposal,delivery 42-pt initial (unstandardized),165
+EXP-012,2,frame_000011_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:37:09.926408Z,missing,none,166
+EXP-012,2,frame_000011_face03,Ambiguous,,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:37:41.652301Z,proposal,delivery 42-pt initial (unstandardized),167
+EXP-012,2,frame_000011_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:37:54.923429Z,missing,none,168
+EXP-012,2,frame_000011_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:38:07.741690Z,proposal,delivery 42-pt initial (unstandardized),169
+EXP-012,2,frame_000011_face06,Happy,Happy,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:38:22.820680Z,proposal,delivery 42-pt initial (unstandardized),170
+EXP-012,2,frame_000011_face07,Neutral,Neutral,Low,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:38:38.146167Z,reviewed,EXP-PAP-005 CVAT reviewed,171
+EXP-012,2,frame_000012_face01,Happy,Happy,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:39:16.194357Z,proposal,EXP-PAP-005 InsightFace proposal,172
+EXP-012,2,frame_000012_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-25T14:39:30.970829Z,proposal,delivery 42-pt initial (unstandardized),173
+EXP-012,2,frame_000012_face03,Fear,Fear,Medium,Not used,,papuan-v2-pilot@local.test,2026-10-25T14:51:02.599413Z,missing,none,174
+EXP-012,2,frame_000012_face04,Neutral,Neutral,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-25T14:51:34.338375Z,proposal,delivery 42-pt initial (unstandardized),175
+EXP-012,2,frame_000012_face05,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:37:45.963286Z,proposal,delivery 42-pt initial (unstandardized),176
+EXP-012,2,frame_000012_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:37:53.933692Z,missing,none,177
+EXP-012,2,frame_000012_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:37:59.952886Z,missing,none,178
+EXP-012,2,frame_000012_face08,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:38:07.291118Z,proposal,delivery 42-pt initial (unstandardized),179
+EXP-012,2,frame_000012_face09,Ambiguous,,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:38:20.313848Z,reviewed,EXP-PAP-005 CVAT reviewed,180
+EXP-012,2,frame_000012_face10,Ambiguous,,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:38:28.005122Z,reviewed,EXP-PAP-005 CVAT reviewed,181
+EXP-012,2,frame_000013_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:38:37.601294Z,proposal,delivery 42-pt initial (unstandardized),182
+EXP-012,2,frame_000013_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:38:49.561595Z,proposal,delivery 42-pt initial (unstandardized),183
+EXP-012,2,frame_000013_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:38:58.415300Z,missing,none,184
+EXP-012,2,frame_000013_face04,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:39:13.816990Z,proposal,delivery 42-pt initial (unstandardized),185
+EXP-012,2,frame_000013_face05,Sad,Sad,Low,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:40:41.958434Z,proposal,delivery 42-pt initial (unstandardized),186
+EXP-012,2,frame_000013_face06,Surprise,Surprise,Low,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:40:58.534749Z,proposal,delivery 42-pt initial (unstandardized),187
+EXP-012,2,frame_000013_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:41:05.889097Z,missing,none,188
+EXP-012,2,frame_000014_face01,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:41:20.735582Z,proposal,delivery 42-pt initial (unstandardized),189
+EXP-012,2,frame_000014_face02,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:41:31.629328Z,proposal,delivery 42-pt initial (unstandardized),190
+EXP-012,2,frame_000014_face03,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:41:43.938137Z,proposal,delivery 42-pt initial (unstandardized),191
+EXP-012,2,frame_000014_face04,Neutral,Neutral,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:43:50.242371Z,proposal,delivery 42-pt initial (unstandardized),192
+EXP-012,2,frame_000014_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:43:56.761757Z,missing,none,193
+EXP-012,2,frame_000014_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:44:03.269474Z,proposal,delivery 42-pt initial (unstandardized),194
+EXP-012,2,frame_000014_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:44:12.822404Z,missing,none,195
+EXP-012,2,frame_000015_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:44:58.977993Z,proposal,delivery 42-pt initial (unstandardized),196
+EXP-012,2,frame_000015_face02,Neutral,Neutral,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:49:43.847848Z,proposal,delivery 42-pt initial (unstandardized),197
+EXP-012,2,frame_000015_face03,Sad,Sad,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:49:54.006182Z,proposal,delivery 42-pt initial (unstandardized),198
+EXP-012,2,frame_000015_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:50:02.030866Z,reviewed,EXP-PAP-005 CVAT reviewed,199
+EXP-012,2,frame_000015_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:50:17.665426Z,reviewed,EXP-PAP-005 CVAT reviewed,200
+EXP-012,2,frame_000015_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:50:25.472420Z,proposal,delivery 42-pt initial (unstandardized),201
+EXP-012,2,frame_000016_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:50:35.819924Z,proposal,delivery 42-pt initial (unstandardized),202
+EXP-012,2,frame_000016_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:50:49.309824Z,missing,none,203
+EXP-012,2,frame_000016_face03,Sad,Sad,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:51:07.908630Z,proposal,delivery 42-pt initial (unstandardized),204
+EXP-012,2,frame_000016_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:51:22.715587Z,missing,none,205
+EXP-012,2,frame_000017_face01,Neutral,Neutral,High,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:51:31.390572Z,proposal,delivery 42-pt initial (unstandardized),206
+EXP-012,2,frame_000017_face02,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:51:48.296916Z,proposal,delivery 42-pt initial (unstandardized),207
+EXP-012,2,frame_000017_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:51:57.497679Z,proposal,EXP-PAP-005 InsightFace proposal,208
+EXP-012,2,frame_000017_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:52:03.422326Z,missing,none,209
+EXP-012,2,frame_000017_face05,Sad,Sad,Low,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:52:11.906024Z,proposal,delivery 42-pt initial (unstandardized),210
+EXP-012,2,frame_000017_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:52:19.423859Z,missing,none,211
+EXP-012,2,frame_000017_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:52:24.897196Z,missing,none,212
+EXP-012,2,frame_000018_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:52:55.222104Z,proposal,delivery 42-pt initial (unstandardized),213
+EXP-012,2,frame_000018_face02,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:53:07.175192Z,proposal,delivery 42-pt initial (unstandardized),214
+EXP-012,2,frame_000018_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:53:13.409321Z,proposal,delivery 42-pt initial (unstandardized),215
+EXP-012,2,frame_000018_face04,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:54:01.071693Z,proposal,delivery 42-pt initial (unstandardized),216
+EXP-012,2,frame_000018_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:54:08.592152Z,missing,none,217
+EXP-012,2,frame_000018_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:54:14.170619Z,missing,none,218
+EXP-012,2,frame_000018_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:54:19.850993Z,missing,none,219
+EXP-012,2,frame_000019_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:54:26.318131Z,proposal,delivery 42-pt initial (unstandardized),220
+EXP-012,2,frame_000019_face02,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T14:54:36.660802Z,reviewed,EXP-PAP-005 CVAT reviewed,221
+EXP-012,2,frame_000019_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:54:44.326304Z,proposal,delivery 42-pt initial (unstandardized),222
+EXP-012,2,frame_000019_face04,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:54:55.505062Z,proposal,delivery 42-pt initial (unstandardized),223
+EXP-012,2,frame_000019_face05,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:55:17.051403Z,proposal,delivery 42-pt initial (unstandardized),224
+EXP-012,2,frame_000019_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:55:24.615042Z,missing,none,225
+EXP-012,2,frame_000019_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:55:30.801478Z,missing,none,226
+EXP-012,2,frame_000019_face08,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:55:36.984985Z,missing,none,227
+EXP-012,2,frame_000020_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:55:50.196663Z,proposal,delivery 42-pt initial (unstandardized),228
+EXP-012,2,frame_000020_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:55:58.244026Z,proposal,EXP-PAP-005 InsightFace proposal,229
+EXP-012,2,frame_000020_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:04.769136Z,missing,none,230
+EXP-012,2,frame_000020_face04,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-10-26T14:56:14.029680Z,proposal,delivery 42-pt initial (unstandardized),231
+EXP-012,2,frame_000020_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:22.433030Z,missing,none,232
+EXP-012,2,frame_000020_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:29.045194Z,missing,none,233
+EXP-012,2,frame_000020_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:34.501285Z,missing,none,234
+EXP-012,2,frame_000020_face08,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:44.639111Z,missing,none,235
+EXP-012,2,frame_000020_face09,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-10-26T14:56:53.974958Z,missing,none,236
+EXP-012,2,frame_000021_face01,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-10-26T15:00:01.464674Z,proposal,delivery 42-pt initial (unstandardized),237
+EXP-012,2,frame_000021_face02,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:30:52.835947Z,proposal,delivery 42-pt initial (unstandardized),238
+EXP-012,2,frame_000021_face03,Neutral,Neutral,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-11-04T15:31:08.407573Z,proposal,delivery 42-pt initial (unstandardized),239
+EXP-012,2,frame_000021_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:00.469491Z,missing,none,240
+EXP-012,2,frame_000021_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:17.138074Z,proposal,EXP-PAP-005 InsightFace proposal,241
+EXP-012,2,frame_000021_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:23.762342Z,missing,none,242
+EXP-012,2,frame_000021_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:30.503810Z,proposal,delivery 42-pt initial (unstandardized),243
+EXP-012,2,frame_000021_face08,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:36.349254Z,missing,none,244
+EXP-012,2,frame_000022_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:32:45.082560Z,missing,none,245
+EXP-012,2,frame_000022_face02,Happy,Happy,Low,Unreliable,,papuan-v2-pilot@local.test,2026-11-04T15:32:57.989319Z,proposal,delivery 42-pt initial (unstandardized),246
+EXP-012,2,frame_000022_face03,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:33:07.632918Z,proposal,delivery 42-pt initial (unstandardized),247
+EXP-012,2,frame_000022_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:33:15.380140Z,reviewed,EXP-PAP-005 CVAT reviewed,248
+EXP-012,2,frame_000022_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:33:23.149150Z,proposal,delivery 42-pt initial (unstandardized),249
+EXP-012,2,frame_000022_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:33:29.093575Z,missing,none,250
+EXP-012,2,frame_000022_face07,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:33:35.008063Z,missing,none,251
+EXP-012,2,frame_000022_face08,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:33:41.419539Z,missing,none,252
+EXP-012,2,frame_000022_face09,Ambiguous,,Medium,Unreliable,,papuan-v2-pilot@local.test,2026-11-04T15:33:54.751306Z,proposal,EXP-PAP-005 InsightFace proposal,253
+EXP-012,2,frame_000022_face10,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:34:01.330660Z,missing,none,254
+EXP-012,2,frame_000022_face11,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:34:14.345349Z,reviewed,EXP-PAP-005 CVAT reviewed,255
+EXP-012,2,frame_000034_face01,Neutral,Neutral,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:34:27.349493Z,proposal,delivery 42-pt initial (unstandardized),256
+EXP-012,2,frame_000034_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:34:38.849041Z,reviewed,EXP-PAP-005 CVAT reviewed,257
+EXP-012,2,frame_000034_face03,Ambiguous,,Medium,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:34:50.065145Z,proposal,delivery 42-pt initial (unstandardized),258
+EXP-012,2,frame_000034_face04,Ambiguous,,Medium,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:34:57.268579Z,proposal,delivery 42-pt initial (unstandardized),259
+EXP-012,2,frame_000035_face01,Happy,Happy,High,Unreliable,,papuan-v2-pilot@local.test,2026-11-04T15:35:07.488356Z,proposal,delivery 42-pt initial (unstandardized),260
+EXP-012,2,frame_000035_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:35:15.034242Z,proposal,delivery 42-pt initial (unstandardized),261
+EXP-012,2,frame_000035_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:35:22.825730Z,proposal,delivery 42-pt initial (unstandardized),262
+EXP-012,2,frame_000035_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:35:41.504035Z,proposal,delivery 42-pt initial (unstandardized),263
+EXP-012,2,frame_000036_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:35:48.563909Z,proposal,delivery 42-pt initial (unstandardized),264
+EXP-012,2,frame_000036_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:36:00.926304Z,proposal,delivery 42-pt initial (unstandardized),265
+EXP-012,2,frame_000036_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:36:08.448289Z,proposal,delivery 42-pt initial (unstandardized),266
+EXP-012,2,frame_000037_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:36:15.250364Z,reviewed,EXP-PAP-005 CVAT reviewed,267
+EXP-012,2,frame_000037_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:36:24.949652Z,proposal,delivery 42-pt initial (unstandardized),268
+EXP-012,2,frame_000038_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:36:31.757768Z,proposal,delivery 42-pt initial (unstandardized),269
+EXP-012,2,frame_000038_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:36:43.007742Z,reviewed,EXP-PAP-005 CVAT reviewed,270
+EXP-012,2,frame_000039_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:38:03.933209Z,proposal,delivery 42-pt initial (unstandardized),271
+EXP-012,2,frame_000039_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:42:21.394038Z,proposal,delivery 42-pt initial (unstandardized),272
+EXP-012,2,frame_000040_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:42:28.087623Z,proposal,delivery 42-pt initial (unstandardized),273
+EXP-012,2,frame_000040_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:42:33.974387Z,proposal,EXP-PAP-005 InsightFace proposal,274
+EXP-012,2,frame_000040_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:42:40.057894Z,proposal,delivery 42-pt initial (unstandardized),275
+EXP-012,2,frame_000041_face01,Neutral,Neutral,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:42:49.679271Z,proposal,delivery 42-pt initial (unstandardized),276
+EXP-012,2,frame_000041_face02,Sad,Sad,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:43:08.875858Z,proposal,delivery 42-pt initial (unstandardized),277
+EXP-012,2,frame_000041_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:43:16.610708Z,reviewed,EXP-PAP-005 CVAT reviewed,278
+EXP-012,2,frame_000041_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:43:25.314076Z,proposal,delivery 42-pt initial (unstandardized),279
+EXP-012,2,frame_000042_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:43:31.923117Z,proposal,delivery 42-pt initial (unstandardized),280
+EXP-012,2,frame_000042_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:43:39.193103Z,proposal,delivery 42-pt initial (unstandardized),281
+EXP-012,2,frame_000042_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:46:58.505114Z,proposal,delivery 42-pt initial (unstandardized),282
+EXP-012,2,frame_000043_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:47:17.932974Z,proposal,delivery 42-pt initial (unstandardized),283
+EXP-012,2,frame_000043_face02,Happy,Happy,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:47:35.116743Z,proposal,EXP-PAP-005 InsightFace proposal,284
+EXP-012,2,frame_000043_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:47:49.644093Z,proposal,delivery 42-pt initial (unstandardized),285
+EXP-012,2,frame_000043_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:49:29.776013Z,proposal,delivery 42-pt initial (unstandardized),286
+EXP-012,2,frame_000043_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:49:40.491926Z,reviewed,EXP-PAP-005 CVAT reviewed,287
+EXP-012,2,frame_000044_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:51:42.814271Z,proposal,delivery 42-pt initial (unstandardized),288
+EXP-012,2,frame_000044_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:51:51.489545Z,missing,none,289
+EXP-012,2,frame_000044_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:52:02.972938Z,proposal,delivery 42-pt initial (unstandardized),290
+EXP-012,2,frame_000044_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:52:12.247935Z,missing,none,291
+EXP-012,2,frame_000044_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:52:24.405003Z,proposal,delivery 42-pt initial (unstandardized),292
+EXP-012,2,frame_000045_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:52:39.715231Z,proposal,delivery 42-pt initial (unstandardized),293
+EXP-012,2,frame_000045_face02,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:52:54.373883Z,proposal,delivery 42-pt initial (unstandardized),294
+EXP-012,2,frame_000045_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:53:01.928238Z,proposal,delivery 42-pt initial (unstandardized),295
+EXP-012,2,frame_000045_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:53:09.605938Z,missing,none,296
+EXP-012,2,frame_000045_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:53:17.035668Z,proposal,delivery 42-pt initial (unstandardized),297
+EXP-012,2,frame_000045_face06,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:53:24.090219Z,proposal,delivery 42-pt initial (unstandardized),298
+EXP-012,2,frame_000046_face01,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:53:31.750928Z,proposal,delivery 42-pt initial (unstandardized),299
+EXP-012,2,frame_000046_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:53:45.653518Z,proposal,delivery 42-pt initial (unstandardized),300
+EXP-012,2,frame_000046_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:53:51.842170Z,proposal,delivery 42-pt initial (unstandardized),301
+EXP-012,2,frame_000047_face01,Surprise,Surprise,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:54:05.548201Z,proposal,EXP-PAP-005 InsightFace proposal,302
+EXP-012,2,frame_000047_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:54:18.207924Z,proposal,delivery 42-pt initial (unstandardized),303
+EXP-012,2,frame_000047_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:54:25.109613Z,reviewed,EXP-PAP-005 CVAT reviewed,304
+EXP-012,2,frame_000048_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:54:36.323120Z,proposal,delivery 42-pt initial (unstandardized),305
+EXP-012,2,frame_000048_face02,Happy,Happy,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:54:51.596219Z,proposal,delivery 42-pt initial (unstandardized),306
+EXP-012,2,frame_000048_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:55:00.227112Z,proposal,delivery 42-pt initial (unstandardized),307
+EXP-012,2,frame_000048_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:55:08.203848Z,proposal,delivery 42-pt initial (unstandardized),308
+EXP-012,2,frame_000049_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:55:14.217874Z,proposal,delivery 42-pt initial (unstandardized),309
+EXP-012,2,frame_000049_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:55:22.495814Z,proposal,delivery 42-pt initial (unstandardized),310
+EXP-012,2,frame_000049_face03,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:55:36.564259Z,proposal,delivery 42-pt initial (unstandardized),311
+EXP-012,2,frame_000049_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:55:47.413641Z,reviewed,EXP-PAP-005 CVAT reviewed,312
+EXP-012,2,frame_000049_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:56:00.732185Z,proposal,delivery 42-pt initial (unstandardized),313
+EXP-012,2,frame_000050_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:56:12.339019Z,proposal,delivery 42-pt initial (unstandardized),314
+EXP-012,2,frame_000050_face02,Happy,Happy,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:56:22.462007Z,proposal,delivery 42-pt initial (unstandardized),315
+EXP-012,2,frame_000050_face03,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:56:31.595719Z,proposal,delivery 42-pt initial (unstandardized),316
+EXP-012,2,frame_000050_face04,Happy,Happy,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:56:46.277140Z,proposal,EXP-PAP-005 InsightFace proposal,317
+EXP-012,2,frame_000051_face01,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:56:59.769282Z,proposal,delivery 42-pt initial (unstandardized),318
+EXP-012,2,frame_000051_face02,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:57:10.343570Z,proposal,delivery 42-pt initial (unstandardized),319
+EXP-012,2,frame_000051_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:57:26.923521Z,proposal,delivery 42-pt initial (unstandardized),320
+EXP-012,2,frame_000051_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:57:36.547378Z,proposal,delivery 42-pt initial (unstandardized),321
+EXP-012,2,frame_000052_face01,Neutral,Neutral,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:57:49.761540Z,proposal,delivery 42-pt initial (unstandardized),322
+EXP-012,2,frame_000052_face02,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:58:02.955353Z,proposal,delivery 42-pt initial (unstandardized),323
+EXP-012,2,frame_000052_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:58:16.167087Z,proposal,delivery 42-pt initial (unstandardized),324
+EXP-012,2,frame_000052_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:58:29.044468Z,proposal,delivery 42-pt initial (unstandardized),325
+EXP-012,2,frame_000053_face01,Happy,Happy,High,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:58:39.831459Z,proposal,delivery 42-pt initial (unstandardized),326
+EXP-012,2,frame_000053_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:58:50.121569Z,proposal,delivery 42-pt initial (unstandardized),327
+EXP-012,2,frame_000053_face03,Surprise,Surprise,Medium,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:59:06.575874Z,proposal,delivery 42-pt initial (unstandardized),328
+EXP-012,2,frame_000054_face01,Disgust,,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T15:59:44.270123Z,proposal,delivery 42-pt initial (unstandardized),329
+EXP-012,2,frame_000054_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T15:59:52.911374Z,missing,none,330
+EXP-012,2,frame_000054_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:00:00.775118Z,missing,none,331
+EXP-012,2,frame_000054_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:00:07.838478Z,missing,none,332
+EXP-012,2,frame_000054_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:00:16.907709Z,reviewed,EXP-PAP-005 CVAT reviewed,333
+EXP-012,2,frame_000055_face01,Fear,Fear,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T16:00:27.366260Z,proposal,delivery 42-pt initial (unstandardized),334
+EXP-012,2,frame_000055_face02,Disgust,,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T16:00:37.145207Z,proposal,EXP-PAP-005 InsightFace proposal,335
+EXP-012,2,frame_000055_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:00:46.124065Z,missing,none,336
+EXP-012,2,frame_000056_face01,Neutral,Neutral,Low,Usable,,papuan-v2-pilot@local.test,2026-11-04T16:00:58.034541Z,proposal,delivery 42-pt initial (unstandardized),337
+EXP-012,2,frame_000056_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:20.587364Z,proposal,delivery 42-pt initial (unstandardized),338
+EXP-012,2,frame_000056_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:27.187606Z,missing,none,339
+EXP-012,2,frame_000057_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:32.953747Z,missing,none,340
+EXP-012,2,frame_000058_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:38.343371Z,proposal,delivery 42-pt initial (unstandardized),341
+EXP-012,2,frame_000058_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:45.993150Z,missing,none,342
+EXP-012,2,frame_000059_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:52.238534Z,missing,none,343
+EXP-012,2,frame_000059_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:01:59.882991Z,missing,none,344
+EXP-012,2,frame_000060_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:06.278758Z,reviewed,EXP-PAP-005 CVAT reviewed,345
+EXP-012,2,frame_000060_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:12.269466Z,missing,none,346
+EXP-012,2,frame_000061_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:17.704896Z,missing,none,347
+EXP-012,2,frame_000061_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:24.397911Z,missing,none,348
+EXP-012,2,frame_000062_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:32.542465Z,missing,none,349
+EXP-012,2,frame_000062_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:39.979293Z,proposal,delivery 42-pt initial (unstandardized),350
+EXP-012,2,frame_000063_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:46.177913Z,missing,none,351
+EXP-012,2,frame_000063_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:52.853325Z,missing,none,352
+EXP-012,2,frame_000064_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:02:59.767362Z,missing,none,353
+EXP-012,2,frame_000064_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:07.348576Z,proposal,delivery 42-pt initial (unstandardized),354
+EXP-012,2,frame_000065_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:13.435114Z,missing,none,355
+EXP-012,2,frame_000065_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:19.641865Z,proposal,EXP-PAP-005 InsightFace proposal,356
+EXP-012,2,frame_000065_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:27.412161Z,missing,none,357
+EXP-012,2,frame_000065_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:35.068090Z,missing,none,358
+EXP-012,2,frame_000066_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:44.225413Z,missing,none,359
+EXP-012,2,frame_000066_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:51.451500Z,missing,none,360
+EXP-012,2,frame_000066_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:03:58.520240Z,missing,none,361
+EXP-012,2,frame_000066_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:06.818952Z,missing,none,362
+EXP-012,2,frame_000067_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:12.715087Z,missing,none,363
+EXP-012,2,frame_000067_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:18.857532Z,missing,none,364
+EXP-012,2,frame_000067_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:25.164694Z,missing,none,365
+EXP-012,2,frame_000067_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:30.753009Z,proposal,EXP-PAP-005 InsightFace proposal,366
+EXP-012,2,frame_000067_face05,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:36.694174Z,proposal,delivery 42-pt initial (unstandardized),367
+EXP-012,2,frame_000068_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:42.385480Z,proposal,delivery 42-pt initial (unstandardized),368
+EXP-012,2,frame_000068_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:53.352611Z,proposal,delivery 42-pt initial (unstandardized),369
+EXP-012,2,frame_000068_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:04:58.759658Z,missing,none,370
+EXP-012,2,frame_000069_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:04.636789Z,proposal,delivery 42-pt initial (unstandardized),371
+EXP-012,2,frame_000069_face02,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:21.310163Z,reviewed,EXP-PAP-005 CVAT reviewed,372
+EXP-012,2,frame_000069_face03,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:27.125674Z,missing,none,373
+EXP-012,2,frame_000069_face04,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:34.933415Z,proposal,delivery 42-pt initial (unstandardized),374
+EXP-012,2,frame_000070_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:41.234807Z,missing,none,375
+EXP-012,2,frame_000074_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:46.939142Z,missing,none,376
+EXP-012,2,frame_000078_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:51.560786Z,reviewed,EXP-PAP-005 CVAT reviewed,377
+EXP-012,2,frame_000083_face01,Ambiguous,,Low,Not used,,papuan-v2-pilot@local.test,2026-11-04T16:05:56.264415Z,missing,none,378
