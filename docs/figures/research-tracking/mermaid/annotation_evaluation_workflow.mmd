@@ -1,0 +1,26 @@
+%% Figure M3 — EXP-012 annotation and model-evaluation workflow. Editable Mermaid source.
+%% Counts: experiments/EXP-012-relabel/{landmark_sources.csv, labels_round2.csv, results/metrics.json}.
+flowchart TD
+    C["227 legacy crops"] --> LM{"Existing 42-point landmarks?"}
+    LM -- "reviewed (21)" --> O["Overlay rendered on a copy<br/>status banner shown"]
+    LM -- "unreviewed proposal (131)" --> O
+    LM -- "missing (75)" --> O
+    O --> LS["Label Studio project 4<br/>original crop + overlay side by side"]
+    LS --> H["Human annotator assigns label<br/>landmarks = visual aid only"]
+    H --> X["labels_round2.csv<br/>228 rows · 227 crops<br/>latest annotation per crop"]
+    X --> Q{"Usable for training?"}
+    Q -- "Ambiguous (148)" --> EX1["Excluded"]
+    Q -- "no ArcFace embedding (2)" --> EX2["Excluded"]
+    Q -- "rare class: Fear 2, Disgust 3" --> EX3["Excluded"]
+    Q -- "72 crops · 4 classes" --> T["ArcFace + LR<br/>5-fold StratifiedGroupKFold<br/>3-frame temporal blocks"]
+    T --> M["Out-of-fold metrics<br/>accuracy, macro F1, per-class, confusion"]
+    T --> GR["Dark (46) vs Medium-Dark (26)<br/>grouped bootstrap 95% CI"]
+    M --> R["EXP-012 REPORT.md"]
+    GR --> R
+
+    classDef step fill:#9dc3e6,stroke:#1f4e79,color:#222
+    classDef out fill:#eef4fa,stroke:#1f4e79,color:#222
+    classDef ex fill:#ffffff,stroke:#8c8c8c,color:#555
+    class C,O,LS,H,X,T step
+    class M,GR,R out
+    class EX1,EX2,EX3 ex

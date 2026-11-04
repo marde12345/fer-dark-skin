@@ -1,0 +1,39 @@
+%% Figure M1 — Overall research flowchart (FER thesis). Editable Mermaid source.
+%% Sources: Chapter 3 methodology; docs/EXPERIMENT.md (EXP-005 to EXP-012).
+flowchart TD
+    V["Source video<br/>pesta_babi.mp4 · 144,084 frames"] --> S["Frame sampling<br/>+ InsightFace face detection"]
+    S --> C["227 legacy face crops"]
+    C --> L1["Round-1 manual labels<br/>(single annotator)"]
+    C --> L2["Round-2 manual labels (EXP-012)<br/>landmark overlay as visual aid"]
+    C --> G["Skin-brightness group<br/>LAB proxy, original crops"]
+
+    C --> H["HSEmotion<br/>pretrained, used as-is"]
+    C --> K["Adaptive CLAHE (EXP-006)<br/>+ HSEmotion"]
+    C --> A["ArcFace embedding (frozen)<br/>+ Logistic Regression"]
+
+    subgraph PA["Protocol A — EXP-010/011 · 135 crops · round-1 labels · 5 classes"]
+        EA["Group-gap evaluation<br/>accuracy, macro F1, gap, worst-group<br/>grouped bootstrap CI, McNemar"]
+    end
+    subgraph PB["Protocol B — EXP-012 · 72 crops · round-2 labels · 4 classes"]
+        EB["Retrain ArcFace+LR on round-2 labels<br/>same CV and bootstrap as Protocol A"]
+    end
+
+    L1 --> EA
+    G --> EA
+    H --> EA
+    K --> EA
+    A --> EA
+    L2 --> EB
+    G --> EB
+    A --> EB
+    H -. "re-scored" .-> EB
+
+    EA --> F["Findings + limitations<br/>Dark vs Medium-Dark only · no light skin · no causal claims"]
+    EB --> F
+
+    classDef data fill:#9dc3e6,stroke:#1f4e79,color:#222
+    classDef model fill:#ffffff,stroke:#1f4e79,color:#222
+    classDef eval fill:#eef4fa,stroke:#1f4e79,color:#222
+    class V,S,C,L1,L2,G data
+    class H,K,A model
+    class EA,EB,F eval

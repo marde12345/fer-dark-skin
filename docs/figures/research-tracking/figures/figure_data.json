@@ -1,0 +1,427 @@
+{
+ "fig02": {
+  "legacy": [
+   [
+    "Source frames (25 fps)",
+    144084
+   ],
+   [
+    "Sampled frames",
+    100
+   ],
+   [
+    "Labeled face crops",
+    227
+   ],
+   [
+    "Excluding Ambiguous",
+    144
+   ],
+   [
+    "Excluding rare classes (Angry 1, Disgust 2)",
+    141
+   ],
+   [
+    "Excluding ArcFace alignment failures (6)",
+    135
+   ]
+  ],
+  "v2": [
+   [
+    "Sampled frames",
+    1390
+   ],
+   [
+    "Detected faces",
+    3413
+   ],
+   [
+    "Pass frontality/visibility",
+    1972
+   ],
+   [
+    "Pass size/blur",
+    1090
+   ],
+   [
+    "Pass all QC",
+    668
+   ]
+  ]
+ },
+ "fig03": [
+  {
+   "image_id": "frame_000010_face01",
+   "skin_tone": "Dark",
+   "clip_limit": 3.4337,
+   "saved_clip_limit": 3.4337
+  },
+  {
+   "image_id": "frame_000010_face05",
+   "skin_tone": "Dark",
+   "clip_limit": 3.5,
+   "saved_clip_limit": 3.5
+  },
+  {
+   "image_id": "frame_000010_face02",
+   "skin_tone": "Medium-Dark",
+   "clip_limit": 2.9923,
+   "saved_clip_limit": 2.9923
+  },
+  {
+   "image_id": "frame_000011_face01",
+   "skin_tone": "Medium-Dark",
+   "clip_limit": 2.9454,
+   "saved_clip_limit": 2.9454
+  }
+ ],
+ "fig04": {
+  "counts": {
+   "proposal": 131,
+   "missing": 75,
+   "reviewed": 21
+  },
+  "examples": {
+   "reviewed": "frame_000010_face05",
+   "proposal": "frame_000010_face01",
+   "missing": "frame_000008_face01"
+  }
+ },
+ "fig06": {
+  "accuracy": {
+   "HSEmotion": 0.362962962962963,
+   "ArcFace+LR": 0.4074074074074074
+  },
+  "macro_f1": {
+   "HSEmotion": 0.24891015417331203,
+   "ArcFace+LR": 0.27174636721406253
+  },
+  "accuracy_ci95": {
+   "HSEmotion": [
+    0.2692307692307692,
+    0.4672210985735576
+   ],
+   "ArcFace+LR": [
+    0.3383458646616541,
+    0.48091603053435117
+   ]
+  },
+  "n": 135
+ },
+ "fig07": {
+  "accuracy": {
+   "Original": 0.362962962962963,
+   "CLAHE": 0.32592592592592595
+  },
+  "macro_f1": {
+   "Original": 0.24891015417331203,
+   "CLAHE": 0.19892255892255895
+  },
+  "group_accuracy": {
+   "Original": {
+    "Dark": 0.48314606741573035,
+    "Medium-Dark": 0.13043478260869565
+   },
+   "CLAHE": {
+    "Dark": 0.43820224719101125,
+    "Medium-Dark": 0.10869565217391304
+   }
+  },
+  "changes": {
+   "accuracy": [
+    -0.037037037037037035,
+    -0.10938035102739727,
+    0.020270270270270285
+   ],
+   "Dark": [
+    -0.0449438202247191,
+    -0.14291474654377884,
+    0.027777777777777735
+   ],
+   "Medium-Dark": [
+    -0.021739130434782608,
+    -0.09808823529411763,
+    0.06060606060606061
+   ],
+   "gap": [
+    -0.023204689789936506,
+    -0.13617913560197825,
+    0.0728306801836213
+   ]
+  }
+ },
+ "fig08": {
+  "retrained": {
+   "n": 72,
+   "accuracy": 0.6111111111111112,
+   "accuracy_ci95": [
+    0.5277701465201465,
+    0.7143390191897652
+   ],
+   "macro_f1": 0.4824134199134199
+  },
+  "same_crops": {
+   "ArcFace+LR (round-2 retrained)": {
+    "n": 70,
+    "accuracy": 0.6142857142857143,
+    "accuracy_ci95": [
+     0.5318982712765957,
+     0.7170253537735847
+    ],
+    "macro_f1": 0.48405741869918706
+   },
+   "HSEmotion (fixed)": {
+    "n": 70,
+    "accuracy": 0.15714285714285714,
+    "accuracy_ci95": [
+     0.07933407738095238,
+     0.24561403508771928
+    ],
+    "macro_f1": 0.1688350409280642
+   },
+   "ArcFace+LR (EXP-007, round-1 trained)": {
+    "n": 70,
+    "accuracy": 0.4142857142857143,
+    "accuracy_ci95": [
+     0.2835438193647149,
+     0.5814059196617336
+    ],
+    "macro_f1": 0.3502038880986249
+   }
+  }
+ },
+ "fig09": {
+  "confusion_matrix": {
+   "Happy": {
+    "Happy": 24,
+    "Neutral": 6,
+    "Sad": 1,
+    "Surprise": 5
+   },
+   "Neutral": {
+    "Happy": 1,
+    "Neutral": 13,
+    "Sad": 5,
+    "Surprise": 0
+   },
+   "Sad": {
+    "Happy": 2,
+    "Neutral": 3,
+    "Sad": 0,
+    "Surprise": 0
+   },
+   "Surprise": {
+    "Happy": 3,
+    "Neutral": 1,
+    "Sad": 1,
+    "Surprise": 7
+   }
+  },
+  "per_class_f1": {
+   "Happy": 0.7272727272727273,
+   "Neutral": 0.6190476190476191,
+   "Sad": 0.0,
+   "Surprise": 0.5833333333333334
+  },
+  "support": {
+   "Happy": 30,
+   "Neutral": 23,
+   "Sad": 7,
+   "Surprise": 12
+  }
+ },
+ "fig10": {
+  "protocol_A": [
+   [
+    "HSEmotion (original)",
+    0.48314606741573035,
+    [
+     0.36556925996204936,
+     0.6329422661315219
+    ],
+    0.13043478260869565,
+    [
+     0.0285515873015873,
+     0.25
+    ],
+    0.35271128480703473,
+    [
+     0.1817800184790905,
+     0.540269321485382
+    ]
+   ],
+   [
+    "HSEmotion (CLAHE)",
+    0.43820224719101125,
+    [
+     0.32630396215257246,
+     0.5600243902439024
+    ],
+    0.10869565217391304,
+    [
+     0.030303030303030304,
+     0.1875
+    ],
+    0.3295065950170982,
+    [
+     0.21664465786314524,
+     0.4465022157406799
+    ]
+   ],
+   [
+    "ArcFace+LR",
+    0.449438202247191,
+    null,
+    0.32608695652173914,
+    null,
+    0.12335124572545186,
+    [
+     -0.038289149281060864,
+     0.28205128205128205
+    ]
+   ]
+  ],
+  "protocol_B": [
+   [
+    "ArcFace+LR retrained (n=72)",
+    0.5434782608695652,
+    [
+     0.45454545454545453,
+     0.6578947368421053
+    ],
+    0.7307692307692307,
+    [
+     0.521695652173913,
+     0.8966379310344823
+    ],
+    -0.18729096989966554,
+    [
+     -0.38839735833837463,
+     0.07934538398692806
+    ]
+   ],
+   [
+    "HSEmotion, re-scored (n=70)",
+    0.2222222222222222,
+    [
+     0.1,
+     0.3721044231646146
+    ],
+    0.04,
+    [
+     0.0,
+     0.13333333333333333
+    ],
+    0.1822222222222222,
+    [
+     0.02422513175230567,
+     0.33912450396825394
+    ]
+   ],
+   [
+    "ArcFace+LR EXP-007, re-scored (n=70)",
+    0.4,
+    [
+     0.22,
+     0.62164711881693
+    ],
+    0.44,
+    [
+     0.18744212962962964,
+     0.6875
+    ],
+    -0.03999999999999998,
+    [
+     -0.39705882352941174,
+     0.28215909090909036
+    ]
+   ]
+  ],
+  "group_n_A": {
+   "Dark": 89,
+   "Medium-Dark": 46
+  },
+  "group_n_B": {
+   "Dark": 46,
+   "Medium-Dark": 26
+  }
+ },
+ "fig11": {
+  "round1": {
+   "Neutral": 80,
+   "Happy": 34,
+   "Sad": 12,
+   "Surprise": 8,
+   "Fear": 7,
+   "Angry": 1,
+   "Disgust": 2,
+   "Ambiguous": 83
+  },
+  "round2": {
+   "Neutral": 25,
+   "Happy": 30,
+   "Sad": 7,
+   "Surprise": 12,
+   "Fear": 2,
+   "Angry": 0,
+   "Disgust": 3,
+   "Ambiguous": 148
+  },
+  "ambiguous_by_landmark_status": {
+   "reviewed": [
+    15,
+    6
+   ],
+   "proposal": [
+    61,
+    70
+   ],
+   "missing": [
+    72,
+    3
+   ]
+  }
+ },
+ "fig12": [
+  [
+   "2026-08-14",
+   "Round-1 manual labels (227 crops)",
+   "manual_labels_export.csv labeled_at"
+  ],
+  [
+   "2026-08-15",
+   "EXP-005/006: HSEmotion audit, CLAHE ablation",
+   "first commit 74caeb7"
+  ],
+  [
+   "2026-09-09",
+   "EXP-007/008/R9: ArcFace+LR, error analysis, validation",
+   "first commit 840e0d5"
+  ],
+  [
+   "2026-10-19",
+   "Papuan V2 extraction, QC, delivery package",
+   "commits 8373e1c, 8a7c60a"
+  ],
+  [
+   "2026-10-24",
+   "EXP-010/011: group-gap and CLAHE fairness analysis",
+   "commits 5ae3a56, a697f23"
+  ],
+  [
+   "2026-10-25",
+   "Thesis Ch. 1\u20135 aligned to fairness RQs",
+   "commits 62256a7\u20134739f13"
+  ],
+  [
+   "2026-10-25",
+   "EXP-012 labeling project (227 tasks)",
+   "commit 3a8a072"
+  ],
+  [
+   "2026-11-04",
+   "EXP-012 round-2 export and retraining",
+   "commits 684ed4c, bc8df93"
+  ]
+ ]
+}

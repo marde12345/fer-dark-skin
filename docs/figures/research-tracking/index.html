@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FER Thesis — Research Tracking</title>
+<style>
+  :root { --blue:#1f4e79; --mid:#2e75b6; --light:#9dc3e6; --pale:#eef4fa; --ink:#222; --grey:#666; --warn:#a00000; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 20px 48px; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:#fff; }
+  main { max-width:1100px; margin:0 auto; }
+  h1 { color:var(--blue); font-size:1.6rem; margin:0 0 4px; }
+  h2 { color:var(--blue); font-size:1.15rem; border-bottom:2px solid var(--light); padding-bottom:4px; margin-top:36px; }
+  .sub { color:var(--grey); margin:0 0 20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .card { border:1px solid var(--light); border-radius:8px; padding:12px 14px; background:var(--pale); }
+  .card h3 { margin:0 0 6px; font-size:.95rem; color:var(--blue); }
+  .kpi { font-size:1.5rem; font-weight:600; color:var(--blue); }
+  .muted { color:var(--grey); font-size:.85rem; }
+  ol.timeline { list-style:none; padding:0; margin:0; border-left:3px solid var(--light); }
+  ol.timeline li { position:relative; padding:4px 0 10px 18px; }
+  ol.timeline li::before { content:""; position:absolute; left:-8px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--blue); }
+  .date { font-weight:600; color:var(--blue); margin-right:6px; }
+  .done::after { content:" ✓"; color:var(--mid); }
+  ul { margin:6px 0; padding-left:20px; }
+  .figs { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+  figure { margin:0; border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff; }
+  figure img { width:100%; height:auto; display:block; }
+  figcaption { font-size:.85rem; margin-top:8px; }
+  figcaption b { color:var(--blue); }
+  .warn { color:var(--warn); font-weight:600; }
+  .tag { display:inline-block; font-size:.72rem; padding:1px 6px; border-radius:10px; background:var(--light); color:var(--blue); margin-left:4px; }
+  table { border-collapse:collapse; width:100%; font-size:.9rem; }
+  th, td { border:1px solid #ddd; padding:6px 8px; text-align:left; vertical-align:top; }
+  th { background:var(--pale); color:var(--blue); }
+  .tablewrap { overflow-x:auto; }
+</style>
+</head>
+<body>
+<main>
+<h1>FER Thesis — Research Tracking</h1>
+<p class="sub">Fairness evaluation of facial expression recognition across Dark and Medium-Dark skin-brightness groups (one documentary film). All figures are generated from saved experiment outputs; see <code>README.md</code> for sources and regeneration. Status as of 4 Nov 2026.</p>
+
+<h2>Evaluation protocols</h2>
+<div class="tablewrap">
+<table>
+<tr><th></th><th>Protocol A — EXP-010 / EXP-011</th><th>Protocol B — EXP-012</th></tr>
+<tr><td>Crops</td><td>135</td><td>72 usable (70 for same-crop comparison)</td></tr>
+<tr><td>Labels</td><td>Round 1</td><td>Round 2 (manual relabel, landmarks as visual aid)</td></tr>
+<tr><td>Classes</td><td>5</td><td>4 (Fear, Disgust too rare)</td></tr>
+<tr><td>Dark / Medium-Dark</td><td>89 / 46</td><td>46 / 26</td></tr>
+</table>
+</div>
+<p class="muted">Results from the two protocols are not directly comparable.</p>
+
+<h2>Key numbers</h2>
+<div class="grid">
+  <div class="card"><h3>EXP-010 · HSEmotion gap</h3><div class="kpi">0.353</div><div class="muted">Dark − Medium-Dark accuracy, 95% CI [0.182, 0.540]</div></div>
+  <div class="card"><h3>EXP-010 · ArcFace+LR gap</h3><div class="kpi">0.123</div><div class="muted">95% CI [−0.038, 0.282] — suggestive, not established</div></div>
+  <div class="card"><h3>EXP-011 · CLAHE gap change</h3><div class="kpi">−0.023</div><div class="muted">95% CI [−0.136, 0.073] — inconclusive</div></div>
+  <div class="card"><h3>EXP-012 · retrained ArcFace+LR</h3><div class="kpi">0.611</div><div class="muted">Accuracy [0.528, 0.714], macro F1 0.482, 72 crops, 4 classes; gap −0.187 [−0.388, 0.079]</div></div>
+</div>
+
+<h2>Timeline and milestones</h2>
+<ol class="timeline">
+  <li class="done"><span class="date">14 Aug 2026</span>Round-1 manual labels for 227 legacy crops</li>
+  <li class="done"><span class="date">15 Aug 2026</span>EXP-005 HSEmotion audit; EXP-006 adaptive CLAHE ablation</li>
+  <li class="done"><span class="date">09 Sep 2026</span>EXP-007 ArcFace+LR vs HSEmotion; EXP-008 error analysis; R9 validation</li>
+  <li class="done"><span class="date">19 Oct 2026</span>Papuan V2 extraction, QC, and supervisor delivery package (supporting)</li>
+  <li class="done"><span class="date">24 Oct 2026</span>EXP-010 group-gap analysis; EXP-011 CLAHE group analysis</li>
+  <li class="done"><span class="date">25 Oct 2026</span>Thesis Chapters 1–5, title, abstracts aligned to fairness RQs; citations verified</li>
+  <li class="done"><span class="date">25 Oct 2026</span>EXP-012 Label Studio project (227 tasks, landmark overlays)</li>
+  <li class="done"><span class="date">04 Nov 2026</span>EXP-012 round-2 labels exported; ArcFace+LR retrained and evaluated</li>
+  <li><span class="date">Next</span>Integrate EXP-012 into the thesis as a sensitivity analysis</li>
+</ol>
+
+<h2>Current findings</h2>
+<ul>
+  <li>HSEmotion is about 35 points less accurate on Medium-Dark than Dark crops (Protocol A); the interval excludes zero.</li>
+  <li>The tested CLAHE configuration did not measurably change the gap.</li>
+  <li>ArcFace+LR shows a smaller gap in Protocol A, but the evidence depends on the grouping used.</li>
+  <li>With round-2 labels, 148 of 227 crops are Ambiguous; the retrained model's gap is not distinguishable from zero, and Sad is not recognized.</li>
+  <li>Most of EXP-012's accuracy gain reflects the new labels and the 4-class task, not a better model.</li>
+</ul>
+
+<h2>Limitations</h2>
+<ul>
+  <li>Brightness is a pixel-based proxy mixed with lighting; only two dark groups; no light-skin evaluation.</li>
+  <li>Small groups (Medium-Dark 46 in Protocol A, 26 in Protocol B); per-class group results not interpretable.</li>
+  <li>One film; single annotator in both rounds; no subject IDs, so repeated people may cross folds.</li>
+  <li>Analyses after the fact; uncorrected multiple comparisons.</li>
+  <li>Source-film consent and provenance unresolved — face figures are internal only.</li>
+</ul>
+
+<h2>Remaining thesis work</h2>
+<ul>
+  <li>Integrate EXP-012 (methods, results, limitations) into Chapters 3–5 as a separate protocol.</li>
+  <li>Supervisor approval of the RQ wording and title; record in <code>RESEARCH_DECISIONS.md</code>.</li>
+  <li>Resolve consent/provenance; anonymize or replace face figures for publication.</li>
+  <li>Front matter: declaration, approval date, abbreviation pages, acknowledgements; expand abstracts to 500–800 words.</li>
+  <li>Verify the 5 pending citations and Zuiderveld's page range; apply the ITB citation style.</li>
+</ul>
+
+<h2>Figure inventory</h2>
+<div class="figs">
+  <figure><img src="figures/fig01_research_pipeline.svg" alt="Research pipeline diagram"><figcaption><b>Figure 1.</b> Overall FER fairness evaluation pipeline. <span class="tag">Ch. 3</span></figcaption></figure>
+  <figure><img src="figures/fig02_dataset_extraction_qc.svg" alt="Dataset extraction and QC counts"><figcaption><b>Figure 2.</b> Dataset extraction and quality filtering. <span class="tag">Ch. 3</span></figcaption></figure>
+  <figure><img src="figures/fig03_original_vs_clahe.png" alt="Original vs CLAHE face crops"><figcaption><b>Figure 3.</b> Original vs adaptive CLAHE (EXP-006 function). <span class="warn">Internal — identifiable faces.</span></figcaption></figure>
+  <figure><img src="figures/fig04_landmark_annotation.png" alt="Landmark overlays and status counts"><figcaption><b>Figure 4.</b> 42-point landmark overlays and availability (EXP-012). <span class="warn">Internal — identifiable faces.</span></figcaption></figure>
+  <figure><img src="figures/fig05_arcface_logreg.svg" alt="ArcFace and logistic regression diagram"><figcaption><b>Figure 5.</b> ArcFace embedding + Logistic Regression. <span class="tag">Ch. 3</span></figcaption></figure>
+  <figure><img src="figures/fig06_exp010_performance.svg" alt="EXP-010 accuracy and macro F1"><figcaption><b>Figure 6.</b> EXP-010 accuracy and macro F1 (Protocol A). <span class="tag">Ch. 4</span></figcaption></figure>
+  <figure><img src="figures/fig07_exp011_clahe.svg" alt="EXP-011 CLAHE comparison"><figcaption><b>Figure 7.</b> EXP-011 Original vs CLAHE (Protocol A). <span class="tag">Ch. 4</span></figcaption></figure>
+  <figure><img src="figures/fig08_exp012_performance.svg" alt="EXP-012 accuracy and macro F1"><figcaption><b>Figure 8.</b> EXP-012 accuracy and macro F1 (Protocol B). <span class="tag">Ch. 4</span></figcaption></figure>
+  <figure><img src="figures/fig09_exp012_confusion_per_class.svg" alt="EXP-012 confusion matrix and per-class F1"><figcaption><b>Figure 9.</b> EXP-012 confusion matrix and per-class F1. <span class="tag">Ch. 4</span></figcaption></figure>
+  <figure><img src="figures/fig10_dark_vs_medium_dark.svg" alt="Dark vs Medium-Dark accuracy and gap"><figcaption><b>Figure 10.</b> Dark vs Medium-Dark accuracy and gap with 95% CIs, by protocol. <span class="tag">Ch. 4</span></figcaption></figure>
+  <figure><img src="figures/fig11_annotation_landmarks.svg" alt="Label distribution and Ambiguous rate"><figcaption><b>Figure 11.</b> Label distribution by round and Ambiguous rate by landmark status. <span class="tag">Ch. 3 / appendix</span></figcaption></figure>
+  <figure><img src="figures/fig12_timeline.svg" alt="Research timeline"><figcaption><b>Figure 12.</b> Research timeline. <span class="tag">Appendix</span></figcaption></figure>
+</div>
+<p class="muted">Mermaid sources: <code>mermaid/research_flowchart.mmd</code>, <code>mermaid/experiment_workflow.mmd</code>, <code>mermaid/annotation_evaluation_workflow.mmd</code>.</p>
+</main>
+</body>
+</html>

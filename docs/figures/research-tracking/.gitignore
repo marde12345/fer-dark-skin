@@ -1,0 +1,4 @@
+# Figures 3 and 4 show identifiable faces from the source film (consent unresolved).
+# Keep them local only; regenerate with make_figures.py.
+figures/fig03_original_vs_clahe.*
+figures/fig04_landmark_annotation.*
