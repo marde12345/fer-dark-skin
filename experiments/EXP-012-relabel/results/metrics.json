@@ -1,0 +1,329 @@
+{
+  "experiment_id": "EXP-012",
+  "dataset": {
+    "round2_crops": 227,
+    "one_annotation_per_crop": "latest",
+    "exclusions": {
+      "excluded_ambiguous_label": 101,
+      "excluded_rare_class_Disgust": 3,
+      "excluded_rare_class_Fear": 2
+    },
+    "missing_embedding": 2,
+    "usable": 72,
+    "class_counts": {
+      "Neutral": 23,
+      "Sad": 7,
+      "Happy": 30,
+      "Surprise": 12
+    },
+    "class_order": [
+      "Happy",
+      "Neutral",
+      "Sad",
+      "Surprise"
+    ],
+    "group_counts": {
+      "Dark": 46,
+      "Medium-Dark": 26
+    },
+    "class_by_group": {
+      "Dark": {
+        "Happy": 17,
+        "Neutral": 16,
+        "Sad": 6,
+        "Surprise": 7
+      },
+      "Medium-Dark": {
+        "Happy": 13,
+        "Neutral": 7,
+        "Sad": 1,
+        "Surprise": 5
+      }
+    },
+    "temporal_blocks": 14
+  },
+  "retrained_all_usable": {
+    "n": 72,
+    "accuracy": 0.6111111111111112,
+    "accuracy_ci95": [
+      0.5277701465201465,
+      0.7143390191897652
+    ],
+    "macro_f1": 0.4824134199134199,
+    "groups": {
+      "Dark": {
+        "n": 46,
+        "class_counts": {
+          "Happy": 17,
+          "Neutral": 16,
+          "Surprise": 7,
+          "Sad": 6
+        },
+        "accuracy": 0.5434782608695652,
+        "accuracy_ci95": [
+          0.45454545454545453,
+          0.6578947368421053
+        ]
+      },
+      "Medium-Dark": {
+        "n": 26,
+        "class_counts": {
+          "Happy": 13,
+          "Neutral": 7,
+          "Surprise": 5,
+          "Sad": 1
+        },
+        "accuracy": 0.7307692307692307,
+        "accuracy_ci95": [
+          0.521695652173913,
+          0.8966379310344823
+        ]
+      }
+    },
+    "gap_dark_minus_medium_dark": -0.18729096989966554,
+    "gap_ci95": [
+      -0.38839735833837463,
+      0.07934538398692806
+    ],
+    "worst_group_accuracy": 0.5434782608695652,
+    "worst_group_ci95": [
+      0.45,
+      0.6486486486486487
+    ]
+  },
+  "per_class": [
+    {
+      "class": "Happy",
+      "precision": 0.6666666666666666,
+      "recall": 0.8,
+      "f1": 0.7272727272727273,
+      "support": 30
+    },
+    {
+      "class": "Neutral",
+      "precision": 0.6842105263157895,
+      "recall": 0.5652173913043478,
+      "f1": 0.6190476190476191,
+      "support": 23
+    },
+    {
+      "class": "Sad",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 7
+    },
+    {
+      "class": "Surprise",
+      "precision": 0.5833333333333334,
+      "recall": 0.5833333333333334,
+      "f1": 0.5833333333333334,
+      "support": 12
+    }
+  ],
+  "comparison_same_crops_round2_labels": {
+    "n": 70,
+    "models": {
+      "ArcFace+LR (round-2 retrained)": {
+        "n": 70,
+        "accuracy": 0.6142857142857143,
+        "accuracy_ci95": [
+          0.5318982712765957,
+          0.7170253537735847
+        ],
+        "macro_f1": 0.48405741869918706,
+        "groups": {
+          "Dark": {
+            "n": 45,
+            "class_counts": {
+              "Happy": 17,
+              "Neutral": 16,
+              "Surprise": 7,
+              "Sad": 5
+            },
+            "accuracy": 0.5555555555555556,
+            "accuracy_ci95": [
+              0.45712732919254656,
+              0.6764705882352942
+            ]
+          },
+          "Medium-Dark": {
+            "n": 25,
+            "class_counts": {
+              "Happy": 12,
+              "Neutral": 7,
+              "Surprise": 5,
+              "Sad": 1
+            },
+            "accuracy": 0.72,
+            "accuracy_ci95": [
+              0.5172413793103449,
+              0.8947368421052632
+            ]
+          }
+        },
+        "gap_dark_minus_medium_dark": -0.1644444444444444,
+        "gap_ci95": [
+          -0.3695913930789707,
+          0.10610006313131293
+        ],
+        "worst_group_accuracy": 0.5555555555555556,
+        "worst_group_ci95": [
+          0.45159709044908286,
+          0.6666666666666666
+        ]
+      },
+      "HSEmotion (fixed)": {
+        "n": 70,
+        "accuracy": 0.15714285714285714,
+        "accuracy_ci95": [
+          0.07933407738095238,
+          0.24561403508771928
+        ],
+        "macro_f1": 0.1688350409280642,
+        "groups": {
+          "Dark": {
+            "n": 45,
+            "class_counts": {
+              "Happy": 17,
+              "Neutral": 16,
+              "Surprise": 7,
+              "Sad": 5
+            },
+            "accuracy": 0.2222222222222222,
+            "accuracy_ci95": [
+              0.1,
+              0.3721044231646146
+            ]
+          },
+          "Medium-Dark": {
+            "n": 25,
+            "class_counts": {
+              "Happy": 12,
+              "Neutral": 7,
+              "Surprise": 5,
+              "Sad": 1
+            },
+            "accuracy": 0.04,
+            "accuracy_ci95": [
+              0.0,
+              0.13333333333333333
+            ]
+          }
+        },
+        "gap_dark_minus_medium_dark": 0.1822222222222222,
+        "gap_ci95": [
+          0.02422513175230567,
+          0.33912450396825394
+        ],
+        "worst_group_accuracy": 0.04,
+        "worst_group_ci95": [
+          0.0,
+          0.13043478260869565
+        ]
+      },
+      "ArcFace+LR (EXP-007, round-1 trained)": {
+        "n": 70,
+        "accuracy": 0.4142857142857143,
+        "accuracy_ci95": [
+          0.2835438193647149,
+          0.5814059196617336
+        ],
+        "macro_f1": 0.3502038880986249,
+        "groups": {
+          "Dark": {
+            "n": 45,
+            "class_counts": {
+              "Happy": 17,
+              "Neutral": 16,
+              "Surprise": 7,
+              "Sad": 5
+            },
+            "accuracy": 0.4,
+            "accuracy_ci95": [
+              0.22,
+              0.62164711881693
+            ]
+          },
+          "Medium-Dark": {
+            "n": 25,
+            "class_counts": {
+              "Happy": 12,
+              "Neutral": 7,
+              "Surprise": 5,
+              "Sad": 1
+            },
+            "accuracy": 0.44,
+            "accuracy_ci95": [
+              0.18744212962962964,
+              0.6875
+            ]
+          }
+        },
+        "gap_dark_minus_medium_dark": -0.03999999999999998,
+        "gap_ci95": [
+          -0.39705882352941174,
+          0.28215909090909036
+        ],
+        "worst_group_accuracy": 0.4,
+        "worst_group_ci95": [
+          0.17497282608695652,
+          0.5370726495726494
+        ]
+      }
+    },
+    "retrained_vs_hsemotion": {
+      "n": 70,
+      "ArcFace+LR (round-2 retrained)_only_correct": 38,
+      "HSEmotion (fixed)_only_correct": 6,
+      "mcnemar_p": 9.430375484953402e-07,
+      "accuracy_difference": 0.4571428571428572,
+      "accuracy_difference_ci95": [
+        0.3389830508474576,
+        0.5862256371814092
+      ],
+      "gap_difference": -0.34666666666666657,
+      "gap_difference_ci95": [
+        -0.5287991559044348,
+        -0.14084520123839023
+      ]
+    },
+    "retrained_vs_round1_arcface": {
+      "n": 70,
+      "ArcFace+LR (round-2 retrained)_only_correct": 19,
+      "ArcFace+LR (EXP-007, round-1 trained)_only_correct": 5,
+      "mcnemar_p": 0.006610751152038574,
+      "accuracy_difference": 0.2,
+      "accuracy_difference_ci95": [
+        0.045454545454545414,
+        0.32729403409090896
+      ],
+      "gap_difference": -0.12444444444444441,
+      "gap_difference_ci95": [
+        -0.3156694516253918,
+        0.09822104978354973
+      ]
+    }
+  },
+  "label_effect_hsemotion_fixed_model": {
+    "n_crops_labeled_in_class_order_both_rounds": 68,
+    "accuracy_vs_round1_labels": 0.27941176470588236,
+    "accuracy_vs_round2_labels": 0.16176470588235295,
+    "round1_round2_label_agreement": 0.5882352941176471
+  },
+  "exp010_reference": {
+    "HSEmotion": {
+      "accuracy": 0.362962962962963,
+      "macro_f1": 0.24891015417331203
+    },
+    "ArcFace+LR": {
+      "accuracy": 0.4074074074074074,
+      "macro_f1": 0.27174636721406253
+    }
+  },
+  "bootstrap": {
+    "seed": 42,
+    "n": 2000,
+    "unit": "temporal block (frame_index // 3)"
+  }
+}

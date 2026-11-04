@@ -1,0 +1,228 @@
+image_id,label,confidence,overlay_quality,landmark_status,annotation_id,labeled_at,included,exclusion_reason
+frame_000008_face01,Ambiguous,Low,Not used,missing,151,2026-10-25T14:28:19.459460Z,False,ambiguous
+frame_000008_face02,Neutral,High,Unreliable,proposal,152,2026-10-25T14:29:17.517109Z,True,
+frame_000008_face03,Ambiguous,Low,Not used,missing,153,2026-10-25T14:29:30.392698Z,False,ambiguous
+frame_000009_face01,Sad,Low,Unreliable,missing,154,2026-10-25T14:29:59.944537Z,True,
+frame_000009_face02,Neutral,Medium,Unreliable,proposal,155,2026-10-25T14:30:25.895271Z,True,
+frame_000009_face03,Ambiguous,Low,Not used,missing,156,2026-10-25T14:30:33.586643Z,False,ambiguous
+frame_000009_face04,Neutral,Low,Unreliable,reviewed,157,2026-10-25T14:30:58.837139Z,True,
+frame_000010_face01,Sad,Low,Usable,proposal,158,2026-10-25T14:32:11.415337Z,True,
+frame_000010_face02,Neutral,Medium,Usable,proposal,159,2026-10-25T14:32:25.916065Z,True,
+frame_000010_face03,Neutral,Low,Not used,missing,160,2026-10-25T14:33:41.419946Z,True,
+frame_000010_face04,Ambiguous,Low,Not used,missing,161,2026-10-25T14:33:50.151008Z,False,ambiguous
+frame_000010_face05,Happy,Medium,Usable,reviewed,162,2026-10-25T14:36:01.319621Z,True,
+frame_000010_face06,Ambiguous,Low,Not used,missing,163,2026-10-25T14:36:08.477945Z,False,ambiguous
+frame_000010_face07,Ambiguous,Low,Not used,missing,164,2026-10-25T14:36:14.916513Z,False,ambiguous
+frame_000011_face01,Disgust,Medium,Usable,proposal,165,2026-10-25T14:36:50.651030Z,False,rare_class
+frame_000011_face02,Ambiguous,Low,Not used,missing,166,2026-10-25T14:37:09.926408Z,False,ambiguous
+frame_000011_face03,Ambiguous,Medium,Unreliable,proposal,167,2026-10-25T14:37:41.652301Z,False,ambiguous
+frame_000011_face04,Ambiguous,Low,Not used,missing,168,2026-10-25T14:37:54.923429Z,False,ambiguous
+frame_000011_face05,Ambiguous,Low,Not used,proposal,169,2026-10-25T14:38:07.741690Z,False,ambiguous
+frame_000011_face06,Happy,Low,Unreliable,proposal,170,2026-10-25T14:38:22.820680Z,True,
+frame_000011_face07,Neutral,Low,Usable,reviewed,171,2026-10-25T14:38:38.146167Z,False,no_arcface_embedding
+frame_000012_face01,Happy,Medium,Unreliable,proposal,172,2026-10-25T14:39:16.194357Z,True,
+frame_000012_face02,Neutral,Medium,Usable,proposal,173,2026-10-25T14:39:30.970829Z,True,
+frame_000012_face03,Fear,Medium,Not used,missing,174,2026-10-25T14:51:02.599413Z,False,rare_class
+frame_000012_face04,Neutral,Low,Unreliable,proposal,175,2026-10-25T14:51:34.338375Z,True,
+frame_000012_face05,Surprise,Medium,Usable,proposal,176,2026-10-26T14:37:45.963286Z,True,
+frame_000012_face06,Ambiguous,Low,Not used,missing,177,2026-10-26T14:37:53.933692Z,False,ambiguous
+frame_000012_face07,Ambiguous,Low,Not used,missing,178,2026-10-26T14:37:59.952886Z,False,ambiguous
+frame_000012_face08,Ambiguous,Low,Not used,proposal,179,2026-10-26T14:38:07.291118Z,False,ambiguous
+frame_000012_face09,Ambiguous,Low,Unreliable,reviewed,180,2026-10-26T14:38:20.313848Z,False,ambiguous
+frame_000012_face10,Ambiguous,Low,Unreliable,reviewed,181,2026-10-26T14:38:28.005122Z,False,ambiguous
+frame_000013_face01,Happy,Medium,Usable,proposal,182,2026-10-26T14:38:37.601294Z,True,
+frame_000013_face02,Neutral,Medium,Usable,proposal,183,2026-10-26T14:38:49.561595Z,True,
+frame_000013_face03,Ambiguous,Low,Not used,missing,184,2026-10-26T14:38:58.415300Z,False,ambiguous
+frame_000013_face04,Neutral,Medium,Unreliable,proposal,185,2026-10-26T14:39:13.816990Z,True,
+frame_000013_face05,Sad,Low,Usable,proposal,186,2026-10-26T14:40:41.958434Z,True,
+frame_000013_face06,Surprise,Low,Usable,proposal,187,2026-10-26T14:40:58.534749Z,True,
+frame_000013_face07,Ambiguous,Low,Not used,missing,188,2026-10-26T14:41:05.889097Z,False,ambiguous
+frame_000014_face01,Surprise,Medium,Usable,proposal,189,2026-10-26T14:41:20.735582Z,True,
+frame_000014_face02,Happy,Medium,Usable,proposal,190,2026-10-26T14:41:31.629328Z,True,
+frame_000014_face03,Happy,Medium,Usable,proposal,191,2026-10-26T14:41:43.938137Z,True,
+frame_000014_face04,Neutral,Low,Unreliable,proposal,192,2026-10-26T14:43:50.242371Z,True,
+frame_000014_face05,Ambiguous,Low,Not used,missing,193,2026-10-26T14:43:56.761757Z,False,ambiguous
+frame_000014_face06,Ambiguous,Low,Not used,proposal,194,2026-10-26T14:44:03.269474Z,False,ambiguous
+frame_000014_face07,Ambiguous,Low,Not used,missing,195,2026-10-26T14:44:12.822404Z,False,ambiguous
+frame_000015_face01,Happy,Medium,Usable,proposal,196,2026-10-26T14:44:58.977993Z,True,
+frame_000015_face02,Neutral,Low,Unreliable,proposal,197,2026-10-26T14:49:43.847848Z,True,
+frame_000015_face03,Sad,Medium,Unreliable,proposal,198,2026-10-26T14:49:54.006182Z,True,
+frame_000015_face04,Ambiguous,Low,Not used,reviewed,199,2026-10-26T14:50:02.030866Z,False,ambiguous
+frame_000015_face05,Ambiguous,Low,Not used,reviewed,200,2026-10-26T14:50:17.665426Z,False,ambiguous
+frame_000015_face06,Ambiguous,Low,Not used,proposal,201,2026-10-26T14:50:25.472420Z,False,ambiguous
+frame_000016_face01,Happy,Medium,Usable,proposal,202,2026-10-26T14:50:35.819924Z,True,
+frame_000016_face02,Ambiguous,Low,Not used,missing,203,2026-10-26T14:50:49.309824Z,False,ambiguous
+frame_000016_face03,Sad,Low,Unreliable,proposal,204,2026-10-26T14:51:07.908630Z,True,
+frame_000016_face04,Ambiguous,Low,Not used,missing,205,2026-10-26T14:51:22.715587Z,False,ambiguous
+frame_000017_face01,Neutral,High,Usable,proposal,206,2026-10-26T14:51:31.390572Z,True,
+frame_000017_face02,Happy,Medium,Usable,proposal,207,2026-10-26T14:51:48.296916Z,True,
+frame_000017_face03,Ambiguous,Low,Not used,proposal,208,2026-10-26T14:51:57.497679Z,False,ambiguous
+frame_000017_face04,Ambiguous,Low,Not used,missing,209,2026-10-26T14:52:03.422326Z,False,ambiguous
+frame_000017_face05,Sad,Low,Unreliable,proposal,210,2026-10-26T14:52:11.906024Z,True,
+frame_000017_face06,Ambiguous,Low,Not used,missing,211,2026-10-26T14:52:19.423859Z,False,ambiguous
+frame_000017_face07,Ambiguous,Low,Not used,missing,212,2026-10-26T14:52:24.897196Z,False,ambiguous
+frame_000018_face01,Happy,Medium,Usable,proposal,213,2026-10-26T14:52:55.222104Z,True,
+frame_000018_face02,Happy,Medium,Usable,proposal,214,2026-10-26T14:53:07.175192Z,True,
+frame_000018_face03,Ambiguous,Low,Not used,proposal,215,2026-10-26T14:53:13.409321Z,False,ambiguous
+frame_000018_face04,Neutral,Medium,Unreliable,proposal,216,2026-10-26T14:54:01.071693Z,True,
+frame_000018_face05,Ambiguous,Low,Not used,missing,217,2026-10-26T14:54:08.592152Z,False,ambiguous
+frame_000018_face06,Ambiguous,Low,Not used,missing,218,2026-10-26T14:54:14.170619Z,False,ambiguous
+frame_000018_face07,Ambiguous,Low,Not used,missing,219,2026-10-26T14:54:19.850993Z,False,ambiguous
+frame_000019_face01,Ambiguous,Low,Not used,proposal,220,2026-10-26T14:54:26.318131Z,False,ambiguous
+frame_000019_face02,Neutral,Medium,Unreliable,reviewed,221,2026-10-26T14:54:36.660802Z,True,
+frame_000019_face03,Ambiguous,Low,Not used,proposal,222,2026-10-26T14:54:44.326304Z,False,ambiguous
+frame_000019_face04,Happy,High,Usable,proposal,223,2026-10-26T14:54:55.505062Z,True,
+frame_000019_face05,Happy,High,Usable,proposal,224,2026-10-26T14:55:17.051403Z,True,
+frame_000019_face06,Ambiguous,Low,Not used,missing,225,2026-10-26T14:55:24.615042Z,False,ambiguous
+frame_000019_face07,Ambiguous,Low,Not used,missing,226,2026-10-26T14:55:30.801478Z,False,ambiguous
+frame_000019_face08,Ambiguous,Low,Not used,missing,227,2026-10-26T14:55:36.984985Z,False,ambiguous
+frame_000020_face01,Ambiguous,Low,Not used,proposal,228,2026-10-26T14:55:50.196663Z,False,ambiguous
+frame_000020_face02,Neutral,Medium,Usable,proposal,229,2026-10-26T14:55:58.244026Z,True,
+frame_000020_face03,Ambiguous,Low,Not used,missing,230,2026-10-26T14:56:04.769136Z,False,ambiguous
+frame_000020_face04,Happy,Medium,Usable,proposal,231,2026-10-26T14:56:14.029680Z,True,
+frame_000020_face05,Ambiguous,Low,Not used,missing,232,2026-10-26T14:56:22.433030Z,False,ambiguous
+frame_000020_face06,Ambiguous,Low,Not used,missing,233,2026-10-26T14:56:29.045194Z,False,ambiguous
+frame_000020_face07,Ambiguous,Low,Not used,missing,234,2026-10-26T14:56:34.501285Z,False,ambiguous
+frame_000020_face08,Ambiguous,Low,Not used,missing,235,2026-10-26T14:56:44.639111Z,False,ambiguous
+frame_000020_face09,Ambiguous,Low,Not used,missing,236,2026-10-26T14:56:53.974958Z,False,ambiguous
+frame_000021_face01,Neutral,Medium,Unreliable,proposal,237,2026-10-26T15:00:01.464674Z,True,
+frame_000021_face02,Surprise,Medium,Usable,proposal,238,2026-11-04T15:30:52.835947Z,True,
+frame_000021_face03,Neutral,Medium,Unreliable,proposal,239,2026-11-04T15:31:08.407573Z,True,
+frame_000021_face04,Ambiguous,Low,Not used,missing,240,2026-11-04T15:32:00.469491Z,False,ambiguous
+frame_000021_face05,Ambiguous,Low,Not used,proposal,241,2026-11-04T15:32:17.138074Z,False,ambiguous
+frame_000021_face06,Ambiguous,Low,Not used,missing,242,2026-11-04T15:32:23.762342Z,False,ambiguous
+frame_000021_face07,Ambiguous,Low,Not used,proposal,243,2026-11-04T15:32:30.503810Z,False,ambiguous
+frame_000021_face08,Ambiguous,Low,Not used,missing,244,2026-11-04T15:32:36.349254Z,False,ambiguous
+frame_000022_face01,Ambiguous,Low,Not used,missing,245,2026-11-04T15:32:45.082560Z,False,ambiguous
+frame_000022_face02,Happy,Low,Unreliable,proposal,246,2026-11-04T15:32:57.989319Z,True,
+frame_000022_face03,Surprise,Medium,Usable,proposal,247,2026-11-04T15:33:07.632918Z,True,
+frame_000022_face04,Ambiguous,Low,Not used,reviewed,248,2026-11-04T15:33:15.380140Z,False,ambiguous
+frame_000022_face05,Ambiguous,Low,Not used,proposal,249,2026-11-04T15:33:23.149150Z,False,ambiguous
+frame_000022_face06,Ambiguous,Low,Not used,missing,250,2026-11-04T15:33:29.093575Z,False,ambiguous
+frame_000022_face07,Ambiguous,Low,Not used,missing,251,2026-11-04T15:33:35.008063Z,False,ambiguous
+frame_000022_face08,Ambiguous,Low,Not used,missing,252,2026-11-04T15:33:41.419539Z,False,ambiguous
+frame_000022_face09,Ambiguous,Medium,Unreliable,proposal,253,2026-11-04T15:33:54.751306Z,False,ambiguous
+frame_000022_face10,Ambiguous,Low,Not used,missing,254,2026-11-04T15:34:01.330660Z,False,ambiguous
+frame_000022_face11,Ambiguous,Low,Not used,reviewed,255,2026-11-04T15:34:14.345349Z,False,ambiguous
+frame_000034_face01,Neutral,High,Usable,proposal,256,2026-11-04T15:34:27.349493Z,False,no_arcface_embedding
+frame_000034_face02,Neutral,Medium,Usable,reviewed,257,2026-11-04T15:34:38.849041Z,True,
+frame_000034_face03,Ambiguous,Medium,Not used,proposal,258,2026-11-04T15:34:50.065145Z,False,ambiguous
+frame_000034_face04,Ambiguous,Medium,Not used,proposal,259,2026-11-04T15:34:57.268579Z,False,ambiguous
+frame_000035_face01,Happy,High,Unreliable,proposal,260,2026-11-04T15:35:07.488356Z,True,
+frame_000035_face02,Ambiguous,Low,Not used,proposal,261,2026-11-04T15:35:15.034242Z,False,ambiguous
+frame_000035_face03,Ambiguous,Low,Not used,proposal,262,2026-11-04T15:35:22.825730Z,False,ambiguous
+frame_000035_face04,Ambiguous,Low,Not used,proposal,263,2026-11-04T15:35:41.504035Z,False,ambiguous
+frame_000036_face01,Happy,High,Usable,proposal,264,2026-11-04T15:35:48.563909Z,True,
+frame_000036_face02,Ambiguous,Low,Not used,proposal,265,2026-11-04T15:36:00.926304Z,False,ambiguous
+frame_000036_face03,Ambiguous,Low,Not used,proposal,266,2026-11-04T15:36:08.448289Z,False,ambiguous
+frame_000037_face01,Happy,High,Usable,reviewed,267,2026-11-04T15:36:15.250364Z,True,
+frame_000037_face02,Ambiguous,Low,Not used,proposal,268,2026-11-04T15:36:24.949652Z,False,ambiguous
+frame_000038_face01,Happy,High,Usable,proposal,269,2026-11-04T15:36:31.757768Z,True,
+frame_000038_face02,Ambiguous,Low,Not used,reviewed,270,2026-11-04T15:36:43.007742Z,False,ambiguous
+frame_000039_face01,Ambiguous,Low,Not used,proposal,271,2026-11-04T15:38:03.933209Z,False,ambiguous
+frame_000039_face02,Ambiguous,Low,Not used,proposal,272,2026-11-04T15:42:21.394038Z,False,ambiguous
+frame_000040_face01,Ambiguous,Low,Not used,proposal,273,2026-11-04T15:42:28.087623Z,False,ambiguous
+frame_000040_face02,Ambiguous,Low,Not used,proposal,274,2026-11-04T15:42:33.974387Z,False,ambiguous
+frame_000040_face03,Ambiguous,Low,Not used,proposal,275,2026-11-04T15:42:40.057894Z,False,ambiguous
+frame_000041_face01,Neutral,Low,Usable,proposal,276,2026-11-04T15:42:49.679271Z,True,
+frame_000041_face02,Sad,Low,Usable,proposal,277,2026-11-04T15:43:08.875858Z,True,
+frame_000041_face03,Ambiguous,Low,Not used,reviewed,278,2026-11-04T15:43:16.610708Z,False,ambiguous
+frame_000041_face04,Ambiguous,Low,Not used,proposal,279,2026-11-04T15:43:25.314076Z,False,ambiguous
+frame_000042_face01,Happy,Medium,Usable,proposal,280,2026-11-04T15:43:31.923117Z,True,
+frame_000042_face02,Ambiguous,Low,Not used,proposal,281,2026-11-04T15:43:39.193103Z,False,ambiguous
+frame_000042_face03,Ambiguous,Low,Not used,proposal,282,2026-11-04T15:46:58.505114Z,False,ambiguous
+frame_000043_face01,Happy,Medium,Usable,proposal,283,2026-11-04T15:47:17.932974Z,True,
+frame_000043_face02,Happy,Low,Usable,proposal,284,2026-11-04T15:47:35.116743Z,True,
+frame_000043_face03,Ambiguous,Low,Not used,proposal,285,2026-11-04T15:47:49.644093Z,False,ambiguous
+frame_000043_face04,Ambiguous,Low,Not used,proposal,286,2026-11-04T15:49:29.776013Z,False,ambiguous
+frame_000043_face05,Ambiguous,Low,Not used,reviewed,287,2026-11-04T15:49:40.491926Z,False,ambiguous
+frame_000044_face01,Happy,Medium,Usable,proposal,288,2026-11-04T15:51:42.814271Z,True,
+frame_000044_face02,Ambiguous,Low,Not used,missing,289,2026-11-04T15:51:51.489545Z,False,ambiguous
+frame_000044_face03,Ambiguous,Low,Not used,proposal,290,2026-11-04T15:52:02.972938Z,False,ambiguous
+frame_000044_face04,Ambiguous,Low,Not used,missing,291,2026-11-04T15:52:12.247935Z,False,ambiguous
+frame_000044_face05,Ambiguous,Low,Not used,proposal,292,2026-11-04T15:52:24.405003Z,False,ambiguous
+frame_000045_face01,Happy,High,Usable,proposal,293,2026-11-04T15:52:39.715231Z,True,
+frame_000045_face02,Surprise,Medium,Usable,proposal,294,2026-11-04T15:52:54.373883Z,True,
+frame_000045_face03,Ambiguous,Low,Not used,proposal,295,2026-11-04T15:53:01.928238Z,False,ambiguous
+frame_000045_face04,Ambiguous,Low,Not used,missing,296,2026-11-04T15:53:09.605938Z,False,ambiguous
+frame_000045_face05,Ambiguous,Low,Not used,proposal,297,2026-11-04T15:53:17.035668Z,False,ambiguous
+frame_000045_face06,Ambiguous,Low,Not used,proposal,298,2026-11-04T15:53:24.090219Z,False,ambiguous
+frame_000046_face01,Happy,Medium,Usable,proposal,299,2026-11-04T15:53:31.750928Z,True,
+frame_000046_face02,Neutral,Medium,Usable,proposal,300,2026-11-04T15:53:45.653518Z,True,
+frame_000046_face03,Ambiguous,Low,Not used,proposal,301,2026-11-04T15:53:51.842170Z,False,ambiguous
+frame_000047_face01,Surprise,High,Usable,proposal,302,2026-11-04T15:54:05.548201Z,True,
+frame_000047_face02,Ambiguous,Low,Not used,proposal,303,2026-11-04T15:54:18.207924Z,False,ambiguous
+frame_000047_face03,Ambiguous,Low,Not used,reviewed,304,2026-11-04T15:54:25.109613Z,False,ambiguous
+frame_000048_face01,Happy,High,Usable,proposal,305,2026-11-04T15:54:36.323120Z,True,
+frame_000048_face02,Happy,Low,Usable,proposal,306,2026-11-04T15:54:51.596219Z,True,
+frame_000048_face03,Ambiguous,Low,Not used,proposal,307,2026-11-04T15:55:00.227112Z,False,ambiguous
+frame_000048_face04,Ambiguous,Low,Not used,proposal,308,2026-11-04T15:55:08.203848Z,False,ambiguous
+frame_000049_face01,Ambiguous,Low,Not used,proposal,309,2026-11-04T15:55:14.217874Z,False,ambiguous
+frame_000049_face02,Ambiguous,Low,Not used,proposal,310,2026-11-04T15:55:22.495814Z,False,ambiguous
+frame_000049_face03,Surprise,Medium,Usable,proposal,311,2026-11-04T15:55:36.564259Z,True,
+frame_000049_face04,Ambiguous,Low,Not used,reviewed,312,2026-11-04T15:55:47.413641Z,False,ambiguous
+frame_000049_face05,Ambiguous,Low,Not used,proposal,313,2026-11-04T15:56:00.732185Z,False,ambiguous
+frame_000050_face01,Ambiguous,Low,Not used,proposal,314,2026-11-04T15:56:12.339019Z,False,ambiguous
+frame_000050_face02,Happy,Low,Usable,proposal,315,2026-11-04T15:56:22.462007Z,True,
+frame_000050_face03,Surprise,Medium,Usable,proposal,316,2026-11-04T15:56:31.595719Z,True,
+frame_000050_face04,Happy,Medium,Usable,proposal,317,2026-11-04T15:56:46.277140Z,True,
+frame_000051_face01,Surprise,Medium,Usable,proposal,318,2026-11-04T15:56:59.769282Z,True,
+frame_000051_face02,Neutral,Medium,Usable,proposal,319,2026-11-04T15:57:10.343570Z,True,
+frame_000051_face03,Ambiguous,Low,Not used,proposal,320,2026-11-04T15:57:26.923521Z,False,ambiguous
+frame_000051_face04,Ambiguous,Low,Not used,proposal,321,2026-11-04T15:57:36.547378Z,False,ambiguous
+frame_000052_face01,Neutral,Medium,Usable,proposal,322,2026-11-04T15:57:49.761540Z,True,
+frame_000052_face02,Surprise,Medium,Usable,proposal,323,2026-11-04T15:58:02.955353Z,True,
+frame_000052_face03,Ambiguous,Low,Not used,proposal,324,2026-11-04T15:58:16.167087Z,False,ambiguous
+frame_000052_face04,Ambiguous,Low,Not used,proposal,325,2026-11-04T15:58:29.044468Z,False,ambiguous
+frame_000053_face01,Happy,High,Usable,proposal,326,2026-11-04T15:58:39.831459Z,True,
+frame_000053_face02,Ambiguous,Low,Not used,proposal,327,2026-11-04T15:58:50.121569Z,False,ambiguous
+frame_000053_face03,Surprise,Medium,Usable,proposal,328,2026-11-04T15:59:06.575874Z,True,
+frame_000054_face01,Disgust,Low,Usable,proposal,329,2026-11-04T15:59:44.270123Z,False,rare_class
+frame_000054_face02,Ambiguous,Low,Not used,missing,330,2026-11-04T15:59:52.911374Z,False,ambiguous
+frame_000054_face03,Ambiguous,Low,Not used,missing,331,2026-11-04T16:00:00.775118Z,False,ambiguous
+frame_000054_face04,Ambiguous,Low,Not used,missing,332,2026-11-04T16:00:07.838478Z,False,ambiguous
+frame_000054_face05,Ambiguous,Low,Not used,reviewed,333,2026-11-04T16:00:16.907709Z,False,ambiguous
+frame_000055_face01,Fear,Low,Usable,proposal,334,2026-11-04T16:00:27.366260Z,False,rare_class
+frame_000055_face02,Disgust,Low,Usable,proposal,335,2026-11-04T16:00:37.145207Z,False,rare_class
+frame_000055_face03,Ambiguous,Low,Not used,missing,336,2026-11-04T16:00:46.124065Z,False,ambiguous
+frame_000056_face01,Neutral,Low,Usable,proposal,337,2026-11-04T16:00:58.034541Z,True,
+frame_000056_face02,Ambiguous,Low,Not used,proposal,338,2026-11-04T16:01:20.587364Z,False,ambiguous
+frame_000056_face03,Ambiguous,Low,Not used,missing,339,2026-11-04T16:01:27.187606Z,False,ambiguous
+frame_000057_face01,Ambiguous,Low,Not used,missing,340,2026-11-04T16:01:32.953747Z,False,ambiguous
+frame_000058_face01,Ambiguous,Low,Not used,proposal,341,2026-11-04T16:01:38.343371Z,False,ambiguous
+frame_000058_face02,Ambiguous,Low,Not used,missing,342,2026-11-04T16:01:45.993150Z,False,ambiguous
+frame_000059_face01,Ambiguous,Low,Not used,missing,343,2026-11-04T16:01:52.238534Z,False,ambiguous
+frame_000059_face02,Ambiguous,Low,Not used,missing,344,2026-11-04T16:01:59.882991Z,False,ambiguous
+frame_000060_face01,Ambiguous,Low,Not used,reviewed,345,2026-11-04T16:02:06.278758Z,False,ambiguous
+frame_000060_face02,Ambiguous,Low,Not used,missing,346,2026-11-04T16:02:12.269466Z,False,ambiguous
+frame_000061_face01,Ambiguous,Low,Not used,missing,347,2026-11-04T16:02:17.704896Z,False,ambiguous
+frame_000061_face02,Ambiguous,Low,Not used,missing,348,2026-11-04T16:02:24.397911Z,False,ambiguous
+frame_000062_face01,Ambiguous,Low,Not used,missing,349,2026-11-04T16:02:32.542465Z,False,ambiguous
+frame_000062_face02,Ambiguous,Low,Not used,proposal,350,2026-11-04T16:02:39.979293Z,False,ambiguous
+frame_000063_face01,Ambiguous,Low,Not used,missing,351,2026-11-04T16:02:46.177913Z,False,ambiguous
+frame_000063_face02,Ambiguous,Low,Not used,missing,352,2026-11-04T16:02:52.853325Z,False,ambiguous
+frame_000064_face01,Ambiguous,Low,Not used,missing,353,2026-11-04T16:02:59.767362Z,False,ambiguous
+frame_000064_face02,Ambiguous,Low,Not used,proposal,354,2026-11-04T16:03:07.348576Z,False,ambiguous
+frame_000065_face01,Ambiguous,Low,Not used,missing,355,2026-11-04T16:03:13.435114Z,False,ambiguous
+frame_000065_face02,Ambiguous,Low,Not used,proposal,356,2026-11-04T16:03:19.641865Z,False,ambiguous
+frame_000065_face03,Ambiguous,Low,Not used,missing,357,2026-11-04T16:03:27.412161Z,False,ambiguous
+frame_000065_face04,Ambiguous,Low,Not used,missing,358,2026-11-04T16:03:35.068090Z,False,ambiguous
+frame_000066_face01,Ambiguous,Low,Not used,missing,360,2026-11-04T16:03:51.451500Z,False,ambiguous
+frame_000066_face02,Ambiguous,Low,Not used,missing,361,2026-11-04T16:03:58.520240Z,False,ambiguous
+frame_000066_face03,Ambiguous,Low,Not used,missing,362,2026-11-04T16:04:06.818952Z,False,ambiguous
+frame_000067_face01,Ambiguous,Low,Not used,missing,363,2026-11-04T16:04:12.715087Z,False,ambiguous
+frame_000067_face02,Ambiguous,Low,Not used,missing,364,2026-11-04T16:04:18.857532Z,False,ambiguous
+frame_000067_face03,Ambiguous,Low,Not used,missing,365,2026-11-04T16:04:25.164694Z,False,ambiguous
+frame_000067_face04,Ambiguous,Low,Not used,proposal,366,2026-11-04T16:04:30.753009Z,False,ambiguous
+frame_000067_face05,Ambiguous,Low,Not used,proposal,367,2026-11-04T16:04:36.694174Z,False,ambiguous
+frame_000068_face01,Ambiguous,Low,Not used,proposal,368,2026-11-04T16:04:42.385480Z,False,ambiguous
+frame_000068_face02,Ambiguous,Low,Not used,proposal,369,2026-11-04T16:04:53.352611Z,False,ambiguous
+frame_000068_face03,Ambiguous,Low,Not used,missing,370,2026-11-04T16:04:58.759658Z,False,ambiguous
+frame_000069_face01,Ambiguous,Low,Not used,proposal,371,2026-11-04T16:05:04.636789Z,False,ambiguous
+frame_000069_face02,Ambiguous,Low,Not used,reviewed,372,2026-11-04T16:05:21.310163Z,False,ambiguous
+frame_000069_face03,Ambiguous,Low,Not used,missing,373,2026-11-04T16:05:27.125674Z,False,ambiguous
+frame_000069_face04,Ambiguous,Low,Not used,proposal,374,2026-11-04T16:05:34.933415Z,False,ambiguous
+frame_000070_face01,Ambiguous,Low,Not used,missing,375,2026-11-04T16:05:41.234807Z,False,ambiguous
+frame_000074_face01,Ambiguous,Low,Not used,missing,376,2026-11-04T16:05:46.939142Z,False,ambiguous
+frame_000078_face01,Ambiguous,Low,Not used,reviewed,377,2026-11-04T16:05:51.560786Z,False,ambiguous
+frame_000083_face01,Ambiguous,Low,Not used,missing,378,2026-11-04T16:05:56.264415Z,False,ambiguous
