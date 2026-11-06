@@ -152,7 +152,7 @@ Items still needing confirmation before final submission:
 The authoritative, current list is `TODO.md`. In summary:
 
 1. **Obtain Pak Fadhil's approval of the RQ wording and the thesis title** (fairness direction recorded as approved per the author's report; wording pending).
-2. **Complete the front matter** (declaration placeholders, approval date, abbreviation page numbers, acknowledgements) and expand the abstracts to the guideline's 500–800 words.
+2. **Fill in the official approval date** in `config.tex` once issued (the remaining front-matter item; abstracts are already 500–800 words).
 3. **Decide the continuation status of the Papuan V2 emotion-label track** (Annotator A 150/150 confirmed; Annotator B 0/75). Landmark track remains supporting work (64 images human-reviewed).
 4. **Check the Zuiderveld page range** against the printed book (secondary sources only so far).
 5. **Verify dataset provenance/consent** for the source documentary film — flagged in this repository's own audit as unresolved by any technical step, requiring non-technical/institutional action.

@@ -70,13 +70,23 @@ This supersedes the single-sentence RQ proposed in the prior revision. The new s
 > **RQ2:** Does the tested CLAHE configuration change that between-group difference on the same sample?
 > **RQ3:** On the same five-class subset, do ArcFace + Logistic Regression and HSEmotion differ in the size of the between-group difference?
 
-**Still a proposal:** the exact RQ wording and the thesis title (`config.tex`) are the author's proposal; Pak Fadhil's approval of the wording, including naming "Papua" in the RQ and title, is pending.
+**Update (recorded 2026-11-05, as confirmed by the author):** Pak Fadhil has approved the current thesis title (`config.tex`) and the RQ wording above. No approval date or written record is in this repository.
+
+## Decision 6 — EXP-012, Data Source, Annotation, and Figure Policy (recorded 2026-11-05, as confirmed by the author)
+
+No approval dates or written records for these items are in this repository; each entry records the author's confirmation.
+
+- **Data source:** the supervisor approved using one documentary film (`pesta_babi.mp4`) as the data source.
+- **EXP-012 as a sensitivity analysis (Protocol B):** EXP-010 and EXP-011 remain the primary study (Protocol A: 135 crops, round-1 labels, 5 classes). EXP-012 (72 usable crops, round-2 labels, 4 classes) examines how manual relabeling and image-quality filtering affect the evaluation. It is not a replacement for, or directly comparable to, Protocol A.
+- **Round-2 annotation protocol:** the 227 legacy crops were relabeled manually in a separate Label Studio project, showing each original crop beside a 42-point eyebrow/eye/mouth landmark overlay flagged reviewed / unreviewed proposal / missing. Landmarks are visual aids only; labels are human judgments. Classes: Neutral, Happy, Sad, Surprise, Fear, Angry, Disgust, Ambiguous. Ambiguous marks crops whose facial features are not visible enough (low resolution, blur, pose, occlusion); these are kept in the data but excluded from emotion-classification evaluation. One annotation per crop is used (the latest).
+- **No second annotator:** annotation is single-annotator in both rounds; this is documented as a limitation. The earlier plan for a 75-crop second-annotator overlap is dropped.
+- **Figure policy:** identifiable face photographs must not appear in published thesis figures; use non-identifiable diagrams or abstract visualizations instead. Face figures in `docs/figures/research-tracking/` (Figures 3 and 4) stay local and git-ignored.
 
 ## Open Items Still Requiring Author/Supervisor Input
 
-1. **Supervisor sign-off on the RQ wording and thesis title** (Decision 5) — the fairness direction is reported as approved; the exact wording is pending. Record the approval here, with its source, once given.
+1. **Supervisor sign-off on the RQ wording and thesis title** — resolved 2026-11-05 (as confirmed by the author; see Decision 5 update).
 6. **D-8** — resolved (population difference; see `research-audit/DATA_DISCREPANCIES.md`). No action remaining.
 2. **Whether the landmark track appears in the final thesis at all**, and if so, how much space it receives (a single "future work" paragraph vs. a full methodology subsection) — the current draft treats it as a modest, clearly-labeled supporting-track discussion; this allocation itself is an editorial judgment the author may want to revise.
 3. **Row-level re-verification of the 135-sample population** against the raw `classifier_predictions.csv`, if the author wants the derivation fully closed rather than documentarily resolved.
-4. **Annotator A completion status** (Papuan V2 Label Studio pilot) — resolved 2026-10-25: 150/150 confirmed from the raw files (`DATA_DISCREPANCIES.md` D-1). Annotator B remains 0/75; whether to continue that track is still undecided.
+4. **Annotator A completion status** (Papuan V2 Label Studio pilot) — resolved 2026-10-25: 150/150 confirmed from the raw files (`DATA_DISCREPANCIES.md` D-1). Annotator B remains 0/75; no second annotator will be used (Decision 6).
 5. **Official ITB formatting template / friend's-thesis structural reference** — still not located in the repository.
