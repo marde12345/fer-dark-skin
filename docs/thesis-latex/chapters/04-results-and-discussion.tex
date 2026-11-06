@@ -3,11 +3,13 @@
 % reports/arcface_evaluation/{comparison_metrics,statistical_tests}.csv dan docs/EXP-007_ARCFACE_EVALUATION.md (EXP-007);
 % reports/arcface_error_analysis/neutral_error_analysis.csv (EXP-008); reports/audit_summary_metrics.csv (EXP-005);
 % reports/preprocessing_experiment_summary.csv (EXP-006); docs/R9_FINAL_STATISTICAL_VALIDATION.md;
-% research-audit/D8_SKIN_TONE_DISCREPANCY_INVESTIGATION.md (D-8).
+% research-audit/D8_SKIN_TONE_DISCREPANCY_INVESTIGATION.md (D-8);
+% experiments/EXP-012-relabel/results/{metrics.json,per_class_metrics.csv,confusion_matrix.csv} (Protokol B);
+% docs/figures/research-tracking/figures/ (Gambar 7-10 research-tracking).
 \chapter{Hasil dan Pembahasan}
 \label{chap:results}
 
-Bab ini menjawab tiga pertanyaan penelitian tentang kesenjangan kinerja antar-kelompok kecerahan kulit. Setiap bagian dipisah menjadi tiga lapis: \textbf{temuan} (angka yang diukur, dikutip langsung dari laporan eksperimen yang sudah tersimpan), \textbf{interpretasi} (apa yang bisa dan tidak bisa dibaca dari angka tersebut), dan \textbf{keterbatasan} (apa yang membatasi bacaan itu). Populasi utama adalah subset 135 potongan lima-kelas; hasil pada sampel 227 potongan dipakai hanya sebagai bukti pendukung dan selalu disebut populasinya.
+Bab ini menjawab tiga pertanyaan penelitian tentang kesenjangan kinerja antar-kelompok kecerahan kulit. Setiap bagian dipisah menjadi tiga lapis: \textbf{temuan} (angka yang diukur, dikutip langsung dari laporan eksperimen yang sudah tersimpan), \textbf{interpretasi} (apa yang bisa dan tidak bisa dibaca dari angka tersebut), dan \textbf{keterbatasan} (apa yang membatasi bacaan itu). Populasi utama adalah subset 135 potongan lima-kelas (Protokol A); hasil pada sampel 227 potongan dipakai hanya sebagai bukti pendukung dan selalu disebut populasinya. Analisis sensitivitas Protokol B (EXP-012) dilaporkan terpisah pada \S\ref{sec:protocol-b-results} dan tidak dibandingkan langsung dengan Protokol A.
 
 \section{Populasi Evaluasi dan Definisi Kelompok}
 \label{sec:results-setup}
@@ -49,7 +51,7 @@ Dengan pengelompokan 78 potongan yang sudah tervalidasi sebelumnya, kesenjangann
 
 Kesenjangan ini tetap terlihat di dalam kelas yang sama. Untuk kelas Netral, \textit{recall} HSEmotion adalah 0,691 pada Gelap ($n = 55$) berbanding 0,190 pada Gelap-Sedang ($n = 21$); untuk kelas Senang, 0,167 ($n = 18$) berbanding 0,071 ($n = 14$). Potongan Netral yang diprediksi Marah berjumlah 12 dari 21 pada Gelap-Sedang, berbanding 6 dari 55 pada Gelap. Secara keseluruhan, laju prediksi Marah adalah 0,478 pada Gelap-Sedang dan 0,169 pada Gelap.
 
-\textbf{Bukti pendukung (227 potongan).} Pada sampel penuh 227 potongan, akurasi HSEmotion adalah 22,47\%, dan 18 dari 76 potongan Netral (23,7\%) diprediksi Marah, pola yang sama persis dengan yang teramati pada subset 135 potongan (EXP-005, EXP-008). Dengan pengelompokan yang mencakup seluruh 227 potongan (EXP-006), akurasi Gelap adalah 27,67\% ($n = 159$) dan Gelap-Sedang 10,77\% ($n = 65$). Angka 44,0\% dan 14,3\% yang dilaporkan EXP-005 dihitung hanya pada 85 potongan yang memiliki fitur titik-fitur wajah; perbedaan kedua pasang angka ini sudah dijelaskan oleh perbedaan populasi, bukan kesalahan hitung (\texttt{research-audit/D8\_SKIN\_TONE\_DISCREPANCY\_INVESTIGATION.md}).
+\textbf{Bukti pendukung (227 potongan).} Pada sampel penuh 227 potongan, akurasi HSEmotion adalah 22,47\%, dan 18 dari 76 potongan Netral (23,7\%) diprediksi Marah, pola yang sama persis dengan yang teramati pada subset 135 potongan (EXP-005, EXP-008). Dengan pengelompokan yang mencakup seluruh 227 potongan (EXP-006), akurasi Gelap adalah 27,67\% ($n = 159$) dan Gelap-Sedang 10,77\% ($n = 65$). Angka 44,0\% dan 14,3\% yang dilaporkan EXP-005 dihitung hanya pada 85 potongan yang memiliki fitur titik-fitur wajah; perbedaan kedua pasang angka ini sudah dijelaskan oleh perbedaan populasi, bukan kesalahan hitung, sebagaimana dikonfirmasi dengan perhitungan ulang dari data mentah.
 
 \subsection*{Interpretasi}
 
@@ -96,8 +98,8 @@ SK kesenjangan masing-masing kondisi adalah [0,182; 0,540] untuk potongan asli d
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.35\textwidth]{figures/perbandingan-clahe-sebelum-sesudah}
-\caption[Contoh kualitatif potongan wajah sebelum dan sesudah CLAHE]{Contoh kualitatif perbandingan potongan wajah asli (kiri) dan hasil olahan CLAHE (kanan), dengan label kebenaran lapangan (GT), prediksi HSEmotion, dan nilai batas klip (\textit{clip limit}) adaptif yang dipakai untuk tiap potongan. Batas klip bervariasi antar-potongan (2,88 hingga 3,50), sesuai mekanisme pada \S\ref{sec:clahe-config}. Gambar ini hanya ilustrasi mekanisme; angka pada Tabel~\ref{tab:rq2-clahe} dihitung atas seluruh 135 potongan.}
+\includegraphics[width=\textwidth]{../figures/research-tracking/figures/fig07_exp011_clahe.pdf}
+\caption[HSEmotion pada potongan asli dan CLAHE (EXP-011)]{EXP-011 (Protokol A, 135 potongan). (a) Akurasi, F1 makro, dan akurasi per kelompok HSEmotion pada potongan asli dan CLAHE. (b) Perubahan CLAHE $-$ asli dengan SK 95\%; seluruh SK memuat nol. Sumber: EXP-011.}
 \label{fig:clahe-contoh}
 \end{figure}
 
@@ -154,10 +156,80 @@ Sebagian keunggulan ArcFace + LR pada Gelap-Sedang dapat berkaitan dengan ketida
 
 Selain sifat retrospektifnya, kedua model tidak dievaluasi dengan protokol yang sama: HSEmotion dipakai apa adanya, sedangkan prediksi ArcFace + LR berasal dari validasi silang berkelompok lima-lipatan. Kelompok Gelap-Sedang hanya berisi 46 potongan.
 
+\section{Protokol B: Analisis Sensitivitas terhadap Pelabelan Ulang (EXP-012)}
+\label{sec:protocol-b-results}
+
+Bagian ini melaporkan analisis sensitivitas EXP-012 (Bab~\ref{chap:methodology} \S\ref{sec:protocol-b}). Hasilnya \textbf{tidak dapat dibandingkan langsung} dengan RQ1 sampai RQ3: Protokol A memakai 135 potongan, label putaran pertama, dan lima kelas, sedangkan Protokol B memakai 72 potongan, label putaran kedua, dan empat kelas. Keduanya adalah tugas klasifikasi yang berbeda.
+
+\subsection*{Temuan}
+
+\begin{table}[htbp]
+\centering
+\caption[Kinerja ArcFace + LR yang dilatih ulang pada label putaran kedua]{ArcFace + LR yang dilatih ulang pada label putaran kedua (Protokol B, 72 potongan, empat kelas), prediksi \textit{out-of-fold}. SK 95\% \textit{bootstrap} berkelompok. Sumber: EXP-012.}
+\label{tab:protocol-b}
+\small
+\begin{tabular}{lrr}
+\toprule
+Metrik & Nilai & SK 95\% \\
+\midrule
+Akurasi & 0,611 & [0,528; 0,714] \\
+F1 makro & 0,482 & -- \\
+Akurasi Gelap ($n = 46$) & 0,543 & [0,455; 0,658] \\
+Akurasi Gelap-Sedang ($n = 26$) & 0,731 & [0,522; 0,897] \\
+Kesenjangan (Gelap $-$ Gelap-Sedang) & $-$0,187 & [$-$0,388; 0,079] \\
+Akurasi kelompok terburuk & 0,543 & [0,450; 0,649] \\
+\midrule
+F1 Senang ($n = 30$) & 0,727 & \\
+F1 Netral ($n = 23$) & 0,619 & \\
+F1 Terkejut ($n = 12$) & 0,583 & \\
+F1 Sedih ($n = 7$) & 0,000 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Tabel~\ref{tab:protocol-b} dan Gambar~\ref{fig:protocol-b-cm} merangkum hasilnya. Tidak satu pun dari tujuh potongan Sedih diprediksi benar; lima di antaranya diprediksi Netral. Pada 70 potongan yang sama dan dinilai terhadap label putaran kedua (Gambar~\ref{fig:protocol-b-perf}), model yang dilatih ulang mencapai akurasi 0,614 dan F1 makro 0,484, ArcFace + LR dari EXP-007 (dilatih pada label putaran pertama) 0,414 dan 0,350, dan HSEmotion 0,157 dan 0,169. Uji McNemar model yang dilatih ulang terhadap HSEmotion menghasilkan 38 berbanding 6 ($p < 0,001$), dan terhadap ArcFace + LR EXP-007 19 berbanding 5 ($p = 0,007$; selisih akurasi 0,200, SK 95\% [0,045; 0,327]). Kesenjangan HSEmotion pada 70 potongan ini adalah 0,182 (SK 95\% [0,024; 0,339]).
+
+Perubahan label sendiri sudah menggeser angka secara besar. Pada 68 potongan yang berlabel salah satu dari empat kelas pada putaran kedua, prediksi HSEmotion yang tidak berubah mencapai akurasi 0,279 terhadap label putaran pertama, tetapi 0,162 terhadap label putaran kedua. Label kedua putaran sama pada 58,8\% dari potongan ini.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/research-tracking/figures/fig08_exp012_performance.pdf}
+\caption[Kinerja tiga model pada 70 potongan yang sama, label putaran kedua (EXP-012)]{EXP-012 (Protokol B): akurasi (SK 95\%) dan F1 makro pada 70 potongan yang sama, dinilai terhadap label putaran kedua, untuk ArcFace + LR yang dilatih ulang, HSEmotion, dan ArcFace + LR dari EXP-007. Sumber: EXP-012.}
+\label{fig:protocol-b-perf}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../figures/research-tracking/figures/fig09_exp012_confusion_per_class.pdf}
+\caption[Matriks kebingungan dan F1 per kelas (EXP-012)]{EXP-012, ArcFace + LR yang dilatih ulang, prediksi \textit{out-of-fold} pada 72 potongan: (a) matriks kebingungan; (b) F1 per kelas. Sumber: EXP-012.}
+\label{fig:protocol-b-cm}
+\end{figure}
+
+\subsection*{Interpretasi}
+
+Kenaikan akurasi dari 0,407 (Protokol A) menjadi 0,611 (Protokol B) \textbf{tidak dapat dibaca sebagai perbaikan model}. Algoritma dan fitur yang dipakai sama; yang berubah adalah label, potongan yang dikeluarkan, dan himpunan kelas. Model yang dilatih ulang juga dinilai terhadap label yang sama dengan label pelatihannya, sedangkan ArcFace + LR EXP-007 dilatih pada label putaran pertama. Tugas empat kelas lebih mudah daripada tugas lima kelas, dan pengecualian 148 potongan Ambigu menyisakan wajah yang lebih jelas. Masing-masing faktor ini dapat menaikkan akurasi tanpa perubahan apa pun pada model.
+
+Kesenjangan model yang dilatih ulang tidak dapat dibedakan dari nol (SK $-$0,388 sampai 0,079). Titik estimasinya bahkan lebih tinggi untuk Gelap-Sedang, tetapi dengan 26 potongan Gelap-Sedang arah ini tidak dapat diandalkan. \textbf{Tidak ada perbaikan keadilan yang dapat dinyatakan dari Protokol B.} HSEmotion masih menunjukkan kesenjangan positif pada potongan ini, searah dengan Protokol A, tetapi pada jumlah potongan yang jauh lebih kecil. Pengenalan Sedih tetap buruk.
+
+Temuan yang paling kuat dari Protokol B justru tentang data: hasil evaluasi sangat peka terhadap pelabelan ulang dan terhadap keputusan mengeluarkan potongan berkualitas rendah.
+
+\subsection*{Keterbatasan}
+
+Protokol B hanya berisi 72 potongan dalam 14 blok temporal; Gelap-Sedang 26 potongan dengan satu potongan Sedih; Takut dan Jijik tidak dievaluasi. Label putaran kedua dibuat oleh satu anotator dengan 74\% anotasi bertingkat keyakinan Rendah. Pengecualian Ambigu tidak acak. Tanpa identitas subjek, orang yang sama dapat muncul pada lipatan latih dan uji.
+
 \section{Pembahasan Lintas Pertanyaan Penelitian}
 \label{sec:results-synthesis}
 
 Jika dibaca bersama, ketiga hasil menunjukkan pola berikut pada sampel ini. Kesenjangan antara potongan Gelap dan Gelap-Sedang pada HSEmotion besar dan konsisten (RQ1). Mengubah citra masukan dengan konfigurasi CLAHE yang diuji tidak menghasilkan perubahan kesenjangan yang dapat disimpulkan (RQ2). Mengganti klasifier dengan ArcFace + LR menghasilkan kesenjangan yang lebih kecil, tetapi dengan bukti yang belum cukup kuat untuk dinyatakan terbukti (RQ3). Pola kesalahan Netral$\to$Marah pada kelompok Gelap-Sedang muncul sebagai benang merah: pola ini menjelaskan sebagian besar kesenjangan HSEmotion, tidak berubah oleh CLAHE, dan tidak dapat terjadi pada ArcFace + LR.
+
+Analisis sensitivitas Protokol B (\S\ref{sec:protocol-b-results}) menambahkan satu catatan penting: angka-angka ini bergantung pada label. Ketika potongan dilabel ulang dan potongan yang ciri wajahnya tidak cukup terlihat dikeluarkan, akurasi dan kesenjangan berubah besar, sementara model dan fiturnya tetap sama. Gambar~\ref{fig:subgroup-protocols} menampilkan akurasi per kelompok dan kesenjangan untuk kedua protokol dalam panel terpisah. Kedua panel tidak boleh dibaca sebagai perbandingan langsung.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../figures/research-tracking/figures/fig10_dark_vs_medium_dark.pdf}
+\caption[Akurasi Gelap dan Gelap-Sedang serta kesenjangannya menurut protokol]{Akurasi kelompok Gelap dan Gelap-Sedang (kiri) dan kesenjangan Gelap $-$ Gelap-Sedang (kanan) dengan SK 95\%, satu baris per protokol. Atas: Protokol A (EXP-010/011, 135 potongan, label putaran pertama, lima kelas). Bawah: Protokol B (EXP-012, label putaran kedua, empat kelas). EXP-010 tidak menyimpan SK akurasi per kelompok untuk ArcFace + LR, sehingga titiknya ditampilkan tanpa batang galat. Sumber: EXP-010, EXP-011, dan EXP-012.}
+\label{fig:subgroup-protocols}
+\end{figure}
 
 Pembacaan ini sejalan dengan literatur evaluasi bertingkat-subkelompok yang dibahas pada Bab~\ref{chap:literature-review}, yang menekankan pelaporan kinerja per kelompok, bukan hanya akurasi agregat: akurasi keseluruhan kedua model tidak berbeda secara signifikan, tetapi perilaku per kelompoknya berbeda. Variabel kelompok dalam tesis ini adalah kecerahan piksel, sehingga sebagian kesenjangan mungkin mencerminkan kondisi pencahayaan, bukan warna kulit.
 
@@ -169,9 +241,10 @@ Tesis ini \textbf{tidak} mengklaim: kesenjangan antara kulit terang dan gelap (t
 Keterbatasan berikut berlaku untuk seluruh bab ini dan dinyatakan sekali di sini.
 \begin{itemize}
   \item \textbf{Proksi kelompok.} Kelompok adalah ember kecerahan luminans LAB yang dihitung dari piksel, bercampur dengan pencahayaan, dan bukan ukuran pigmentasi atau etnis yang tervalidasi. Hanya dua kelompok, keduanya gelap, yang tersedia.
-  \item \textbf{Ukuran kelompok.} Gelap-Sedang berisi 46 potongan; kelas Takut dan Terkejut masing-masing hanya 2 potongan pada kelompok ini.
-  \item \textbf{Satu sumber dan satu anotator.} Seluruh potongan berasal dari satu film; kebenaran lapangan dibuat oleh satu anotator tanpa ukuran kesepakatan.
-  \item \textbf{Tanpa identitas subjek.} \textit{Bootstrap} blok waktu hanya sebagian mengatasi kemunculan orang yang sama pada beberapa potongan.
+  \item \textbf{Ukuran kelompok.} Gelap-Sedang berisi 46 potongan pada Protokol A (Takut dan Terkejut masing-masing hanya 2) dan 26 potongan pada Protokol B (Sedih hanya 1).
+  \item \textbf{Satu sumber dan satu anotator.} Seluruh potongan berasal dari satu film dokumenter; kedua putaran label dibuat oleh satu anotator tanpa ukuran kesepakatan, dan tidak ada anotator kedua.
+  \item \textbf{Ketidakpastian label dan kualitas gambar.} Pada putaran kedua, 148 dari 227 potongan diberi label Ambigu karena ciri wajahnya tidak cukup terlihat, dan pengecualian ini tidak acak. Label kedua putaran hanya sama pada 58,8\% potongan yang dibandingkan.
+  \item \textbf{Tanpa identitas subjek.} Validasi silang dan \textit{bootstrap} atas blok waktu 3-\textit{frame} hanya sebagian mengatasi kemunculan orang yang sama pada beberapa potongan.
   \item \textbf{Analisis retrospektif dan uji berganda.} RQ3 dan prediksi CLAHE mendahului rumusan RQ; uji per kelompok tidak dikoreksi untuk perbandingan berganda.
   \item \textbf{Persetujuan dan asal-usul data.} Dasar persetujuan penggunaan wajah dan asal-usul rekaman sumber belum terdokumentasi.
 \end{itemize}
@@ -179,4 +252,4 @@ Keterbatasan berikut berlaku untuk seluruh bab ini dan dinyatakan sekali di sini
 \section{Status Pekerjaan Pendukung: Papuan V2 dan Titik-Fitur Wajah}
 \label{sec:rq-papuanv2-status}
 
-Tidak ada hasil dari jalur Papuan V2 atau jalur titik-fitur wajah yang dipakai untuk menjawab RQ1 sampai RQ3. Pada jalur Papuan V2, 150 potongan dari kumpulan uji coba 645 potongan sudah diberi label emosi oleh satu anotator; anotator kedua belum menyelesaikan satu pun dari 75 potongan tumpang-tindih, dan kumpulan ini belum memiliki kelompok kecerahan yang diperiksa manusia. Pada jalur titik-fitur wajah, 64 gambar sudah diperiksa manusia, dan model regresi Ridge berbasis piksel belum menunjukkan perbaikan berarti dibanding model \textit{mean-shape} (\S\ref{sec:methodology-landmarks}). Keduanya diperlakukan sebagai pekerjaan pendukung dan kerja lanjutan (\S\ref{sec:future-work}).
+Tidak ada hasil dari jalur Papuan V2 atau jalur titik-fitur wajah yang dipakai untuk menjawab RQ1 sampai RQ3. Pada jalur Papuan V2, 150 potongan dari kumpulan 645 potongan diberi label emosi oleh satu anotator; anotator kedua tidak dipakai. Label ini tidak dipakai dalam evaluasi mana pun. Pada jalur titik-fitur wajah, 64 gambar sudah diperiksa manusia, dan model regresi Ridge berbasis piksel belum menunjukkan perbaikan berarti dibanding model \textit{mean-shape} (\S\ref{sec:methodology-landmarks}). Titik-fitur yang ada kemudian dipakai sebagai alat bantu visual pada pelabelan ulang Protokol B (\S\ref{sec:protocol-b}), bukan sebagai masukan model; 75 dari 227 potongan tidak memiliki titik-fitur sama sekali.

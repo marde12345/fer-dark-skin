@@ -1,4 +1,4 @@
-% Sumber: disusun dari Bab 4 tesis ini (EXP-005 sampai EXP-011); tidak ada klaim baru yang diperkenalkan di sini.
+% Sumber: disusun dari Bab 4 tesis ini (EXP-005 sampai EXP-012); tidak ada klaim baru yang diperkenalkan di sini.
 \chapter{Kesimpulan}
 \label{chap:conclusion}
 
@@ -10,28 +10,40 @@
 
 \textbf{RQ3.} ArcFace + Regresi Logistik memiliki kesenjangan yang lebih kecil (0,123; SK 95\% [$-$0,038; 0,282]) karena akurasinya pada Gelap-Sedang lebih tinggi (0,326 berbanding 0,130), sementara akurasi Gelap-nya tidak lebih baik. Selisih kesenjangan kedua model tidak memuat nol pada pengelompokan 135 potongan (0,229; SK 95\% [0,054; 0,442]) tetapi memuat nol pada pengelompokan 78 potongan (0,188; SK 95\% [$-$0,083; 0,477]), sehingga pengurangan kesenjangan ini bersifat indikatif, belum terbukti. Akurasi keseluruhan kedua model tidak berbeda secara signifikan (McNemar $p = 0,4614$), dan perbandingan ini bersifat retrospektif.
 
+\textbf{Analisis sensitivitas (Protokol B, EXP-012).} Setelah 227 potongan dilabel ulang, 148 potongan diberi label Ambigu karena ciri wajahnya tidak cukup terlihat, sehingga hanya 72 potongan dalam empat kelas yang dapat dipakai. ArcFace + LR yang dilatih ulang mencapai akurasi 0,611 (SK 95\% [0,528; 0,714]) dan F1 makro 0,482, dengan F1 Sedih 0,000. Kesenjangannya ($-$0,187; SK 95\% [$-$0,388; 0,079]) tidak dapat dibedakan dari nol. Angka ini menjawab tugas yang berbeda dari RQ1 sampai RQ3, sehingga kenaikan akurasi tidak menunjukkan perbaikan model dan tidak ada perbaikan keadilan yang dapat dinyatakan. Yang ditunjukkan Protokol B adalah bahwa hasil evaluasi sangat peka terhadap label: prediksi HSEmotion yang sama mencapai akurasi 0,279 terhadap label putaran pertama tetapi 0,162 terhadap label putaran kedua pada 68 potongan yang sama.
+
 \section{Ringkasan}
 \label{sec:summary}
 
-Tesis ini mengevaluasi kesenjangan kinerja dua pendekatan pengenalan ekspresi wajah antara dua kelompok kecerahan kulit pada potongan wajah dari satu film dokumenter. Kesenjangan HSEmotion terukur dengan jelas pada sampel ini; satu konfigurasi praproses kontras tidak menghasilkan perubahan yang dapat disimpulkan; dan satu klasifier alternatif menunjukkan kesenjangan yang lebih kecil dengan bukti yang masih indikatif. Kedua kelompok sama-sama gelap, sehingga tesis ini tidak menjawab pertanyaan tentang kinerja pada kulit terang dibanding kulit gelap. Hasil ini tidak berlaku umum di luar sampel yang dievaluasi.
+Tesis ini mengevaluasi kesenjangan kinerja dua pendekatan pengenalan ekspresi wajah antara dua kelompok kecerahan kulit pada potongan wajah dari satu film dokumenter. Kesenjangan HSEmotion terukur dengan jelas pada sampel ini; satu konfigurasi praproses kontras tidak menghasilkan perubahan yang dapat disimpulkan; dan satu klasifier alternatif menunjukkan kesenjangan yang lebih kecil dengan bukti yang masih indikatif. Analisis sensitivitas dengan label putaran kedua menunjukkan bahwa ketidakpastian label dan kualitas gambar sangat memengaruhi angka-angka ini: sebagian besar potongan tidak dapat dilabel dengan andal, dan akurasi serta kesenjangan berubah besar ketika label berubah. Kedua kelompok sama-sama gelap, sehingga tesis ini tidak menjawab pertanyaan tentang kinerja pada kulit terang dibanding kulit gelap. Hasil ini tidak berlaku umum di luar sampel yang dievaluasi.
 
 \section{Kontribusi}
 
-Kontribusi tesis ini adalah: (1) evaluasi kesenjangan antar-kelompok kecerahan yang dapat direproduksi dari artefak tersimpan (EXP-010 dan EXP-011), lengkap dengan selang kepercayaan \textit{bootstrap} berkelompok; (2) dokumentasi bahwa pola kesalahan Netral$\to$Marah HSEmotion terkonsentrasi pada kelompok Gelap-Sedang dan menjelaskan sebagian besar kesenjangannya pada sampel ini; dan (3) pelaporan yang hati-hati atas dua intervensi sederhana, praproses dan penggantian klasifier, yang membedakan hasil yang tidak dapat disimpulkan dan hasil yang masih indikatif dari hasil yang sudah terbukti.
+Kontribusi tesis ini adalah: (1) evaluasi kesenjangan antar-kelompok kecerahan yang dapat direproduksi dari artefak tersimpan (EXP-010 dan EXP-011), lengkap dengan selang kepercayaan \textit{bootstrap} berkelompok; (2) dokumentasi bahwa pola kesalahan Netral$\to$Marah HSEmotion terkonsentrasi pada kelompok Gelap-Sedang dan menjelaskan sebagian besar kesenjangannya pada sampel ini; dan (3) pelaporan yang hati-hati atas dua intervensi sederhana, praproses dan penggantian klasifier, yang membedakan hasil yang tidak dapat disimpulkan dan hasil yang masih indikatif dari hasil yang sudah terbukti; dan (4) analisis sensitivitas terhadap pelabelan ulang (EXP-012), dengan titik-fitur wajah sebagai alat bantu visual anotator, yang menunjukkan seberapa besar hasil evaluasi FER pada sampel ini bergantung pada label dan penyaringan kualitas gambar.
 
 \section{Keterbatasan}
 
-Keterbatasan dirinci pada Bab~\ref{chap:results} \S\ref{sec:results-limitations}. Yang paling membatasi klaim adalah: kelompok kecerahan sebagai proksi yang bercampur dengan pencahayaan dan hanya mencakup dua kelompok gelap; kelompok Gelap-Sedang yang kecil (46 potongan); satu film sumber dan satu anotator tanpa ukuran kesepakatan; ketiadaan identitas subjek; sifat retrospektif RQ3; dan dasar persetujuan serta asal-usul rekaman sumber yang belum terdokumentasi.
+Keterbatasan dirinci pada Bab~\ref{chap:results} \S\ref{sec:results-limitations}. Yang paling membatasi klaim adalah:
+\begin{itemize}
+  \item kelompok kecerahan sebagai proksi yang bercampur dengan pencahayaan dan hanya mencakup dua kelompok gelap;
+  \item kelompok Gelap-Sedang yang kecil (46 potongan pada Protokol A, 26 pada Protokol B);
+  \item satu film dokumenter sebagai satu-satunya sumber data;
+  \item satu anotator pada kedua putaran label, tanpa ukuran kesepakatan;
+  \item ketidakpastian label: 148 dari 227 potongan diberi label Ambigu pada putaran kedua, pengecualiannya tidak acak, dan label kedua putaran hanya sama pada 58,8\% potongan yang dibandingkan;
+  \item ketiadaan identitas subjek, sehingga validasi silang dan \textit{bootstrap} atas blok temporal 3-\textit{frame} hanya sebagian mencegah orang yang sama muncul pada data latih dan uji;
+  \item sifat retrospektif RQ2 dan RQ3; dan
+  \item dasar persetujuan serta asal-usul rekaman sumber yang belum terdokumentasi.
+\end{itemize}
 
 \section{Kerja Lanjutan}
 \label{sec:future-work}
 
 \begin{itemize}
   \item \textbf{Representasi kelompok.} Menambah potongan Gelap-Sedang serta kelompok yang lebih terang, dengan protokol perekaman dan persetujuan yang jelas, agar kesenjangan dapat diukur lebih presisi dan perbandingan kulit terang dan gelap menjadi mungkin.
-  \item \textbf{Kualitas label.} Melibatkan anotator kedua dan melaporkan kesepakatan antar-anotator, termasuk menyelesaikan 75 potongan tumpang-tindih Papuan V2.
+  \item \textbf{Ketidakpastian label.} Mencatat alasan label Ambigu per potongan (resolusi, buram, pose, oklusi) dan menetapkan kriteria kualitas gambar sebelum pelabelan, agar pengaruh penyaringan kualitas dapat diukur secara terpisah dari pengaruh label.
   \item \textbf{Validitas proksi.} Memeriksa secara manual sebagian kelompok kecerahan untuk menilai seberapa jauh kelompok tersebut dipengaruhi pencahayaan.
   \item \textbf{Pembagian data sadar-identitas.} Membangun identitas subjek atau jejak wajah agar partisi latih dan uji tidak berbagi orang yang sama.
   \item \textbf{Uji yang dirancang di muka.} Menguji pendekatan untuk memperkecil kesenjangan, misalnya klasifier berbobot kelompok, dengan kriteria keberhasilan yang ditetapkan sebelum evaluasi.
   \item \textbf{Privasi dan etika.} Menyelesaikan dasar persetujuan penggunaan rekaman, dan hanya memublikasikan hasil agregat serta ilustrasi wajah yang sudah dianonimkan.
-  \item \textbf{Titik-fitur wajah.} Jalur titik-fitur tetap pekerjaan pendukung: 64 gambar sudah diperiksa manusia, tetapi belum ada model titik-fitur yang terbukti lebih baik daripada \textit{mean-shape} (\S\ref{sec:methodology-landmarks}), dan belum ada eksperimen terkontrol yang menghubungkan titik-fitur dengan kinerja klasifikasi emosi atau kesenjangannya.
+  \item \textbf{Titik-fitur wajah.} Jalur titik-fitur tetap pekerjaan pendukung: 64 gambar sudah diperiksa manusia dan dipakai sebagai alat bantu visual pada EXP-012, tetapi belum ada model titik-fitur yang terbukti lebih baik daripada \textit{mean-shape} (\S\ref{sec:methodology-landmarks}), dan belum ada eksperimen terkontrol yang menghubungkan titik-fitur dengan kinerja klasifikasi emosi atau kesenjangannya.
 \end{itemize}

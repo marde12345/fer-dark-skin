@@ -1,7 +1,11 @@
 % Daftar Singkatan dan Lambang (List of Abbreviations and Symbols)
-% — Juknis p.11-12. Page numbers (first use) cannot be determined
-% without an actual compile in this environment; left as TODO
-% rather than guessed. No mathematical symbols (LAMBANG) beyond
+% — Juknis p.11-12. First-use page numbers are dynamic: each
+% abbreviation's first use in running text carries \label{abbr:X}
+% (Abstrak, Bab I, Bab III), printed here with \pageref, so the
+% numbers follow the compiled layout (Roman in front matter).
+% CLAHE also appears earlier inside the thesis title (title,
+% approval, and abstract header pages); the label marks its first
+% use in running text. No mathematical symbols (LAMBANG) beyond
 % the statistical notation already defined inline in Chapter 3
 % (e.g. p, N) are used densely enough in this thesis to warrant a
 % separate symbol table — only the abbreviation table is populated.
@@ -18,12 +22,12 @@
 \toprule
 \textbf{Singkatan} & \textbf{Nama} & \textbf{Halaman Pemakaian Pertama} \\
 \midrule
-FER & \textit{Facial Expression Recognition} & \TODO{p.} \\
-CLAHE & \textit{Contrast Limited Adaptive Histogram Equalization} & \TODO{p.} \\
-CVAT & \textit{Computer Vision Annotation Tool} & \TODO{p.} \\
-LR & Logistic Regression & \TODO{p.} \\
-RQ & Research Question / Pertanyaan Penelitian & \TODO{p.} \\
-LAB & \textit{L*a*b* color space} & \TODO{p.} \\
+FER & \textit{Facial Expression Recognition} & \pageref{abbr:FER} \\
+CLAHE & \textit{Contrast Limited Adaptive Histogram Equalization} & \pageref{abbr:CLAHE} \\
+CVAT & \textit{Computer Vision Annotation Tool} & \pageref{abbr:CVAT} \\
+LR & Logistic Regression & \pageref{abbr:LR} \\
+RQ & Research Question / Pertanyaan Penelitian & \pageref{abbr:RQ} \\
+LAB & \textit{L*a*b* color space} & \pageref{abbr:LAB} \\
 \bottomrule
 \end{tabular}
 \end{center}

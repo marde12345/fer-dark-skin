@@ -119,12 +119,13 @@
 % bibliography-entry formatting; that CSL file itself was not
 % fetched or verified in this revision (no network access
 % confirmed in this authoring environment) — see
-% FORMAT_COMPLIANCE.md. `apalike` is used here as the closest
-% verifiable, commonly available author-year .bst approximating
-% the guide's own printed examples; it is a documented substitute,
-% not a confirmed match to the official CSL. -------------------
+% FORMAT_COMPLIANCE.md. `itb-sps.bst` (generated from apalike.bst
+% by tools/make_itb_bst.py) follows the guide's printed Daftar
+% Pustaka example (p.12) and in-text form "(Nama belakang penulis,
+% Tahun)" (p.10); it is still not a confirmed match to the official
+% CSL, which could not be retrieved. ----------------------------
 \RequirePackage[round,authoryear]{natbib}
-\newcommand{\itbBibliographyStyle}{apalike}
+\newcommand{\itbBibliographyStyle}{itb-sps}
 
 % --- Chapter numbering in Roman numerals (Juknis p.5, "Bab III",
 % "Bab IV"; figure/table/equation numbers inherit this: "Gambar
